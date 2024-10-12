@@ -1,0 +1,13 @@
+echo "Running pre-commit hook..."
+
+# Run lint on all files
+if ! yarn lint; then
+  echo "Linting failed; the commit has been aborted."
+  exit 1
+fi
+
+# Run format on all files
+if ! yarn format; then
+  echo "Formatting failed; the commit has been aborted."
+  exit 1
+fi
