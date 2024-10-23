@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { ThemeProvider } from "next-themes";
 
-import { Locale } from "@/libs/i18n/locale";
-import { routing } from "@/libs/i18n/routing";
+import { Locale } from "@/lib/i18n/locale";
+import { routing } from "@/lib/i18n/routing";
 
 import type { Metadata } from "next";
 
