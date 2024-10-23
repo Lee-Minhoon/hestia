@@ -1,16 +1,21 @@
 import localFont from "next/font/local";
+import { notFound } from "next/navigation";
+import { NextIntlClientProvider, useMessages } from "next-intl";
+
+import { Locale } from "@/libs/i18n/locale";
+import { routing } from "@/libs/i18n/routing";
 
 import type { Metadata } from "next";
 
-import "./globals.css";
+import "../globals.css";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -22,15 +27,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: Locale };
 }>) {
+  if (!routing.locales.includes(locale)) {
+    notFound();
+  }
+
+  const messages = useMessages();
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
