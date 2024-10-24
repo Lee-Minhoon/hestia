@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
+    "test:e2e": "playwright test",
     "format": "prettier --write",
     "commit": "cz",
     "prepare": "husky",
