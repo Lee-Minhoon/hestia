@@ -6,6 +6,8 @@ import { ThemeProvider } from "next-themes";
 import { Locale } from "@/lib/i18n/locale";
 import { routing } from "@/lib/i18n/routing";
 
+import Providers from "../providers";
+
 import type { Metadata } from "next";
 
 import "../globals.css";
@@ -55,7 +57,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <Providers>{children}</Providers>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

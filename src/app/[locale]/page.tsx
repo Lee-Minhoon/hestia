@@ -4,6 +4,8 @@ import { LocaleSwitcher } from "@/components/controls/locale-switcher";
 import { ThemeSwitcher } from "@/components/controls/theme-switcher";
 import { Button } from "@/components/ui/button";
 
+import QueryTest from "./query-test";
+
 export default function Home() {
   const t = useTranslations("HomePage");
 
@@ -17,6 +19,7 @@ export default function Home() {
       <div>
         <LocaleSwitcher />
       </div>
+      <QueryTest />
     </div>
   );
 }
