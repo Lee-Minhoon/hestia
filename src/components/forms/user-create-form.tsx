@@ -1,13 +1,13 @@
 "use client";
 
-const baseUrl = "http://localhost:3000";
+import { Endpoints, toUrl } from "@/lib/routes";
 
 const UserCreateForm = () => {
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        fetch(`${baseUrl}/api/users`, {
+        fetch(toUrl(Endpoints.Users), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
