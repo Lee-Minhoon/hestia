@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin("./src/lib/i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // https://github.com/electric-sql/pglite/issues/322
+    // https://github.com/electric-sql/pglite/issues/322#issuecomment-2372563526
     serverComponentsExternalPackages: ["@electric-sql/pglite"],
   },
 };
