@@ -2,6 +2,8 @@ import { compile, match } from "path-to-regexp";
 
 export enum Pages {
   Home = "/",
+  Signin = "/signin",
+  Signup = "/signup",
   Users = "/users{/:id}",
   Posts = "/posts{/:id}",
 }
