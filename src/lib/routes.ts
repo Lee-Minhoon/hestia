@@ -1,4 +1,4 @@
-import { compile } from "path-to-regexp";
+import { compile, match } from "path-to-regexp";
 
 export enum Pages {
   Home = "/",
@@ -35,21 +35,41 @@ export const buildUrl = (pathname: string, search?: Search) => {
 
 interface NavItem {
   label: string;
-  pathname: string;
+  pathname: Pages;
   search?: Record<string, string>;
+  children?: NavItem[];
 }
 
 export const navItems: NavItem[] = [
   {
     label: "Home",
-    pathname: toUrl(Pages.Home),
+    pathname: Pages.Home,
   },
   {
     label: "Users",
-    pathname: toUrl(Pages.Users),
+    pathname: Pages.Users,
   },
   {
     label: "Posts",
-    pathname: toUrl(Pages.Posts),
+    pathname: Pages.Posts,
   },
 ];
+
+export const getNavHierarchy = (
+  pathname: string,
+  current = navItems,
+  parents: NavItem[] = []
+): NavItem[] => {
+  for (const navItem of current) {
+    const matched = !!match(navItem.pathname)(pathname);
+    if (matched) return [...parents, navItem];
+    if (navItem.children) {
+      const navs = getNavHierarchy(pathname, navItem.children, [
+        ...parents,
+        navItem,
+      ]);
+      if (navs.length) return navs;
+    }
+  }
+  return [];
+};
