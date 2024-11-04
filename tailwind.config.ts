@@ -52,6 +52,12 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
       },
+      width: {
+        content: "1280px",
+      },
+      borderWidth: {
+        1: "1px",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

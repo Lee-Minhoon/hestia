@@ -1,5 +1,6 @@
 {
   "HomePage": {
-    "title": "Hello world!"
+    "Signin": "Sign in",
+    "Signup": "Sign up"
   }
 }
