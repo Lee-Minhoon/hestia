@@ -1,5 +1,6 @@
 {
   "HomePage": {
-    "title": "안녕하세요!"
+    "Signin": "로그인",
+    "Signup": "회원가입"
   }
 }
