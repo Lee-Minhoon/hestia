@@ -16,7 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 
 export default function MainLayoutHeader() {
-  const t = useTranslations("HomePage");
+  const t = useTranslations("MainLayout");
   const pathname = usePathname();
 
   return (
