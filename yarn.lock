@@ -4958,6 +4958,11 @@ drizzle-orm@^0.36.0:
   resolved "https://registry.yarnpkg.com/drizzle-orm/-/drizzle-orm-0.36.0.tgz#5bbaaf97a50b2967c16658cdb5aa22a293ddbb5d"
   integrity sha512-6BETYPdKSR7cDHC0ZfqZk2VrKJ8n/Rfd3ajFPsAbc69gi87nwZ6oBA2wUGMELHA0tQE4kUKN0Ds00LUZQ6Z69A==
 
+drizzle-zod@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/drizzle-zod/-/drizzle-zod-0.5.1.tgz#4e5efe016dce22ed01063f72f839b07670b2d11e"
+  integrity sha512-C/8bvzUH/zSnVfwdSibOgFjLhtDtbKYmkbPbUCq46QZyZCH6kODIMSOgZ8R7rVjoI+tCj3k06MRJMDqsIeoS4A==
+
 eastasianwidth@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz"
