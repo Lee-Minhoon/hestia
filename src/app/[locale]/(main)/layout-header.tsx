@@ -67,7 +67,7 @@ export default function MainLayoutHeader() {
             </li>
             <li>
               <Button asChild>
-                <Link href={toUrl(Pages.Signin)}>{t("Signup")}</Link>
+                <Link href={toUrl(Pages.Signup)}>{t("Signup")}</Link>
               </Button>
             </li>
           </ul>
