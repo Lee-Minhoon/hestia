@@ -8,6 +8,14 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -40,69 +48,83 @@ export default function SignupForm() {
   });
 
   return (
-    <Form {...form}>
-      <form
-        action={dispatch}
-        onSubmit={handleSubmit(form, dispatch)}
-        className="space-y-8"
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Email" {...field} />
-              </FormControl>
-              <FormDescription>This is your email address.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder="Password"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>This is your password.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="username"
-                  placeholder="Username"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isPending}>
-          Submit
-        </Button>
-      </form>
-    </Form>
+    <Card className="w-[320px] md:w-[400px]">
+      <CardHeader>
+        <CardTitle>Signup</CardTitle>
+        <CardDescription>Signup to create an account.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            action={dispatch}
+            onSubmit={handleSubmit(form, dispatch)}
+            className="flex flex-col gap-4"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input required placeholder="Email" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This is your email address for signin.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      type="password"
+                      autoComplete="current-password"
+                      placeholder="Password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      autoComplete="username"
+                      placeholder="Username"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    This is your public display name.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isPending}>
+              Join
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+      <CardFooter className="justify-center">
+        <p className="text-xs text-muted-foreground">Welcome to the hestia.</p>
+      </CardFooter>
+    </Card>
   );
 }

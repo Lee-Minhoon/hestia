@@ -20,5 +20,6 @@ export const users = pgTable("users", {
 
 export const insertUserSchema = createInsertSchema(users, {
   email: (schema) => schema.email.email(),
-  password: (schema) => schema.email.min(8),
+  password: (schema) => schema.password.min(8),
+  username: (schema) => schema.username.min(3),
 });
