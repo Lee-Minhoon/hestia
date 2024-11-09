@@ -2,5 +2,15 @@
   "MainLayout": {
     "Signin": "로그인",
     "Signup": "회원가입"
+  },
+  "Signup": {
+    "Signup": "회원가입",
+    "Signup to create an account": "회원가입하여 계정을 만드세요",
+    "Email": "이메일",
+    "This is your email address for signin": "로그인을 위한 이메일 주소입니다",
+    "Password": "비밀번호",
+    "Username": "사용자 이름",
+    "This is your public display name": "다른 사용자에게 표시되는 이름입니다",
+    "Join": "가입"
   }
 }

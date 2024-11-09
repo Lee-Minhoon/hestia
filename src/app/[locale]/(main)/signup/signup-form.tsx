@@ -3,10 +3,19 @@
 import { useActionState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -24,6 +33,7 @@ import { insertUserSchema } from "@/lib/db/schema";
 import { signupAction } from "./actions";
 
 export default function SignupForm() {
+  const t = useTranslations("Signup");
   const [state, dispatch, isPending] = useActionState(
     signupAction,
     initState()
@@ -40,69 +50,83 @@ export default function SignupForm() {
   });
 
   return (
-    <Form {...form}>
-      <form
-        action={dispatch}
-        onSubmit={handleSubmit(form, dispatch)}
-        className="space-y-8"
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Email" {...field} />
-              </FormControl>
-              <FormDescription>This is your email address.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder="Password"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>This is your password.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input
-                  autoComplete="username"
-                  placeholder="Username"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isPending}>
-          Submit
-        </Button>
-      </form>
-    </Form>
+    <Card className="w-[320px] md:w-[400px]">
+      <CardHeader>
+        <CardTitle>{t("Signup")}</CardTitle>
+        <CardDescription>{t("Signup to create an account")}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            action={dispatch}
+            onSubmit={handleSubmit(form, dispatch)}
+            className="flex flex-col gap-4"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("Email")}</FormLabel>
+                  <FormControl>
+                    <Input required placeholder={t("Email")} {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    {t("This is your email address for signin")}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("Password")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      type="password"
+                      autoComplete="current-password"
+                      placeholder={t("Password")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("Username")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      autoComplete="username"
+                      placeholder={t("Username")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {t("This is your public display name")}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isPending}>
+              {t("Join")}
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+      <CardFooter className="justify-center">
+        <p className="text-xs text-muted-foreground">Welcome to the hestia.</p>
+      </CardFooter>
+    </Card>
   );
 }

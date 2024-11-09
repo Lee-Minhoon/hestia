@@ -1,5 +1,9 @@
 import SignupForm from "./signup-form";
 
 export default async function Signup() {
-  return <SignupForm />;
+  return (
+    <div className="flex h-full justify-center items-center">
+      <SignupForm />
+    </div>
+  );
 }
