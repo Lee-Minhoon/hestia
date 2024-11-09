@@ -2,5 +2,15 @@
   "MainLayout": {
     "Signin": "Sign in",
     "Signup": "Sign up"
+  },
+  "Signup": {
+    "Signup": "Signup",
+    "Signup to create an account": "Signup to create an account",
+    "Email": "Email",
+    "This is your email address for signin": "This is your email address for signin",
+    "Password": "Password",
+    "Username": "Username",
+    "This is your public display name": "This is your public display name",
+    "Join": "Join"
   }
 }

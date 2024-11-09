@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -32,6 +33,7 @@ import { insertUserSchema } from "@/lib/db/schema";
 import { signupAction } from "./actions";
 
 export default function SignupForm() {
+  const t = useTranslations("Signup");
   const [state, dispatch, isPending] = useActionState(
     signupAction,
     initState()
@@ -50,8 +52,8 @@ export default function SignupForm() {
   return (
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
-        <CardTitle>Signup</CardTitle>
-        <CardDescription>Signup to create an account.</CardDescription>
+        <CardTitle>{t("Signup")}</CardTitle>
+        <CardDescription>{t("Signup to create an account")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -65,12 +67,12 @@ export default function SignupForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("Email")}</FormLabel>
                   <FormControl>
-                    <Input required placeholder="Email" {...field} />
+                    <Input required placeholder={t("Email")} {...field} />
                   </FormControl>
                   <FormDescription>
-                    This is your email address for signin.
+                    {t("This is your email address for signin")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -81,13 +83,13 @@ export default function SignupForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t("Password")}</FormLabel>
                   <FormControl>
                     <Input
                       required
                       type="password"
                       autoComplete="current-password"
-                      placeholder="Password"
+                      placeholder={t("Password")}
                       {...field}
                     />
                   </FormControl>
@@ -100,24 +102,24 @@ export default function SignupForm() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>{t("Username")}</FormLabel>
                   <FormControl>
                     <Input
                       required
                       autoComplete="username"
-                      placeholder="Username"
+                      placeholder={t("Username")}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    This is your public display name.
+                    {t("This is your public display name")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type="submit" disabled={isPending}>
-              Join
+              {t("Join")}
             </Button>
           </form>
         </Form>
