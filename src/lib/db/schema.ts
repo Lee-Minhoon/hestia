@@ -23,3 +23,8 @@ export const insertUserSchema = createInsertSchema(users, {
   password: (schema) => schema.password.min(8),
   username: (schema) => schema.username.min(3),
 });
+
+export const signinUserSchema = insertUserSchema.pick({
+  email: true,
+  password: true,
+});

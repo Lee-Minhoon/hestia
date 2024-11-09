@@ -12,5 +12,11 @@
     "Username": "Username",
     "This is your public display name": "This is your public display name",
     "Join": "Join"
+  },
+  "Signin": {
+    "Signin": "Signin",
+    "Signin to your account": "Signin to your account",
+    "Email": "Email",
+    "Password": "Password"
   }
 }
