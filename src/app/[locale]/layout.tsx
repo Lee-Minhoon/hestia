@@ -1,3 +1,5 @@
+import { use } from "react";
+
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, useMessages } from "next-intl";
@@ -27,13 +29,18 @@ export async function generateStaticParams() {
   return Object.values(Locale).map((locale) => ({ locale }));
 }
 
-export default function RootLayout({
-  children,
-  params: { locale },
-}: Readonly<{
-  children: React.ReactNode;
-  params: { locale: Locale };
-}>) {
+export default function RootLayout(
+  props: Readonly<{
+    children: React.ReactNode;
+    params: Promise<{ locale: Locale }>;
+  }>
+) {
+  const params = use(props.params);
+
+  const { locale } = params;
+
+  const { children } = props;
+
   if (!routing.locales.includes(locale)) {
     notFound();
   }
