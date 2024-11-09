@@ -6,9 +6,15 @@ import { migrate } from "drizzle-orm/pglite/migrator";
 
 import * as schema from "./schema";
 
-const client = new PGlite();
+const global = globalThis as unknown as {
+  client: PGlite;
+};
 
-const db = drizzle(client, { schema });
+if (!global.client) {
+  global.client = new PGlite();
+}
+
+const db = drizzle(global.client, { schema });
 
 await migrate(db, {
   migrationsFolder: path.join(process.cwd(), "drizzle"),

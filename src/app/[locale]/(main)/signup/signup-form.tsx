@@ -1,5 +1,7 @@
 "use client";
 
+import { useActionState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,12 +17,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import useActionToast from "@/hooks/use-action-toast";
+import { handleSubmit, initState } from "@/lib/action";
 import { insertUserSchema } from "@/lib/db/schema";
-import { handleAction } from "@/lib/utils";
 
 import { signupAction } from "./actions";
 
 export default function SignupForm() {
+  const [state, dispatch, isPending] = useActionState(
+    signupAction,
+    initState()
+  );
+  useActionToast(state);
+
   const form = useForm<z.infer<typeof insertUserSchema>>({
     resolver: zodResolver(insertUserSchema),
     defaultValues: {
@@ -33,7 +42,8 @@ export default function SignupForm() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleAction(signupAction))}
+        action={dispatch}
+        onSubmit={handleSubmit(form, dispatch)}
         className="space-y-8"
       >
         <FormField
@@ -57,7 +67,12 @@ export default function SignupForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
+                <Input
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="Password"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>This is your password.</FormDescription>
               <FormMessage />
@@ -71,7 +86,11 @@ export default function SignupForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Username" {...field} />
+                <Input
+                  autoComplete="username"
+                  placeholder="Username"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
                 This is your public display name.
@@ -80,7 +99,9 @@ export default function SignupForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isPending}>
+          Submit
+        </Button>
       </form>
     </Form>
   );
