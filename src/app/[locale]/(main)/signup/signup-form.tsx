@@ -53,7 +53,7 @@ export default function SignupForm() {
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
         <CardTitle>{t("Signup")}</CardTitle>
-        <CardDescription>{t("Signup to create an account")}</CardDescription>
+        <CardDescription>{t("Signup Description")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -71,9 +71,7 @@ export default function SignupForm() {
                   <FormControl>
                     <Input required placeholder={t("Email")} {...field} />
                   </FormControl>
-                  <FormDescription>
-                    {t("This is your email address for signin")}
-                  </FormDescription>
+                  <FormDescription>{t("Email Description")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -111,9 +109,7 @@ export default function SignupForm() {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {t("This is your public display name")}
-                  </FormDescription>
+                  <FormDescription>{t("Username Description")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

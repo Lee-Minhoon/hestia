@@ -51,7 +51,7 @@ export default function SigninForm() {
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
         <CardTitle>{t("Signin")}</CardTitle>
-        <CardDescription>{t("Signin to your account")}</CardDescription>
+        <CardDescription>{t("Signin Description")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>

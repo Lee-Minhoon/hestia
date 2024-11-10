@@ -5,17 +5,17 @@
   },
   "Signup": {
     "Signup": "Signup",
-    "Signup to create an account": "Signup to create an account",
+    "Signup Description": "Signup to create an account.",
     "Email": "Email",
-    "This is your email address for signin": "This is your email address for signin",
+    "Email Description": "This is your email address for signin.",
     "Password": "Password",
     "Username": "Username",
-    "This is your public display name": "This is your public display name",
+    "Username Description": "This is your public display name.",
     "Join": "Join"
   },
   "Signin": {
     "Signin": "Signin",
-    "Signin to your account": "Signin to your account",
+    "Signin Description": "Signin to your account",
     "Email": "Email",
     "Password": "Password"
   }
