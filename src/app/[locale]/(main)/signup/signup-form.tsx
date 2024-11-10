@@ -28,7 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import useActionToast from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
-import { insertUserSchema } from "@/lib/db/schema";
+import { signupSchema } from "@/lib/db/schema";
 
 import { signupAction } from "./actions";
 
@@ -40,12 +40,13 @@ export default function SignupForm() {
   );
   useActionToast(state);
 
-  const form = useForm<z.infer<typeof insertUserSchema>>({
-    resolver: zodResolver(insertUserSchema),
+  const form = useForm<z.infer<typeof signupSchema>>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       username: "",
       email: "",
       password: "",
+      checkPassword: "",
     },
   });
 
@@ -69,7 +70,12 @@ export default function SignupForm() {
                 <FormItem>
                   <FormLabel>{t("Email")}</FormLabel>
                   <FormControl>
-                    <Input required placeholder={t("Email")} {...field} />
+                    <Input
+                      required
+                      autoComplete="email"
+                      placeholder={t("Email")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>{t("Email Description")}</FormDescription>
                   <FormMessage />
@@ -86,8 +92,27 @@ export default function SignupForm() {
                     <Input
                       required
                       type="password"
-                      autoComplete="current-password"
+                      autoComplete="new-password"
                       placeholder={t("Password")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="checkPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("Check Password")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      type="password"
+                      autoComplete="new-password"
+                      placeholder={t("Check Password")}
                       {...field}
                     />
                   </FormControl>

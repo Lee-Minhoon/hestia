@@ -9,6 +9,7 @@
     "Email": "이메일",
     "Email Description": "로그인을 위한 이메일 주소입니다.",
     "Password": "비밀번호",
+    "Check Password": "비밀번호 확인",
     "Username": "사용자 이름",
     "Username Description": "다른 사용자에게 표시되는 이름입니다.",
     "Join": "가입"

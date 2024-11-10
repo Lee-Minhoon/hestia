@@ -27,7 +27,7 @@ import {
 import { Input } from "@/components/ui/input";
 import useActionToast from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
-import { signinUserSchema } from "@/lib/db/schema";
+import { signinSchema } from "@/lib/db/schema";
 
 import { signinAction } from "./actions";
 
@@ -39,8 +39,8 @@ export default function SigninForm() {
   );
   useActionToast(state);
 
-  const form = useForm<z.infer<typeof signinUserSchema>>({
-    resolver: zodResolver(signinUserSchema),
+  const form = useForm<z.infer<typeof signinSchema>>({
+    resolver: zodResolver(signinSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -67,7 +67,12 @@ export default function SigninForm() {
                 <FormItem>
                   <FormLabel>{t("Email")}</FormLabel>
                   <FormControl>
-                    <Input required placeholder={t("Email")} {...field} />
+                    <Input
+                      required
+                      autoComplete="email"
+                      placeholder={t("Email")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

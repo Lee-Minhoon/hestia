@@ -1,5 +1,6 @@
 import { pgTable, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 
 const base = {
   updatedAt: timestamp("updated_at", { mode: "date" })
@@ -18,13 +19,25 @@ export const users = pgTable("users", {
   ...base,
 });
 
-export const insertUserSchema = createInsertSchema(users, {
+const insertUserSchema = createInsertSchema(users, {
   email: (schema) => schema.email.email(),
   password: (schema) => schema.password.min(8),
   username: (schema) => schema.username.min(3),
 });
 
-export const signinUserSchema = insertUserSchema.pick({
+export const signupSchema = insertUserSchema
+  .pick({
+    email: true,
+    password: true,
+    username: true,
+  })
+  .merge(z.object({ checkPassword: z.string().min(8) }))
+  .refine((data) => data.password === data.checkPassword, {
+    message: "Passwords do not match.",
+    path: ["checkPassword"],
+  });
+
+export const signinSchema = insertUserSchema.pick({
   email: true,
   password: true,
 });
