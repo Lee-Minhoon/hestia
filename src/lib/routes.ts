@@ -1,5 +1,7 @@
 import { compile, match } from "path-to-regexp";
 
+import { isLocale, Locale } from "./i18n/locale";
+
 export enum Pages {
   Home = "/",
   Signin = "/signin",
@@ -74,4 +76,25 @@ export const getNavHierarchy = (
     }
   }
   return [];
+};
+
+export const getLocale = (pathname: string) => {
+  const [, locale] = pathname.split("/");
+  return isLocale(locale) ? locale : Locale.en;
+};
+
+export const withLocale = (pathname: string, locale: Locale) => {
+  return pathname.startsWith(`/${locale}`) ? pathname : `/${locale}${pathname}`;
+};
+
+export const withoutLocale = (pathname: string) => {
+  const [, locale] = pathname.split("/");
+  if (!locale || !isLocale(locale)) {
+    return pathname;
+  }
+  return pathname.slice(locale.length + 1) || "/";
+};
+
+export const matchWithLocale = (...params: Parameters<typeof match>) => {
+  return (path: string) => match(...params)(withoutLocale(path));
 };
