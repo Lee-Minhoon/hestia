@@ -32,3 +32,13 @@ export const signinAction = async (
     );
   }
 };
+
+export const socialLoginAction = async (provider: string) => {
+  try {
+    await signIn(provider);
+  } catch (error) {
+    return errorState(
+      error instanceof Error ? error.message : "An unknown error occurred."
+    );
+  }
+};

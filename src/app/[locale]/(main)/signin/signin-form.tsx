@@ -30,6 +30,7 @@ import { handleSubmit, initState } from "@/lib/action";
 import { signinSchema } from "@/lib/db/schema";
 
 import { signinAction } from "./actions";
+import SocialLoginSection from "./social-login-section";
 
 export default function SigninForm() {
   const t = useTranslations("Signin");
@@ -53,7 +54,7 @@ export default function SigninForm() {
         <CardTitle>{t("Signin")}</CardTitle>
         <CardDescription>{t("Signin Description")}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-4">
         <Form {...form}>
           <form
             action={dispatch}
@@ -102,6 +103,7 @@ export default function SigninForm() {
             </Button>
           </form>
         </Form>
+        <SocialLoginSection />
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-xs text-muted-foreground">Welcome to the hestia.</p>

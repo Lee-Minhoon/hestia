@@ -10,11 +10,11 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "@/components/ui/card";
 import {
   Form,
@@ -43,10 +43,10 @@ export default function SignupForm() {
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
       checkPassword: "",
+      name: "",
     },
   });
 
@@ -122,14 +122,14 @@ export default function SignupForm() {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t("Username")}</FormLabel>
                   <FormControl>
                     <Input
                       required
-                      autoComplete="username"
+                      autoComplete="name"
                       placeholder={t("Username")}
                       {...field}
                     />

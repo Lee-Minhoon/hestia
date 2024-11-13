@@ -8,7 +8,7 @@ import db from "@/lib/db";
 import { signupSchema, users } from "@/lib/db/schema";
 
 export const signupAction = async (
-  previousState: ActionState<number>,
+  previousState: ActionState<string>,
   formData: FormData
 ) => {
   try {
