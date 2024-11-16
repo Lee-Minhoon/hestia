@@ -5,7 +5,7 @@ import { AuthError } from "next-auth";
 import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
-import { signIn } from "@/lib/auth";
+import { AvailableProviders, signIn } from "@/lib/auth";
 import { signinSchema } from "@/lib/db/schema";
 
 export const signinAction = async (
@@ -34,7 +34,7 @@ export const signinAction = async (
   }
 };
 
-export const socialLoginAction = async (provider: string) => {
+export const socialLoginAction = async (provider: AvailableProviders) => {
   try {
     await signIn(provider);
   } catch (error) {

@@ -2,13 +2,18 @@
 
 import { useCallback } from "react";
 
+import { capitalize } from "lodash-es";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
+import { AvailableProviders } from "@/lib/auth";
 
 import { socialLoginAction } from "./actions";
 
-const availableProviders = [
+const availableProviders: {
+  provider: AvailableProviders;
+  icon: React.ReactNode;
+}[] = [
   {
     provider: "github",
     icon: <FaGithub />,
@@ -27,7 +32,7 @@ export default function SocialLoginSection() {
   const handleSocialLogin = useCallback<
     React.MouseEventHandler<HTMLButtonElement>
   >((e) => {
-    socialLoginAction(e.currentTarget.id);
+    socialLoginAction(e.currentTarget.id as AvailableProviders);
   }, []);
 
   return (
@@ -42,7 +47,7 @@ export default function SocialLoginSection() {
             onClick={handleSocialLogin}
           >
             {icon}
-            {provider}
+            {capitalize(provider)}
           </Button>
         );
       })}
