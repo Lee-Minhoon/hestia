@@ -1,22 +1,33 @@
 "use server";
 
+import { hash } from "bcrypt";
 import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
-import { insertUserSchema, users } from "@/lib/db/schema";
+import { signupSchema, users } from "@/lib/db/schema";
 
 export const signupAction = async (
-  previousState: ActionState<number>,
+  previousState: ActionState<string>,
   formData: FormData
 ) => {
   try {
-    const parsed = insertUserSchema.parse(Object.fromEntries(formData));
-    const results = await db
+    const parsed = signupSchema.parse(Object.fromEntries(formData));
+    const result = await db
       .insert(users)
-      .values(parsed)
+      .values({
+        ...parsed,
+        password: await hash(parsed.password, 10),
+      })
       .returning({ insertedId: users.id });
-    return successState(results[0].insertedId, "User created successfully.");
+
+    const user = result[0];
+
+    if (!user) {
+      return errorState("Failed to create user.");
+    }
+
+    return successState(user.insertedId, "User created successfully.");
   } catch (error) {
     if (error instanceof z.ZodError) {
       return errorState(error.errors.map((e) => e.message).join("\n"));

@@ -1,5 +1,5 @@
-import MainLayoutFooter from "./layout-footer";
-import MainLayoutHeader from "./layout-header";
+import MainLayoutFooter from "./footer";
+import MainLayoutHeader from "./header";
 
 export default function MainLayout({
   children,

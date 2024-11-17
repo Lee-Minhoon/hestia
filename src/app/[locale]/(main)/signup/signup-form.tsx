@@ -10,11 +10,11 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "@/components/ui/card";
 import {
   Form,
@@ -28,7 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import useActionToast from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
-import { insertUserSchema } from "@/lib/db/schema";
+import { signupSchema } from "@/lib/db/schema";
 
 import { signupAction } from "./actions";
 
@@ -40,12 +40,13 @@ export default function SignupForm() {
   );
   useActionToast(state);
 
-  const form = useForm<z.infer<typeof insertUserSchema>>({
-    resolver: zodResolver(insertUserSchema),
+  const form = useForm<z.infer<typeof signupSchema>>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
+      checkPassword: "",
+      name: "",
     },
   });
 
@@ -53,7 +54,7 @@ export default function SignupForm() {
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
         <CardTitle>{t("Signup")}</CardTitle>
-        <CardDescription>{t("Signup to create an account")}</CardDescription>
+        <CardDescription>{t("Signup Description")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -69,11 +70,14 @@ export default function SignupForm() {
                 <FormItem>
                   <FormLabel>{t("Email")}</FormLabel>
                   <FormControl>
-                    <Input required placeholder={t("Email")} {...field} />
+                    <Input
+                      required
+                      autoComplete="email"
+                      placeholder={t("Email")}
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>
-                    {t("This is your email address for signin")}
-                  </FormDescription>
+                  <FormDescription>{t("Email Description")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -88,7 +92,7 @@ export default function SignupForm() {
                     <Input
                       required
                       type="password"
-                      autoComplete="current-password"
+                      autoComplete="new-password"
                       placeholder={t("Password")}
                       {...field}
                     />
@@ -99,21 +103,38 @@ export default function SignupForm() {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="checkPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("Check Password")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      type="password"
+                      autoComplete="new-password"
+                      placeholder={t("Check Password")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{t("Username")}</FormLabel>
                   <FormControl>
                     <Input
                       required
-                      autoComplete="username"
+                      autoComplete="name"
                       placeholder={t("Username")}
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {t("This is your public display name")}
-                  </FormDescription>
+                  <FormDescription>{t("Username Description")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
