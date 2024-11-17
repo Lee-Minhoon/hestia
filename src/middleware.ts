@@ -8,7 +8,8 @@ import authConfig from "../auth.config";
 
 import {
   getLocale,
-  matchWithLocale,
+  isAuthPage,
+  isPrivatePage,
   Pages,
   toUrl,
   withLocale,
@@ -18,16 +19,25 @@ const intlMiddleware = createMiddleware(routing);
 
 export const { auth } = NextAuth(authConfig);
 
-const publicRoutes = [Pages.Home, Pages.Signin, Pages.Signup, Pages.Users];
-
 const middleware = auth(async (req) => {
   const { pathname } = req.nextUrl;
-  const isPublic = publicRoutes.some((route) =>
-    matchWithLocale(route)(pathname)
-  );
-  if (!isPublic && !req.auth) {
-    req.nextUrl.pathname = withLocale(toUrl(Pages.Signin), getLocale(pathname));
-    return NextResponse.redirect(req.nextUrl);
+  const locale = getLocale(pathname);
+
+  if (!req.auth && isPrivatePage(pathname)) {
+    const redirectUrl = new URL(
+      withLocale(toUrl(Pages.Signin), locale),
+      req.nextUrl.origin
+    );
+    redirectUrl.searchParams.set("next", pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
+  if (req.auth && isAuthPage(pathname)) {
+    const next = req.nextUrl.searchParams.get("next");
+    const redirectUrl = new URL(
+      next ?? withLocale(toUrl(Pages.Home), locale),
+      req.nextUrl.origin
+    );
+    return NextResponse.redirect(redirectUrl);
   }
   return intlMiddleware(req);
 });

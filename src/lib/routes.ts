@@ -98,3 +98,15 @@ export const withoutLocale = (pathname: string) => {
 export const matchWithLocale = (...params: Parameters<typeof match>) => {
   return (path: string) => match(...params)(withoutLocale(path));
 };
+
+export const authPages = [Pages.Signin, Pages.Signup];
+
+export const publicPages = [Pages.Home, Pages.Users, ...authPages];
+
+export const isPublicPage = (pathname: string) =>
+  publicPages.some((route) => matchWithLocale(route)(pathname));
+
+export const isPrivatePage = (pathname: string) => !isPublicPage(pathname);
+
+export const isAuthPage = (pathname: string) =>
+  authPages.some((route) => matchWithLocale(route)(pathname));
