@@ -1,4 +1,5 @@
-import { getTranslations } from "next-intl/server";
+import { headers } from "next/headers";
+import { getLocale, getTranslations } from "next-intl/server";
 import { FaUserAlt } from "react-icons/fa";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,8 +15,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { auth, signOut } from "@/lib/auth";
+import { Locale } from "@/lib/i18n/locale";
 import { Link } from "@/lib/i18n/routing";
-import { Pages, toUrl } from "@/lib/routes";
+import { isPrivatePage, Pages, toUrl, withLocale } from "@/lib/routes";
 
 export default async function Account() {
   const t = await getTranslations("MainLayout");
@@ -61,7 +63,18 @@ export default async function Account() {
               <form
                 action={async () => {
                   "use server";
-                  await signOut();
+
+                  const url = new URL((await headers()).get("referer") ?? "");
+                  const locale = (await getLocale()) as Locale;
+
+                  if (isPrivatePage(url.pathname)) {
+                    url.searchParams.set("next", url.pathname);
+                    url.pathname = withLocale(toUrl(Pages.Signin), locale);
+                  }
+
+                  await signOut({
+                    redirectTo: url.toString(),
+                  });
                 }}
               >
                 <Button variant={"outline"}>{t("Signout")}</Button>
