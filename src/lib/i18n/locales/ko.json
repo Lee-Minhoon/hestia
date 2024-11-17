@@ -1,21 +1,23 @@
 {
   "MainLayout": {
     "Signin": "로그인",
-    "Signup": "회원가입"
+    "Signup": "회원가입",
+    "Signout": "로그아웃"
   },
   "Signup": {
     "Signup": "회원가입",
-    "Signup to create an account": "회원가입하여 계정을 만드세요",
+    "Signup Description": "회원가입하여 계정을 만드세요.",
     "Email": "이메일",
-    "This is your email address for signin": "로그인을 위한 이메일 주소입니다",
+    "Email Description": "로그인을 위한 이메일 주소입니다.",
     "Password": "비밀번호",
+    "Check Password": "비밀번호 확인",
     "Username": "사용자 이름",
-    "This is your public display name": "다른 사용자에게 표시되는 이름입니다",
+    "Username Description": "다른 사용자에게 표시되는 이름입니다.",
     "Join": "가입"
   },
   "Signin": {
     "Signin": "로그인",
-    "Signin to your account": "계정에 로그인하세요",
+    "Signin Description": "계정에 로그인하세요",
     "Email": "이메일",
     "Password": "비밀번호"
   }

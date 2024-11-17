@@ -27,9 +27,10 @@ import {
 import { Input } from "@/components/ui/input";
 import useActionToast from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
-import { signinUserSchema } from "@/lib/db/schema";
+import { signinSchema } from "@/lib/db/schema";
 
 import { signinAction } from "./actions";
+import SocialLoginSection from "./social-login-section";
 
 export default function SigninForm() {
   const t = useTranslations("Signin");
@@ -39,8 +40,8 @@ export default function SigninForm() {
   );
   useActionToast(state);
 
-  const form = useForm<z.infer<typeof signinUserSchema>>({
-    resolver: zodResolver(signinUserSchema),
+  const form = useForm<z.infer<typeof signinSchema>>({
+    resolver: zodResolver(signinSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -51,9 +52,9 @@ export default function SigninForm() {
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
         <CardTitle>{t("Signin")}</CardTitle>
-        <CardDescription>{t("Signin to your account")}</CardDescription>
+        <CardDescription>{t("Signin Description")}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-4">
         <Form {...form}>
           <form
             action={dispatch}
@@ -67,7 +68,12 @@ export default function SigninForm() {
                 <FormItem>
                   <FormLabel>{t("Email")}</FormLabel>
                   <FormControl>
-                    <Input required placeholder={t("Email")} {...field} />
+                    <Input
+                      required
+                      autoComplete="email"
+                      placeholder={t("Email")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,6 +103,7 @@ export default function SigninForm() {
             </Button>
           </form>
         </Form>
+        <SocialLoginSection />
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-xs text-muted-foreground">Welcome to the hestia.</p>
