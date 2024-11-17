@@ -1,7 +1,8 @@
 {
   "MainLayout": {
     "Signin": "Sign in",
-    "Signup": "Sign up"
+    "Signup": "Sign up",
+    "Signout": "Sign out"
   },
   "Signup": {
     "Signup": "Signup",

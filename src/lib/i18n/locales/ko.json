@@ -1,7 +1,8 @@
 {
   "MainLayout": {
     "Signin": "로그인",
-    "Signup": "회원가입"
+    "Signup": "회원가입",
+    "Signout": "로그아웃"
   },
   "Signup": {
     "Signup": "회원가입",
