@@ -1,13 +1,8 @@
 "use client";
 
 import { Link, usePathname } from "@/lib/i18n/routing";
-import {
-  buildUrl,
-  getNavHierarchy,
-  navItems,
-  Pages,
-  toUrl,
-} from "@/lib/routes";
+import { findNavHierarchy, navItems } from "@/lib/navigation";
+import { buildUrl, Pages, toUrl } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
 export default function Navigations() {
@@ -30,7 +25,9 @@ export default function Navigations() {
                 href={buildUrl(toUrl(item.pathname), item.search)}
                 className={cn(
                   "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
-                  getNavHierarchy(pathname).includes(item) ? "text-primary" : ""
+                  findNavHierarchy(pathname).includes(item)
+                    ? "text-primary"
+                    : ""
                 )}
               >
                 {item.label}
