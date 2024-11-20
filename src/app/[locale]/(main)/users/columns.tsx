@@ -4,29 +4,30 @@ import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { InferSelectModel } from "drizzle-orm";
 
+import { SortableHeader } from "@/components/ui/data-table";
 import { users } from "@/lib/db/schema";
 
 export const columns: ColumnDef<InferSelectModel<typeof users>>[] = [
   {
     accessorKey: "id",
-    header: "ID",
+    header: ({ column }) => <SortableHeader column={column}>ID</SortableHeader>,
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: SortableHeader,
   },
   {
     accessorKey: "username",
-    header: "Username",
+    header: SortableHeader,
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
+    header: SortableHeader,
     cell: (props) => format(props.row.original.createdAt, "yyyy-MM-dd"),
   },
   {
     accessorKey: "updatedAt",
-    header: "Updated At",
+    header: SortableHeader,
     cell: (props) => format(props.row.original.updatedAt, "yyyy-MM-dd"),
   },
 ];

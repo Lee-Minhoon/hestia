@@ -25,12 +25,16 @@ export const toUrl = (path: Pages | Endpoints, params?: object) => {
   );
 };
 
-type Search = string | Record<string, string>;
+type Search = string | Record<string, string> | URLSearchParams;
 
 export const toQueryString = (search: Search) => {
-  return typeof search === "string"
-    ? search
-    : new URLSearchParams(search).toString();
+  if (typeof search === "string") {
+    return search;
+  }
+  if (search instanceof URLSearchParams) {
+    return search.toString();
+  }
+  return new URLSearchParams(search).toString();
 };
 
 export const buildUrl = (pathname: string, search?: Search) => {
