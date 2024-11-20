@@ -1,11 +1,18 @@
 "use client";
 
 import {
+  Column,
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { capitalCase } from "change-case";
+import {
+  TiArrowSortedDown,
+  TiArrowSortedUp,
+  TiArrowUnsorted,
+} from "react-icons/ti";
 
 import {
   Table,
@@ -15,6 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useSorting } from "@/hooks/use-sorting";
+
+import { Button } from "./button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -22,14 +32,18 @@ interface DataTableProps<TData, TValue> {
 }
 
 // https://ui.shadcn.com/docs/components/data-table
-export function DataTable<TData, TValue>({
+function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { sortBy, onSortingChange } = useSorting();
+
   const table = useReactTable({
     data,
     columns,
+    state: { sorting: sortBy },
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange,
   });
 
   return (
@@ -79,3 +93,33 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
+
+interface SortableHeaderProps<TData, TValue> {
+  column: Column<TData, TValue>;
+  children?: React.ReactNode;
+}
+
+function SortableHeader<TData, TValue>({
+  column,
+  children,
+}: SortableHeaderProps<TData, TValue>) {
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => {
+        column.toggleSorting(column.getIsSorted() === "asc");
+      }}
+    >
+      {children ?? capitalCase(column.id)}
+      {column.getIsSorted() === "desc" ? (
+        <TiArrowSortedDown />
+      ) : column.getIsSorted() === "asc" ? (
+        <TiArrowSortedUp />
+      ) : (
+        <TiArrowUnsorted />
+      )}
+    </Button>
+  );
+}
+
+export { DataTable, SortableHeader };
