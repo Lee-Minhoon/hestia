@@ -1,26 +1,42 @@
+import { count } from "drizzle-orm";
+
 import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/db";
-import { withSorting } from "@/lib/db/query-helpers";
+import { withPagination, withSorting } from "@/lib/db/query-helpers";
 import { users } from "@/lib/db/schema";
+import { parsePagination } from "@/lib/validation";
 
 import { columns } from "./columns";
+import UserTest from "./user-test";
 
 export default async function Users({
   searchParams,
 }: {
-  searchParams: Promise<{ sortBy?: string }>;
+  searchParams: Promise<{
+    pageIndex: string;
+    pageSize: string;
+    sortBy: string;
+  }>;
 }) {
-  const { sortBy } = await searchParams;
+  const { pageIndex, pageSize, sortBy } = await searchParams;
 
-  const data = await withSorting(
-    db.select().from(users).$dynamic(),
-    users,
-    sortBy
+  const pagination = parsePagination({
+    pageIndex,
+    pageSize,
+  });
+
+  const data = await withPagination(
+    withSorting(db.select().from(users).$dynamic(), users, sortBy),
+    pagination.pageIndex,
+    pagination.pageSize
   ).execute();
 
+  const rowCount = (await db.select({ count: count() }).from(users))[0].count;
+
   return (
-    <div>
-      <DataTable columns={columns} data={data} />
+    <div className="flex flex-col gap-4">
+      <UserTest />
+      <DataTable columns={columns} data={data} rowCount={rowCount} />
     </div>
   );
 }

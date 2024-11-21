@@ -22,74 +22,135 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { usePagination } from "@/hooks/use-pagination";
 import { useSorting } from "@/hooks/use-sorting";
 
 import { Button } from "./button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "./pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  rowCount: number;
 }
 
 // https://ui.shadcn.com/docs/components/data-table
 function DataTable<TData, TValue>({
   columns,
   data,
+  rowCount,
 }: DataTableProps<TData, TValue>) {
+  const { pagination, onPaginationChange } = usePagination();
   const { sortBy, onSortingChange } = useSorting();
 
   const table = useReactTable({
     data,
     columns,
-    state: { sorting: sortBy },
     getCoreRowModel: getCoreRowModel(),
+    rowCount: rowCount,
+    state: { pagination, sorting: sortBy },
+    manualPagination: true,
+    manualSorting: true,
+    onPaginationChange,
     onSortingChange,
   });
 
+  const startPage =
+    Math.floor(pagination.pageIndex / pagination.pageSize) *
+    pagination.pageSize;
+
+  const pageCount = Math.min(
+    pagination.pageSize,
+    table.getPageCount() - startPage
+  );
+
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+    <div className="flex flex-col gap-4">
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={table.previousPage}
+              disabled={!table.getCanPreviousPage()}
+            />
+          </PaginationItem>
+          {Array.from({ length: pageCount }, (_, i) => startPage + i).map(
+            (page) => (
+              <PaginationItem key={page}>
+                <PaginationLink
+                  onClick={() => table.setPageIndex(page)}
+                  isActive={pagination.pageIndex === page}
+                >
+                  {page + 1}
+                </PaginationLink>
+              </PaginationItem>
+            )
           )}
-        </TableBody>
-      </Table>
+          <PaginationItem>
+            <PaginationNext
+              onClick={table.nextPage}
+              disabled={!table.getCanNextPage()}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }

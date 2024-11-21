@@ -1,6 +1,14 @@
 import { asc, desc, getTableColumns } from "drizzle-orm";
 import { PgSelect, PgTable } from "drizzle-orm/pg-core";
 
+export function withPagination<T extends PgSelect>(
+  qb: T,
+  pageIndex = 0,
+  pageSize = 10
+) {
+  return qb.limit(pageSize).offset((pageIndex - 1) * pageSize);
+}
+
 export function withSorting<T extends PgSelect, S extends PgTable>(
   qb: T,
   table: S,
