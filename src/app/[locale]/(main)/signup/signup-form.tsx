@@ -28,9 +28,8 @@ import {
 import { Input } from "@/components/ui/input";
 import useActionToast from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
+import { signupAction } from "@/lib/actions/auth";
 import { signupSchema } from "@/lib/db/schema";
-
-import { signupAction } from "./actions";
 
 export default function SignupForm() {
   const t = useTranslations("Signup");
