@@ -64,8 +64,10 @@ function DataTable<TData, TValue>({
     onSortingChange,
   });
 
-  const startPage = Math.floor(pagination.pageIndex / pageRange) * pageRange;
-
+  const maxPage =
+    rowCount > 0 ? Math.ceil(rowCount / pagination.pageSize) - 1 : 0;
+  const pageIndex = Math.min(maxPage, pagination.pageIndex);
+  const startPage = Math.floor(pageIndex / pageRange) * pageRange;
   const pageCount = Math.min(pageRange, table.getPageCount() - startPage);
 
   return (
