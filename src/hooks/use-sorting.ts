@@ -2,6 +2,8 @@ import { useCallback, useMemo } from "react";
 
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
 
+import { QueryParamKeys } from "@/lib/queryParams";
+
 import { useSearchParams } from "./use-search-params";
 
 // https://tanstack.com/table/v8/docs/framework/react/examples/query-router-search-params
@@ -9,7 +11,7 @@ export function useSorting() {
   const { searchParams, setSearchParams } = useSearchParams();
 
   const sortBy = useMemo(() => {
-    const sortBy = searchParams.get("sortBy");
+    const sortBy = searchParams.get(QueryParamKeys.SortBy);
     if (!sortBy) return [];
 
     const [id, desc] = sortBy.split(".");
@@ -26,7 +28,10 @@ export function useSorting() {
       const sort = newSortingState[0];
 
       setSearchParams((searchParams) => {
-        searchParams.set("sortBy", `${sort.id}.${sort.desc ? "desc" : "asc"}`);
+        searchParams.set(
+          QueryParamKeys.SortBy,
+          `${sort.id}.${sort.desc ? "desc" : "asc"}`
+        );
         return searchParams;
       });
     },

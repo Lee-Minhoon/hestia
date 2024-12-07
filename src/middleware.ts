@@ -6,6 +6,7 @@ import { routing } from "@/lib/i18n/routing";
 
 import authConfig from "../auth.config";
 
+import { QueryParamKeys } from "./lib/queryParams";
 import {
   getLocale,
   isAuthPage,
@@ -28,11 +29,11 @@ const middleware = auth(async (req) => {
       withLocale(toUrl(Pages.Signin), locale),
       req.nextUrl.origin
     );
-    redirectUrl.searchParams.set("next", pathname);
+    redirectUrl.searchParams.set(QueryParamKeys.Next, pathname);
     return NextResponse.redirect(redirectUrl);
   }
   if (req.auth && isAuthPage(pathname)) {
-    const next = req.nextUrl.searchParams.get("next");
+    const next = req.nextUrl.searchParams.get(QueryParamKeys.Next);
     const redirectUrl = new URL(
       next ?? withLocale(toUrl(Pages.Home), locale),
       req.nextUrl.origin

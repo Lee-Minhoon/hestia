@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 
 import { useSearchParams } from "@/hooks/use-search-params";
+import { QueryParamKeys } from "@/lib/queryParams";
 
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -27,7 +28,7 @@ const TableControls = () => {
         className="flex gap-2"
         onSubmit={form.handleSubmit((data) => {
           setSearchParams((searchParams) => {
-            searchParams.set("search", data.search);
+            searchParams.set(QueryParamKeys.Search, data.search);
             return searchParams;
           });
         })}
@@ -38,7 +39,7 @@ const TableControls = () => {
       <Select
         onValueChange={(value) =>
           setSearchParams((searchParams) => {
-            searchParams.set("pageSize", value);
+            searchParams.set(QueryParamKeys.PageSize, value);
             return searchParams;
           })
         }

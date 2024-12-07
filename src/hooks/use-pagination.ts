@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 
 import { OnChangeFn, PaginationState } from "@tanstack/react-table";
 
+import { QueryParamKeys } from "@/lib/queryParams";
 import { parsePagination } from "@/lib/validation";
 
 import { useSearchParams } from "./use-search-params";
@@ -27,10 +28,13 @@ export function usePagination() {
 
       setSearchParams((searchParams) => {
         searchParams.set(
-          "pageIndex",
+          QueryParamKeys.PageIndex,
           (newPaginationState.pageIndex + 1).toString()
         );
-        searchParams.set("pageSize", newPaginationState.pageSize.toString());
+        searchParams.set(
+          QueryParamKeys.PageSize,
+          newPaginationState.pageSize.toString()
+        );
         return searchParams;
       });
     },
