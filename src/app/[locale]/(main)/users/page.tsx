@@ -7,7 +7,7 @@ import { users } from "@/lib/db/schema";
 import { parsePagination } from "@/lib/validation";
 
 import { columns } from "./columns";
-import UserTest from "./user-test";
+import UserTestSection from "./user-test-section";
 
 export default async function Users({
   searchParams,
@@ -35,7 +35,7 @@ export default async function Users({
 
   return (
     <div className="flex flex-col gap-4">
-      <UserTest />
+      <UserTestSection />
       <DataTable columns={columns} data={data} rowCount={rowCount} />
     </div>
   );

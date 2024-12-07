@@ -35,3 +35,17 @@ export const addTestUsersAction = async () => {
     );
   }
 };
+
+export const deleteAllUsersAction = async () => {
+  try {
+    await db.delete(users).execute();
+
+    revalidatePath(Pages.Users);
+
+    return successState(null, "Successfully deleted all users.");
+  } catch (error) {
+    return errorState(
+      error instanceof Error ? error.message : "An unknown error occurred."
+    );
+  }
+};
