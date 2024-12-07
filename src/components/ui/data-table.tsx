@@ -54,7 +54,7 @@ function DataTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    rowCount: rowCount,
+    rowCount,
     state: { pagination, sorting: sortBy },
     manualPagination: true,
     manualSorting: true,
