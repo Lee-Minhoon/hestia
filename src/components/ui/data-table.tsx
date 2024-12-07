@@ -41,6 +41,8 @@ interface DataTableProps<TData, TValue> {
   rowCount: number;
 }
 
+const pageRange = 10;
+
 // https://ui.shadcn.com/docs/components/data-table
 function DataTable<TData, TValue>({
   columns,
@@ -62,14 +64,9 @@ function DataTable<TData, TValue>({
     onSortingChange,
   });
 
-  const startPage =
-    Math.floor(pagination.pageIndex / pagination.pageSize) *
-    pagination.pageSize;
+  const startPage = Math.floor(pagination.pageIndex / pageRange) * pageRange;
 
-  const pageCount = Math.min(
-    pagination.pageSize,
-    table.getPageCount() - startPage
-  );
+  const pageCount = Math.min(pageRange, table.getPageCount() - startPage);
 
   return (
     <div className="flex flex-col gap-4">
