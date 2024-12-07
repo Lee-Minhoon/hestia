@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { compare } from "bcrypt";
 import NextAuth from "next-auth";
@@ -17,8 +18,8 @@ export type AvailableProviders = "github" | "google" | "facebook";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   adapter: DrizzleAdapter(db, {
-    usersTable: users,
-    accountsTable: accounts,
+    usersTable: users as any,
+    accountsTable: accounts as any,
   }),
   providers: [
     GitHub,

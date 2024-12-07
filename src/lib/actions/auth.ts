@@ -10,8 +10,7 @@ import { z } from "zod";
 import { ActionState, errorState, successState } from "@/lib/action";
 import { AvailableProviders, signIn } from "@/lib/auth";
 import db from "@/lib/db";
-import { signinSchema } from "@/lib/db/schema";
-import { signupSchema, users } from "@/lib/db/schema";
+import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
 import { Pages, toUrl, withLocale } from "@/lib/routes";
 
@@ -68,7 +67,7 @@ export const socialLoginAction = async (provider: AvailableProviders) => {
 };
 
 export const signupAction = async (
-  previousState: ActionState<string>,
+  previousState: ActionState<number>,
   formData: FormData
 ) => {
   try {

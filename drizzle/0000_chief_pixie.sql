@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "account" (
-	"userId" text NOT NULL,
+	"userId" integer NOT NULL,
 	"type" text NOT NULL,
 	"provider" text NOT NULL,
 	"providerAccountId" text NOT NULL,
@@ -9,17 +9,16 @@ CREATE TABLE IF NOT EXISTS "account" (
 	"token_type" text,
 	"scope" text,
 	"id_token" text,
-	"session_state" text,
-	CONSTRAINT "account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
+	"session_state" text
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
-	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"email" text NOT NULL,
 	"emailVerified" timestamp,
 	"password" text,
 	"image" text,
+	"id" serial PRIMARY KEY NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"deleted_at" timestamp,
