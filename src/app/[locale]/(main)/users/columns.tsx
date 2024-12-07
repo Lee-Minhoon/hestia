@@ -17,7 +17,7 @@ export const columns: ColumnDef<InferSelectModel<typeof users>>[] = [
     header: SortableHeader,
   },
   {
-    accessorKey: "username",
+    accessorKey: "name",
     header: SortableHeader,
   },
   {

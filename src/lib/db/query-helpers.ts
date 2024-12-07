@@ -3,8 +3,8 @@ import { PgSelect, PgTable } from "drizzle-orm/pg-core";
 
 export function withPagination<T extends PgSelect>(
   qb: T,
-  pageIndex = 0,
-  pageSize = 10
+  pageIndex: number,
+  pageSize: number
 ) {
   return qb.limit(pageSize).offset((pageIndex - 1) * pageSize);
 }

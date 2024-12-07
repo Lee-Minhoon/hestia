@@ -6,9 +6,8 @@ import { capitalize } from "lodash-es";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
+import { socialLoginAction } from "@/lib/actions/auth";
 import { AvailableProviders } from "@/lib/auth";
-
-import { socialLoginAction } from "./actions";
 
 const availableProviders: {
   provider: AvailableProviders;

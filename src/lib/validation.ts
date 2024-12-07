@@ -6,14 +6,14 @@ const strToPosInt = (defaultValue: number) => {
     .optional()
     .transform((v) => {
       const num = Number(v);
-      if (isNaN(num) || num < 0) return;
+      if (isNaN(num) || num < 1) return;
       return num;
     })
-    .pipe(z.number().int().min(0).default(defaultValue));
+    .pipe(z.number().int().min(1).default(defaultValue));
 };
 
 const paginationSchema = z.object({
-  pageIndex: strToPosInt(0),
+  pageIndex: strToPosInt(1),
   pageSize: strToPosInt(10),
 });
 

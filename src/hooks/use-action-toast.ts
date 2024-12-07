@@ -11,6 +11,7 @@ export default function useActionToast(state: ActionState<unknown>) {
         toast({
           title: "Success",
           description: state.message,
+          duration: 2000,
         });
         break;
       case "error":
@@ -18,6 +19,7 @@ export default function useActionToast(state: ActionState<unknown>) {
           title: "Error",
           description: state.message,
           variant: "destructive",
+          duration: 2000,
         });
         break;
     }

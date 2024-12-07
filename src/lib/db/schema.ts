@@ -2,6 +2,7 @@ import {
   integer,
   pgTable,
   primaryKey,
+  serial,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
@@ -11,6 +12,7 @@ import { z } from "zod";
 import type { AdapterAccountType } from "next-auth/adapters";
 
 const base = {
+  id: serial("id").primaryKey(),
   updatedAt: timestamp("updated_at", { mode: "date" })
     .defaultNow()
     .notNull()
@@ -20,9 +22,6 @@ const base = {
 };
 
 export const users = pgTable("user", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
   email: text("email").unique().notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
@@ -34,9 +33,11 @@ export const users = pgTable("user", {
 export const accounts = pgTable(
   "account",
   {
-    userId: text("userId")
+    userId: integer("userId")
       .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
     type: text("type").$type<AdapterAccountType>().notNull(),
     provider: text("provider").notNull(),
     providerAccountId: text("providerAccountId").notNull(),
@@ -48,11 +49,13 @@ export const accounts = pgTable(
     id_token: text("id_token"),
     session_state: text("session_state"),
   },
-  (account) => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-  })
+  (account) => [
+    {
+      compoundKey: primaryKey({
+        columns: [account.provider, account.providerAccountId],
+      }),
+    },
+  ]
 );
 
 const insertUserSchema = createInsertSchema(users, {

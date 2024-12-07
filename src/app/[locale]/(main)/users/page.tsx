@@ -1,5 +1,6 @@
-import { count } from "drizzle-orm";
+import { count, like } from "drizzle-orm";
 
+import { TableControls } from "@/components/controls/table-controls";
 import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
@@ -7,35 +8,42 @@ import { users } from "@/lib/db/schema";
 import { parsePagination } from "@/lib/validation";
 
 import { columns } from "./columns";
-import UserTest from "./user-test";
+import UserTestSection from "./user-test-section";
 
 export default async function Users({
   searchParams,
 }: {
   searchParams: Promise<{
-    pageIndex: string;
-    pageSize: string;
-    sortBy: string;
+    pageIndex?: string;
+    pageSize?: string;
+    sortBy?: string;
+    search?: string;
   }>;
 }) {
-  const { pageIndex, pageSize, sortBy } = await searchParams;
+  const { sortBy, search, ...rest } = await searchParams;
 
-  const pagination = parsePagination({
-    pageIndex,
-    pageSize,
-  });
+  const { pageIndex, pageSize } = parsePagination(rest);
+
+  const condition = search ? like(users.name, `%${search}%`) : undefined;
+
+  const qb = db.select().from(users).where(condition).$dynamic();
 
   const data = await withPagination(
-    withSorting(db.select().from(users).$dynamic(), users, sortBy),
-    pagination.pageIndex,
-    pagination.pageSize
+    withSorting(qb, users, sortBy || "id.desc"),
+    pageIndex,
+    pageSize
   ).execute();
 
-  const rowCount = (await db.select({ count: count() }).from(users))[0].count;
+  const rowCount = (
+    await db.select({ count: count() }).from(users).where(condition)
+  )[0].count;
 
   return (
     <div className="flex flex-col gap-4">
-      <UserTest />
+      <div className="flex justify-between items-center">
+        <UserTestSection />
+        <TableControls />
+      </div>
       <DataTable columns={columns} data={data} rowCount={rowCount} />
     </div>
   );

@@ -17,6 +17,7 @@ import {
 import { auth, signOut } from "@/lib/auth";
 import { Locale } from "@/lib/i18n/locale";
 import { Link } from "@/lib/i18n/routing";
+import { QueryParamKeys } from "@/lib/queryParams";
 import { isPrivatePage, Pages, toUrl, withLocale } from "@/lib/routes";
 
 export default async function Account() {
@@ -68,7 +69,7 @@ export default async function Account() {
                   const locale = (await getLocale()) as Locale;
 
                   if (isPrivatePage(url.pathname)) {
-                    url.searchParams.set("next", url.pathname);
+                    url.searchParams.set(QueryParamKeys.Next, url.pathname);
                     url.pathname = withLocale(toUrl(Pages.Signin), locale);
                   }
 

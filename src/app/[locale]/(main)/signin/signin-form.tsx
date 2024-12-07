@@ -27,9 +27,9 @@ import {
 import { Input } from "@/components/ui/input";
 import useActionToast from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
+import { signinAction } from "@/lib/actions/auth";
 import { signinSchema } from "@/lib/db/schema";
 
-import { signinAction } from "./actions";
 import SocialLoginSection from "./social-login-section";
 
 export default function SigninForm() {
