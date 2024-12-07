@@ -18,7 +18,7 @@ import {
 const rowsPerPage = [10, 20, 50, 100];
 
 const TableControls = () => {
-  const { setSearchParams } = useSearchParams();
+  const { searchParams, setSearchParams } = useSearchParams();
 
   const form = useForm<{ search: string }>();
 
@@ -37,6 +37,7 @@ const TableControls = () => {
         <Button>Search</Button>
       </form>
       <Select
+        value={searchParams.get(QueryParamKeys.PageSize) ?? ""}
         onValueChange={(value) =>
           setSearchParams((searchParams) => {
             searchParams.set(QueryParamKeys.PageSize, value);
