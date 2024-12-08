@@ -155,15 +155,22 @@ function DataTable<TData, TValue>({
   );
 }
 
-interface SortableHeaderProps<TData, TValue> {
+interface DataTableHeaderProps<TData, TValue> {
   column: Column<TData, TValue>;
   children?: React.ReactNode;
+}
+
+function DataTableHeader<TData, TValue>({
+  column,
+  children,
+}: DataTableHeaderProps<TData, TValue>) {
+  return children ?? capitalCase(column.id);
 }
 
 function SortableHeader<TData, TValue>({
   column,
   children,
-}: SortableHeaderProps<TData, TValue>) {
+}: DataTableHeaderProps<TData, TValue>) {
   return (
     <Button
       variant="ghost"
@@ -183,4 +190,4 @@ function SortableHeader<TData, TValue>({
   );
 }
 
-export { DataTable, SortableHeader };
+export { DataTable, DataTableHeader, SortableHeader };

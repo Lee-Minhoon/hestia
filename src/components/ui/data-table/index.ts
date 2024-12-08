@@ -1,1 +1,1 @@
-export { DataTable, SortableHeader } from "./data-table";
+export { DataTable, DataTableHeader, SortableHeader } from "./data-table";
