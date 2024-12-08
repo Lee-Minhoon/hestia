@@ -26,10 +26,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import useActionToast from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
 import { signupAction } from "@/lib/actions/auth";
 import { signupSchema } from "@/lib/db/schema";
+import useActionToast from "@/lib/hooks/use-action-toast";
 
 export default function SignupForm() {
   const t = useTranslations("Signup");

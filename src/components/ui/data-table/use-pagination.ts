@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 
 import { OnChangeFn, PaginationState } from "@tanstack/react-table";
 
-import { useSearchParams } from "@/hooks/use-search-params";
+import { useSearchParams } from "@/lib/hooks/use-search-params";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { parsePagination } from "@/lib/validation";
 

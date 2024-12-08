@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 
-import { useSearchParams } from "@/hooks/use-search-params";
+import { useSearchParams } from "@/lib/hooks/use-search-params";
 import { QueryParamKeys } from "@/lib/queryParams";
 
 import { Button } from "../ui/button";
