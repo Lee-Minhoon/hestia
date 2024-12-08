@@ -22,10 +22,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { usePagination } from "@/hooks/use-pagination";
-import { useSorting } from "@/hooks/use-sorting";
 
-import { Button } from "./button";
+import { Button } from "../button";
 import {
   Pagination,
   PaginationContent,
@@ -33,7 +31,10 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "./pagination";
+} from "../pagination";
+
+import { usePagination } from "./use-pagination";
+import { useSorting } from "./use-sorting";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -154,15 +155,22 @@ function DataTable<TData, TValue>({
   );
 }
 
-interface SortableHeaderProps<TData, TValue> {
+interface DataTableHeaderProps<TData, TValue> {
   column: Column<TData, TValue>;
   children?: React.ReactNode;
+}
+
+function DataTableHeader<TData, TValue>({
+  column,
+  children,
+}: DataTableHeaderProps<TData, TValue>) {
+  return children ?? capitalCase(column.id);
 }
 
 function SortableHeader<TData, TValue>({
   column,
   children,
-}: SortableHeaderProps<TData, TValue>) {
+}: DataTableHeaderProps<TData, TValue>) {
   return (
     <Button
       variant="ghost"
@@ -182,4 +190,4 @@ function SortableHeader<TData, TValue>({
   );
 }
 
-export { DataTable, SortableHeader };
+export { DataTable, DataTableHeader, SortableHeader };

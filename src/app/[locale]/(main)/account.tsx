@@ -31,7 +31,7 @@ export default async function Account() {
           <SheetTrigger>
             <Avatar>
               <AvatarImage
-                src={session.user.image || undefined}
+                src={session.user.image ?? undefined}
                 alt="profile"
               />
               <AvatarFallback>
@@ -44,7 +44,7 @@ export default async function Account() {
               <div className="flex gap-4">
                 <Avatar>
                   <AvatarImage
-                    src={session.user.image || undefined}
+                    src={session.user.image ?? undefined}
                     alt="profile"
                   />
                   <AvatarFallback>

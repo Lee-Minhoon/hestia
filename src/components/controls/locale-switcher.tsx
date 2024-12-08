@@ -3,16 +3,16 @@
 import { capitalize } from "lodash-es";
 import { useLocale } from "next-intl";
 
+import { Locale } from "@/lib/i18n/locale";
+import { usePathname, useRouter } from "@/lib/i18n/routing";
+
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Locale } from "@/lib/i18n/locale";
-import { usePathname, useRouter } from "@/lib/i18n/routing";
-
-import { Button } from "../ui/button";
+} from "../ui/dropdown-menu";
 
 const LocaleSwitcher = () => {
   const locale = useLocale();
