@@ -22,10 +22,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { usePagination } from "@/hooks/use-pagination";
-import { useSorting } from "@/hooks/use-sorting";
 
-import { Button } from "./button";
+import { Button } from "../button";
 import {
   Pagination,
   PaginationContent,
@@ -33,7 +31,10 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "./pagination";
+} from "../pagination";
+
+import { usePagination } from "./use-pagination";
+import { useSorting } from "./use-sorting";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

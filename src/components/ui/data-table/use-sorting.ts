@@ -2,9 +2,8 @@ import { useCallback, useMemo } from "react";
 
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
 
+import { useSearchParams } from "@/hooks/use-search-params";
 import { QueryParamKeys } from "@/lib/queryParams";
-
-import { useSearchParams } from "./use-search-params";
 
 // https://tanstack.com/table/v8/docs/framework/react/examples/query-router-search-params
 export function useSorting() {
