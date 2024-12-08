@@ -33,7 +33,7 @@ const AddTestUsersForm = () => {
   );
 };
 
-export function DeleteAllUsersForm() {
+const DeleteAllUsersForm = () => {
   const [state, dispatch, isPending] = useActionState(
     deleteAllUsersAction,
     initState()
@@ -48,4 +48,4 @@ export function DeleteAllUsersForm() {
       </Button>
     </form>
   );
-}
+};
