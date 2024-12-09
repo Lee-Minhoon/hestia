@@ -5,6 +5,7 @@ const strToPosInt = (defaultValue: number) => {
   return z
     .string()
     .optional()
+    .nullable()
     .transform((v) => {
       const num = Number(v);
       if (isNaN(num) || !isInteger(num) || num < 1) return;
@@ -18,6 +19,8 @@ const paginationSchema = z.object({
   pageSize: strToPosInt(10),
 });
 
-export function parsePagination(data: Record<string, string>) {
+export function parsePagination(
+  data: Record<string, string | undefined | null>
+) {
   return paginationSchema.parse(data);
 }
