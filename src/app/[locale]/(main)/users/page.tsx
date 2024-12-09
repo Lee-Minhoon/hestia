@@ -29,7 +29,7 @@ export default async function Users({
   const qb = db.select().from(users).where(condition).$dynamic();
 
   const data = await withPagination(
-    withSorting(qb, users, sortBy || "id.desc"),
+    withSorting(qb, users, sortBy ?? "id.desc"),
     pageIndex,
     pageSize
   ).execute();

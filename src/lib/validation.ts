@@ -1,3 +1,4 @@
+import { isInteger } from "lodash-es";
 import { z } from "zod";
 
 const strToPosInt = (defaultValue: number) => {
@@ -6,7 +7,7 @@ const strToPosInt = (defaultValue: number) => {
     .optional()
     .transform((v) => {
       const num = Number(v);
-      if (isNaN(num) || num < 1) return;
+      if (isNaN(num) || !isInteger(num) || num < 1) return;
       return num;
     })
     .pipe(z.number().int().min(1).default(defaultValue));
