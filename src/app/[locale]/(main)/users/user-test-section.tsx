@@ -3,9 +3,9 @@
 import { useActionState } from "react";
 
 import { Button } from "@/components/ui/button";
-import useActionToast from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { addTestUsersAction, deleteAllUsersAction } from "@/lib/actions/user";
+import useActionToast from "@/lib/hooks/use-action-toast";
 
 export default function UserTestSection() {
   return (
@@ -33,7 +33,7 @@ const AddTestUsersForm = () => {
   );
 };
 
-export function DeleteAllUsersForm() {
+const DeleteAllUsersForm = () => {
   const [state, dispatch, isPending] = useActionState(
     deleteAllUsersAction,
     initState()
@@ -48,4 +48,4 @@ export function DeleteAllUsersForm() {
       </Button>
     </form>
   );
-}
+};

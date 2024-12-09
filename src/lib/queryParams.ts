@@ -4,4 +4,5 @@ export enum QueryParamKeys {
   PageSize = "pageSize",
   SortBy = "sortBy",
   Search = "search",
+  ViewType = "viewType",
 }
