@@ -1,3 +1,4 @@
+import { InferSelectModel } from "drizzle-orm";
 import {
   integer,
   pgTable,
@@ -29,6 +30,8 @@ export const users = pgTable("user", {
   image: text("image"),
   ...base,
 });
+
+export type User = InferSelectModel<typeof users>;
 
 export const accounts = pgTable(
   "account",

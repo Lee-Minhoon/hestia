@@ -2,14 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { InferSelectModel } from "drizzle-orm";
 import { FaUserAlt } from "react-icons/fa";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DataTableHeader, SortableHeader } from "@/components/ui/data-table";
-import { users } from "@/lib/db/schema";
+import { User } from "@/lib/db/schema";
 
-export const columns: ColumnDef<InferSelectModel<typeof users>>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => <SortableHeader column={column}>ID</SortableHeader>,

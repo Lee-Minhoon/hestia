@@ -3,9 +3,8 @@ import {
   QueryFunctionContext,
   useSuspenseInfiniteQuery,
 } from "@tanstack/react-query";
-import { InferSelectModel } from "drizzle-orm";
 
-import { users } from "../db/schema";
+import { User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Endpoints, toUrl } from "../routes";
 
@@ -53,8 +52,5 @@ const useLoadMore = <T>(url: string, params?: object) => {
 };
 
 export const useLoadMoreUsers = (params?: CursorParams) => {
-  return useLoadMore<InferSelectModel<typeof users>>(
-    toUrl(Endpoints.Users),
-    params
-  );
+  return useLoadMore<User>(toUrl(Endpoints.Users), params);
 };
