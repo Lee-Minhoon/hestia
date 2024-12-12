@@ -8,6 +8,7 @@ import { users } from "@/lib/db/schema";
 import { parsePagination } from "@/lib/validation";
 
 import { columns } from "./columns";
+import UserList from "./user-list";
 import UserTestSection from "./user-test-section";
 
 export default async function Users({
@@ -18,9 +19,10 @@ export default async function Users({
     pageSize?: string;
     sortBy?: string;
     search?: string;
+    viewType?: string;
   }>;
 }) {
-  const { sortBy, search, ...rest } = await searchParams;
+  const { sortBy, search, viewType, ...rest } = await searchParams;
 
   const { pageIndex, pageSize } = parsePagination(rest);
 
@@ -44,7 +46,11 @@ export default async function Users({
         <UserTestSection />
         <TableControls />
       </div>
-      <DataTable columns={columns} data={data} rowCount={rowCount} />
+      {viewType === "table" ? (
+        <DataTable columns={columns} data={data} rowCount={rowCount} />
+      ) : (
+        <UserList />
+      )}
     </div>
   );
 }
