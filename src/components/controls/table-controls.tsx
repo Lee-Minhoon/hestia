@@ -112,12 +112,11 @@ const ViewTypeSelector = () => {
         {viewTypes.map(({ label, icon, value }) => (
           <DropdownMenuItem
             key={value}
-            onClick={() =>
-              setSearchParams((searchParams) => {
-                searchParams.set(QueryParamKeys.ViewType, value);
-                return searchParams;
-              })
-            }
+            onClick={() => {
+              const searchParams = new URLSearchParams();
+              searchParams.set(QueryParamKeys.ViewType, value);
+              setSearchParams(searchParams);
+            }}
           >
             <div className="flex gap-2 items-center">
               {icon}
