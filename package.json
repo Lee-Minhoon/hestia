@@ -34,6 +34,7 @@
     "@tanstack/react-query-devtools": "^5.59.16",
     "@tanstack/react-query-next-experimental": "^5.59.16",
     "@tanstack/react-table": "^8.20.5",
+    "@tanstack/react-virtual": "^3.11.1",
     "bcrypt": "^5.1.1",
     "change-case": "^5.4.4",
     "class-variance-authority": "^0.7.0",
