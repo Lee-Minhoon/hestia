@@ -26,6 +26,10 @@ type CursorData<T> = {
   prevCursor: number | null;
 };
 
+const getBaseUrl = () => {
+  return process.env.NEXT_PUBLIC_BASE_URL;
+};
+
 const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
   const { queryKey, pageParam } = context;
   const [url, params] = queryKey;
@@ -33,7 +37,9 @@ const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
   if (pageParam && typeof pageParam === "number") {
     queryParams.set(QueryParamKeys.Cursor, pageParam.toString());
   }
-  return await fetch(buildUrl(url, queryParams)).then((res) => res.json());
+  return await fetch(buildUrl(`${getBaseUrl()}${url}`, queryParams)).then(
+    (res) => res.json()
+  );
 };
 
 const useLoadMore = <T>(url: string, params?: object) => {
