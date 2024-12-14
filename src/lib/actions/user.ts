@@ -7,7 +7,7 @@ import { errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { users } from "@/lib/db/schema";
 
-import { Pages } from "../routes";
+import { Pages, toUrl } from "../routes";
 
 export const addTestUsersAction = async () => {
   try {
@@ -26,7 +26,7 @@ export const addTestUsersAction = async () => {
       )
       .execute();
 
-    revalidatePath(Pages.Users);
+    revalidatePath(toUrl(Pages.Users));
 
     return successState(null, "Successfully added test users.");
   } catch (error) {
@@ -40,7 +40,7 @@ export const deleteAllUsersAction = async () => {
   try {
     await db.delete(users).execute();
 
-    revalidatePath(Pages.Users);
+    revalidatePath(toUrl(Pages.Users));
 
     return successState(null, "Successfully deleted all users.");
   } catch (error) {
