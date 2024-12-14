@@ -46,7 +46,7 @@ export default async function Users({
         <UserTestSection />
         <TableControls />
       </div>
-      {viewType === "table" ? (
+      {viewType !== "grid" ? (
         <DataTable columns={columns} data={data} rowCount={rowCount} />
       ) : (
         <UserList />
