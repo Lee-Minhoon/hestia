@@ -19,13 +19,13 @@ export async function GET(req: NextRequest) {
     .from(users)
     .where(
       cursor
-        ? order === "desc"
-          ? lt(users.id, cursor)
-          : gt(users.id, cursor)
+        ? order === "asc"
+          ? gt(users.id, cursor)
+          : lt(users.id, cursor)
         : undefined
     )
     .limit(limit + 1)
-    .orderBy(order === "desc" ? desc(users.id) : asc(users.id))
+    .orderBy(order === "asc" ? asc(users.id) : desc(users.id))
     .execute();
 
   const nextCursor = data.length > limit ? data[data.length - 2]?.id : null;

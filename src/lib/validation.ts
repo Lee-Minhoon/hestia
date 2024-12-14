@@ -39,7 +39,7 @@ const cursorSchema = z.object({
     .string()
     .optional()
     .nullable()
-    .transform((v) => (v === "desc" ? v : "asc"))
+    .transform((v) => (v === "asc" ? v : "desc"))
     .default("desc"),
 });
 
