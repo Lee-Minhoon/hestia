@@ -1,5 +1,6 @@
 import { count, like } from "drizzle-orm";
 
+import { GridControls } from "@/components/controls/grid-controlls";
 import { TableControls } from "@/components/controls/table-controls";
 import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/db";
@@ -40,13 +41,15 @@ export default async function Users({
     await db.select({ count: count() }).from(users).where(condition)
   )[0].count;
 
+  const isTableView = viewType !== "grid";
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <UserTestSection />
-        <TableControls />
+        {isTableView ? <TableControls /> : <GridControls />}
       </div>
-      {viewType !== "grid" ? (
+      {isTableView ? (
         <DataTable columns={columns} data={data} rowCount={rowCount} />
       ) : (
         <UserList />

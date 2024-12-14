@@ -14,9 +14,9 @@ import {
 import { SearchForm } from "./search-form";
 import { ViewTypeSelector } from "./view-type-selector";
 
-const rowsPerPage = [10, 20, 50, 100];
+const orders = ["asc", "desc"];
 
-const TableControls = () => {
+const GridControls = () => {
   const { setSearchParams } = useSearchParams();
 
   return (
@@ -29,30 +29,30 @@ const TableControls = () => {
           });
         }}
       />
-      <PageSizeSelector />
+      <OrderSelector />
       <ViewTypeSelector />
     </div>
   );
 };
 
-const PageSizeSelector = () => {
+const OrderSelector = () => {
   const { searchParams, setSearchParams } = useSearchParams();
 
   return (
     <Select
-      value={searchParams.get(QueryParamKeys.PageSize) ?? ""}
+      value={searchParams.get(QueryParamKeys.Order) ?? ""}
       onValueChange={(value) =>
         setSearchParams((searchParams) => {
-          searchParams.set(QueryParamKeys.PageSize, value);
+          searchParams.set(QueryParamKeys.Order, value);
           return searchParams;
         })
       }
     >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Rows per page" />
+        <SelectValue placeholder="Order" />
       </SelectTrigger>
       <SelectContent>
-        {rowsPerPage.map((value) => (
+        {orders.map((value) => (
           <SelectItem key={value} value={value.toString()}>
             {value}
           </SelectItem>
@@ -62,4 +62,4 @@ const PageSizeSelector = () => {
   );
 };
 
-export { TableControls };
+export { GridControls };

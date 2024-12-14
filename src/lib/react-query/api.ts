@@ -16,8 +16,8 @@ type ResponseData<T> = {
 };
 
 type CursorParams = {
-  [QueryParamKeys.Limit]: number;
-  [QueryParamKeys.Order]: "desc" | "asc";
+  [QueryParamKeys.Limit]?: number;
+  [QueryParamKeys.Order]?: "desc" | "asc";
 };
 
 type CursorData<T> = {
