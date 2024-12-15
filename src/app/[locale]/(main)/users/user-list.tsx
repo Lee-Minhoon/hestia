@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { InfiniteList } from "@/components/ui/infinite-list";
+import { useBreakpointValue } from "@/lib/hooks/use-breakpoint-value";
 import { useIsServer } from "@/lib/hooks/use-is-server";
 import { useLoadMoreUsers } from "@/lib/react-query/api";
 import { parseCursor } from "@/lib/validation";
@@ -24,14 +25,23 @@ export default function UserList() {
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useLoadMoreUsers({ order });
 
+  const countPerRow = useBreakpointValue(
+    {
+      sm: 2,
+      lg: 3,
+      xl: 4,
+    },
+    1
+  );
+
   const rows = useMemo(() => {
     const users = data?.pages.flatMap((page) => page.data.data) ?? [];
     const rows = [];
-    for (let i = 0; i < users.length; i += 4) {
-      rows.push(users.slice(i, i + 4));
+    for (let i = 0; i < users.length; i += countPerRow) {
+      rows.push(users.slice(i, i + countPerRow));
     }
     return rows;
-  }, [data]);
+  }, [countPerRow, data?.pages]);
 
   return (
     <div className="flex flex-col gap-4">
