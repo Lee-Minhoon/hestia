@@ -3,6 +3,9 @@ export enum QueryParamKeys {
   PageIndex = "pageIndex",
   PageSize = "pageSize",
   SortBy = "sortBy",
+  Cursor = "cursor",
+  Limit = "limit",
+  Order = "order",
   Search = "search",
   ViewType = "viewType",
 }

@@ -1,5 +1,6 @@
 import { count, like } from "drizzle-orm";
 
+import { GridControls } from "@/components/controls/grid-controlls";
 import { TableControls } from "@/components/controls/table-controls";
 import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/db";
@@ -8,6 +9,7 @@ import { users } from "@/lib/db/schema";
 import { parsePagination } from "@/lib/validation";
 
 import { columns } from "./columns";
+import UserList from "./user-list";
 import UserTestSection from "./user-test-section";
 
 export default async function Users({
@@ -18,9 +20,10 @@ export default async function Users({
     pageSize?: string;
     sortBy?: string;
     search?: string;
+    viewType?: string;
   }>;
 }) {
-  const { sortBy, search, ...rest } = await searchParams;
+  const { sortBy, search, viewType, ...rest } = await searchParams;
 
   const { pageIndex, pageSize } = parsePagination(rest);
 
@@ -29,7 +32,7 @@ export default async function Users({
   const qb = db.select().from(users).where(condition).$dynamic();
 
   const data = await withPagination(
-    withSorting(qb, users, sortBy || "id.desc"),
+    withSorting(qb, users, sortBy ?? "id.desc"),
     pageIndex,
     pageSize
   ).execute();
@@ -38,13 +41,19 @@ export default async function Users({
     await db.select({ count: count() }).from(users).where(condition)
   )[0].count;
 
+  const isTableView = viewType !== "grid";
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <UserTestSection />
-        <TableControls />
+        {isTableView ? <TableControls /> : <GridControls />}
       </div>
-      <DataTable columns={columns} data={data} rowCount={rowCount} />
+      {isTableView ? (
+        <DataTable columns={columns} data={data} rowCount={rowCount} />
+      ) : (
+        <UserList />
+      )}
     </div>
   );
 }

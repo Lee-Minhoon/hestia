@@ -1,3 +1,4 @@
+import { InferSelectModel } from "drizzle-orm";
 import {
   integer,
   pgTable,
@@ -21,6 +22,13 @@ const base = {
   deletedAt: timestamp("deleted_at", { mode: "date" }),
 };
 
+export interface BaseSchema {
+  id: number;
+  updatedAt: Date;
+  createdAt: Date;
+  deletedAt: Date | null;
+}
+
 export const users = pgTable("user", {
   name: text("name").notNull(),
   email: text("email").unique().notNull(),
@@ -29,6 +37,8 @@ export const users = pgTable("user", {
   image: text("image"),
   ...base,
 });
+
+export type User = InferSelectModel<typeof users>;
 
 export const accounts = pgTable(
   "account",

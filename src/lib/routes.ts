@@ -38,7 +38,8 @@ export const toQueryString = (search: Search) => {
 };
 
 export const buildUrl = (pathname: string, search?: Search) => {
-  return `${pathname}${search ? `?${toQueryString(search)}` : ""}`;
+  const queryString = search ? toQueryString(search) : "";
+  return `${pathname}${queryString ? `?${queryString}` : ""}`;
 };
 
 /**

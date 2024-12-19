@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
 
-import { getQueryClient } from "@/lib/tanstack-query";
+import { getQueryClient } from "@/lib/react-query/query-client";
 
 interface ProvidersProps {
   children: React.ReactNode;
