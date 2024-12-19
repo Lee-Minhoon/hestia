@@ -32,7 +32,7 @@ const AddTestUsersForm = () => {
   useEffect(() => {
     if (state.status === "idle") return;
     queryClient.invalidateQueries({ queryKey: [toUrl(Endpoints.Users)] });
-  }, [queryClient, state.status]);
+  }, [queryClient, state]);
 
   return (
     <form action={dispatch}>
@@ -56,7 +56,7 @@ const DeleteAllUsersForm = () => {
   useEffect(() => {
     if (state.status === "idle") return;
     queryClient.invalidateQueries({ queryKey: [toUrl(Endpoints.Users)] });
-  }, [queryClient, state.status]);
+  }, [queryClient, state]);
 
   return (
     <form action={dispatch}>
