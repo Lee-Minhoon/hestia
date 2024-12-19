@@ -14,7 +14,16 @@ import {
 import { SearchForm } from "./search-form";
 import { ViewTypeSelector } from "./view-type-selector";
 
-const orders = ["asc", "desc"];
+const orders = [
+  {
+    label: "Descending",
+    value: "desc",
+  },
+  {
+    label: "Ascending",
+    value: "asc",
+  },
+];
 
 const GridControls = () => {
   const { setSearchParams } = useSearchParams();
@@ -52,9 +61,9 @@ const OrderSelector = () => {
         <SelectValue placeholder="Order" />
       </SelectTrigger>
       <SelectContent>
-        {orders.map((value) => (
+        {orders.map(({ label, value }) => (
           <SelectItem key={value} value={value.toString()}>
-            {value}
+            {label}
           </SelectItem>
         ))}
       </SelectContent>
