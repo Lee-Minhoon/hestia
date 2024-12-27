@@ -1,7 +1,6 @@
 import { count, like } from "drizzle-orm";
 
-import { GridControls } from "@/components/controls/grid-controlls";
-import { TableControls } from "@/components/controls/table-controls";
+import { GridControls, TableControls } from "@/components/query-controls";
 import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
