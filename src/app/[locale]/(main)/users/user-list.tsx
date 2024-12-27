@@ -9,7 +9,7 @@ import { InfiniteList } from "@/components/ui/infinite-list";
 import { useBreakpointValue } from "@/lib/hooks/use-breakpoint-value";
 import { useIsServer } from "@/lib/hooks/use-is-server";
 import { useLoadMoreUsers } from "@/lib/react-query/fetchers";
-import { parseCursor } from "@/lib/validation";
+import { cursorSchema } from "@/lib/validation";
 
 import UserCard from "./user-card";
 
@@ -18,7 +18,7 @@ export default function UserList() {
 
   const searchParams = useSearchParams();
 
-  const { order } = parseCursor({
+  const { order } = cursorSchema.parse({
     order: searchParams.get("order"),
   });
 

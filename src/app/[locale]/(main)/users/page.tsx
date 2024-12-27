@@ -6,7 +6,7 @@ import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
 import { users } from "@/lib/db/schema";
-import { parsePagination } from "@/lib/validation";
+import { paginationSchema } from "@/lib/validation";
 
 import { columns } from "./columns";
 import UserList from "./user-list";
@@ -25,7 +25,7 @@ export default async function Users({
 }) {
   const { sortBy, search, viewType, ...rest } = await searchParams;
 
-  const { pageIndex, pageSize } = parsePagination(rest);
+  const { pageIndex, pageSize } = paginationSchema.parse(rest);
 
   const condition = search ? like(users.name, `%${search}%`) : undefined;
 
