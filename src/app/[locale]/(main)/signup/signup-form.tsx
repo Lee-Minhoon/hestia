@@ -1,12 +1,20 @@
 "use client";
 
-import { useActionState } from "react";
+import { startTransition, useActionState, useCallback, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
+import { FaUserAlt } from "react-icons/fa";
+import { IoCloseOutline } from "react-icons/io5";
 import { z } from "zod";
 
+import {
+  ImageUploader,
+  ImageUploaderClear,
+  ImageUploaderPreview,
+  ImageUploaderTrigger,
+} from "@/components/image-uploader";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,10 +34,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { handleSubmit, initState } from "@/lib/action";
+import { initState } from "@/lib/action";
 import { signupAction } from "@/lib/actions/auth";
+import { upload } from "@/lib/api";
 import { signupSchema } from "@/lib/db/schema";
 import useActionToast from "@/lib/hooks/use-action-toast";
+import { toast } from "@/lib/hooks/use-toast";
 
 export default function SignupForm() {
   const t = useTranslations("Signup");
@@ -38,6 +48,8 @@ export default function SignupForm() {
     initState()
   );
   useActionToast(state);
+
+  const [profile, setProfile] = useState<File | null>(null);
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
@@ -49,6 +61,36 @@ export default function SignupForm() {
     },
   });
 
+  const handleSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      form.handleSubmit(async () => {
+        const formData = new FormData(e.target as HTMLFormElement);
+        if (profile) {
+          try {
+            const { data } = await upload(profile);
+            formData.append("image", data);
+          } catch (err) {
+            toast({
+              title: "Error",
+              description:
+                err instanceof Error
+                  ? err.message
+                  : "An unknown error occurred.",
+              variant: "destructive",
+              duration: 2000,
+            });
+            return;
+          }
+        }
+        startTransition(() => {
+          dispatch(formData);
+        });
+        return;
+      })(e);
+    },
+    [dispatch, form, profile]
+  );
+
   return (
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
@@ -59,9 +101,37 @@ export default function SignupForm() {
         <Form {...form}>
           <form
             action={dispatch}
-            onSubmit={handleSubmit(form, dispatch)}
+            onSubmit={handleSubmit}
             className="flex flex-col gap-4"
           >
+            <ImageUploader onFileChange={setProfile}>
+              {({ preview }) => {
+                return (
+                  <div className="flex justify-center">
+                    <div className="relative w-24 h-24 p-2">
+                      {preview ? (
+                        <>
+                          <ImageUploaderClear className="absolute top-1 right-1 z-10 rounded-full w-6 h-6 p-0">
+                            <Button type="button" variant="outline">
+                              <IoCloseOutline />
+                            </Button>
+                          </ImageUploaderClear>
+                          <figure className="relative rounded-full overflow-hidden w-20 h-20 ">
+                            <ImageUploaderPreview fill sizes={"80px"} />
+                          </figure>
+                        </>
+                      ) : (
+                        <ImageUploaderTrigger className="rounded-full w-20 h-20 p-0 [&_svg]:size-6">
+                          <Button type="button" variant="outline">
+                            <FaUserAlt className="text-muted-foreground" />
+                          </Button>
+                        </ImageUploaderTrigger>
+                      )}
+                    </div>
+                  </div>
+                );
+              }}
+            </ImageUploader>
             <FormField
               control={form.control}
               name="email"

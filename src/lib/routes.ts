@@ -12,6 +12,7 @@ export enum Pages {
 
 export enum Endpoints {
   Users = "/api/users{/:id}",
+  Upload = "/api/upload",
 }
 
 export const toUrl = (path: Pages | Endpoints, params?: object) => {

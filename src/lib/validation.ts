@@ -46,3 +46,7 @@ const cursorSchema = z.object({
 export function parseCursor(data: Record<string, string | undefined | null>) {
   return cursorSchema.parse(data);
 }
+
+export const uploadSchema = z.object({
+  file: z.instanceof(File).refine((v) => v.size > 0),
+});
