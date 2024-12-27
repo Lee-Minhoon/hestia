@@ -1,14 +1,7 @@
-import { count, like } from "drizzle-orm";
-
 import { GridControls, TableControls } from "@/components/query-controls";
-import { DataTable } from "@/components/ui/data-table";
-import db from "@/lib/db";
-import { withPagination, withSorting } from "@/lib/db/query-helpers";
-import { users } from "@/lib/db/schema";
-import { paginationSchema } from "@/lib/validation";
 
-import { columns } from "./columns";
 import UserList from "./user-list";
+import UserTable from "./user-table";
 import UserTestSection from "./user-test-section";
 
 export default async function Users({
@@ -22,23 +15,7 @@ export default async function Users({
     viewType?: string;
   }>;
 }) {
-  const { sortBy, search, viewType, ...rest } = await searchParams;
-
-  const { pageIndex, pageSize } = paginationSchema.parse(rest);
-
-  const condition = search ? like(users.name, `%${search}%`) : undefined;
-
-  const qb = db.select().from(users).where(condition).$dynamic();
-
-  const data = await withPagination(
-    withSorting(qb, users, sortBy ?? "id.desc"),
-    pageIndex,
-    pageSize
-  ).execute();
-
-  const rowCount = (
-    await db.select({ count: count() }).from(users).where(condition)
-  )[0].count;
+  const { viewType, ...rest } = await searchParams;
 
   const isTableView = viewType !== "grid";
 
@@ -48,11 +25,7 @@ export default async function Users({
         <UserTestSection />
         {isTableView ? <TableControls /> : <GridControls />}
       </div>
-      {isTableView ? (
-        <DataTable columns={columns} data={data} rowCount={rowCount} />
-      ) : (
-        <UserList />
-      )}
+      {isTableView ? <UserTable {...rest} /> : <UserList />}
     </div>
   );
 }
