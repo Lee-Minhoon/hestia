@@ -4,8 +4,8 @@ import { useMemo } from "react";
 
 import { useSearchParams } from "next/navigation";
 
+import { InfiniteList } from "@/components/infinite-list";
 import { Button } from "@/components/ui/button";
-import { InfiniteList } from "@/components/ui/infinite-list";
 import { useBreakpointValue } from "@/lib/hooks/use-breakpoint-value";
 import { useIsServer } from "@/lib/hooks/use-is-server";
 import { useLoadMoreUsers } from "@/lib/react-query/fetchers";
