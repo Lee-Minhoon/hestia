@@ -4,16 +4,13 @@ import {
   useSuspenseInfiniteQuery,
 } from "@tanstack/react-query";
 
+import { ResponseData } from "../api";
 import { User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Endpoints, toUrl } from "../routes";
+import { getBaseUrl } from "../utils";
 
 type QueryKey = [string, object | undefined];
-
-type ResponseData<T> = {
-  data: T;
-  message: string;
-};
 
 type CursorParams = {
   [QueryParamKeys.Limit]?: number;
@@ -24,10 +21,6 @@ type CursorData<T> = {
   data: T[];
   nextCursor: number | null;
   prevCursor: number | null;
-};
-
-const getBaseUrl = () => {
-  return process.env.NEXT_PUBLIC_BASE_URL;
 };
 
 const fetcher = async (context: QueryFunctionContext<QueryKey>) => {

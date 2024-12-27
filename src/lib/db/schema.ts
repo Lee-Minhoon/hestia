@@ -69,15 +69,17 @@ export const accounts = pgTable(
 );
 
 const insertUserSchema = createInsertSchema(users, {
+  name: (schema) => schema.name.min(3),
   email: (schema) => schema.email.email(),
   password: (schema) => schema.password.min(8),
-  name: (schema) => schema.name.min(3),
+  image: (schema) => schema.image,
 });
 
 export const signupSchema = insertUserSchema
   .pick({
-    email: true,
     name: true,
+    email: true,
+    image: true,
   })
   .merge(
     z.object({
