@@ -39,7 +39,7 @@ import { signupAction } from "@/lib/actions/auth";
 import { upload } from "@/lib/api";
 import { signupSchema } from "@/lib/db/schema";
 import useActionToast from "@/lib/hooks/use-action-toast";
-import { toast } from "@/lib/hooks/use-toast";
+import { errorToast } from "@/lib/hooks/use-toast";
 
 export default function SignupForm() {
   const t = useTranslations("Signup");
@@ -70,15 +70,9 @@ export default function SignupForm() {
             const { data } = await upload(profile);
             formData.append("image", data);
           } catch (err) {
-            toast({
-              title: "Error",
-              description:
-                err instanceof Error
-                  ? err.message
-                  : "An unknown error occurred.",
-              variant: "destructive",
-              duration: 2000,
-            });
+            errorToast(
+              err instanceof Error ? err.message : "An unknown error occurred."
+            );
             return;
           }
         }
