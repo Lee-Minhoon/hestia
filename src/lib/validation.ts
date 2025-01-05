@@ -21,18 +21,12 @@ const strToInt = (
     .pipe(z.number().int().min(min).max(max).default(defaultValue));
 };
 
-const paginationSchema = z.object({
+export const paginationSchema = z.object({
   pageIndex: strToInt(1),
   pageSize: strToInt(10),
 });
 
-export function parsePagination(
-  data: Record<string, string | undefined | null>
-) {
-  return paginationSchema.parse(data);
-}
-
-const cursorSchema = z.object({
+export const cursorSchema = z.object({
   cursor: strToInt(0, { min: 0 }),
   limit: strToInt(10),
   order: z
@@ -42,10 +36,6 @@ const cursorSchema = z.object({
     .transform((v) => (v === "asc" ? v : "desc"))
     .default("desc"),
 });
-
-export function parseCursor(data: Record<string, string | undefined | null>) {
-  return cursorSchema.parse(data);
-}
 
 export const uploadSchema = z.object({
   file: z.instanceof(File).refine((v) => v.size > 0),

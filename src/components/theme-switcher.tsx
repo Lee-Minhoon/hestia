@@ -4,13 +4,13 @@ import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { capitalize } from "lodash-es";
 import { useTheme } from "next-themes";
 
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "./ui/dropdown-menu";
 
 const themeOptions = ["light", "dark", "system"];
 

@@ -189,4 +189,21 @@ function useToast() {
   };
 }
 
-export { useToast, toast };
+function successToast(description?: string) {
+  return toast({
+    title: "Success",
+    description,
+    duration: 2000,
+  });
+}
+
+function errorToast(description?: string) {
+  return toast({
+    title: "Error",
+    description,
+    variant: "destructive",
+    duration: 2000,
+  });
+}
+
+export { useToast, toast, successToast, errorToast };

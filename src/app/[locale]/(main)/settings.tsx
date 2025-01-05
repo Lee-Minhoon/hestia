@@ -1,5 +1,5 @@
-import { LocaleSwitcher } from "@/components/controls/locale-switcher";
-import { ThemeSwitcher } from "@/components/controls/theme-switcher";
+import { LocaleSwitcher } from "@/components/locale-switcher";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export default function Settings() {
   return (

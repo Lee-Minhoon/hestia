@@ -4,14 +4,14 @@ import { OnChangeFn, PaginationState } from "@tanstack/react-table";
 
 import { useSearchParams } from "@/lib/hooks/use-search-params";
 import { QueryParamKeys } from "@/lib/queryParams";
-import { parsePagination } from "@/lib/validation";
+import { paginationSchema } from "@/lib/validation";
 
 // https://tanstack.com/table/v8/docs/framework/react/examples/pagination-controlled
 export function usePagination() {
   const { searchParams, setSearchParams } = useSearchParams();
 
   const pagination = useMemo(() => {
-    const parsed = parsePagination(Object.fromEntries(searchParams));
+    const parsed = paginationSchema.parse(Object.fromEntries(searchParams));
     return {
       pageIndex: parsed.pageIndex - 1,
       pageSize: parsed.pageSize,
