@@ -29,9 +29,7 @@ const breakpoints = (Object.entries(screens) as Entries<typeof screens>)
   );
 
 const useMediaQueries = (queries: string[]) => {
-  const [matches, setMatches] = useState<boolean[]>(() => {
-    return queries.map((q) => window.matchMedia(q).matches);
-  });
+  const [matches, setMatches] = useState<boolean[]>([]);
 
   useEffect(() => {
     const mediaQueryLists = queries.map((q) => window.matchMedia(q));
