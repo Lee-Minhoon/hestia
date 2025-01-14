@@ -1,14 +1,11 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useRef } from "react";
 
 import { Slot, SlotProps } from "@radix-ui/react-slot";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 
 import { cn } from "@/lib/utils";
 
-import { Button } from "./ui/button";
-
 interface VirtualizedListContextValue {
-  count: number;
   virtualizer: ReturnType<typeof useWindowVirtualizer>;
 }
 
@@ -27,21 +24,31 @@ const useVirtualizedList = () => {
 };
 
 type VirtualizedListProps = {
+  count: number;
+  gap?: number;
   children?: React.ReactNode;
-} & Parameters<typeof useWindowVirtualizer>[0];
+};
 
 export const VirtualizedList = ({
+  count,
+  gap,
   children,
-  ...props
 }: VirtualizedListProps) => {
-  const virtualizer = useWindowVirtualizer(props);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const virtualizer = useWindowVirtualizer({
+    count,
+    estimateSize: () => 0,
+    scrollMargin: ref.current?.offsetTop,
+    gap,
+  });
 
   return (
-    <VirtualizedListContext.Provider
-      value={{ count: props.count, virtualizer }}
-    >
-      {children}
-    </VirtualizedListContext.Provider>
+    <div ref={ref}>
+      <VirtualizedListContext.Provider value={{ virtualizer }}>
+        {children}
+      </VirtualizedListContext.Provider>
+    </div>
   );
 };
 
@@ -83,37 +90,4 @@ export const VirtualizedListContainer = ({
       })}
     </Comp>
   );
-};
-
-interface VirtualizedListLoadMoreProps extends SlotProps {
-  asChild?: boolean;
-  disabled?: boolean;
-  autoLoad?: boolean;
-  onLoadMore?: () => void;
-}
-
-export const VirtualizedListLoadMore = ({
-  asChild,
-  disabled,
-  autoLoad = true,
-  onLoadMore,
-  ...props
-}: VirtualizedListLoadMoreProps) => {
-  const { count, virtualizer } = useVirtualizedList();
-
-  const items = virtualizer.getVirtualItems();
-
-  useEffect(() => {
-    if (!autoLoad || disabled) {
-      return;
-    }
-
-    if (items[items.length - 1]?.index >= count - 1) {
-      onLoadMore?.();
-    }
-  }, [autoLoad, count, disabled, items, onLoadMore]);
-
-  const Comp = asChild ? Slot : Button;
-
-  return <Comp onClick={onLoadMore} disabled={disabled} {...props} />;
 };
