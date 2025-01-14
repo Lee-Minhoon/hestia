@@ -32,7 +32,7 @@ type InfiniteLoaderProps = {
   onLoadMore: () => void;
 };
 
-export const InfiniteLoader = ({
+const InfiniteLoader = ({
   autoLoad = true,
   disabled,
   children,
@@ -49,7 +49,7 @@ interface InfiniteLoaderLoadMoreProps extends SlotProps {
   asChild?: boolean;
 }
 
-export const InfiniteLoaderLoadMore = ({
+const InfiniteLoaderLoadMore = ({
   asChild,
   ...props
 }: InfiniteLoaderLoadMoreProps) => {
@@ -69,3 +69,5 @@ export const InfiniteLoaderLoadMore = ({
 
   return <Comp ref={ref} onClick={onLoadMore} disabled={disabled} {...props} />;
 };
+
+export { InfiniteLoader, InfiniteLoaderLoadMore };

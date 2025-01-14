@@ -29,11 +29,7 @@ type VirtualizedListProps = {
   children?: React.ReactNode;
 };
 
-export const VirtualizedList = ({
-  count,
-  gap,
-  children,
-}: VirtualizedListProps) => {
+const VirtualizedList = ({ count, gap, children }: VirtualizedListProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const virtualizer = useWindowVirtualizer({
@@ -57,7 +53,7 @@ interface VirtualizedListContainerProps extends Omit<SlotProps, "children"> {
   children?: (props: { index: number }) => React.ReactNode;
 }
 
-export const VirtualizedListContainer = ({
+const VirtualizedListContainer = ({
   asChild,
   children,
   className,
@@ -91,3 +87,5 @@ export const VirtualizedListContainer = ({
     </Comp>
   );
 };
+
+export { VirtualizedList, VirtualizedListContainer };
