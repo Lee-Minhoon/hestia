@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getBaseUrl = () => {
-  return process.env.NEXT_PUBLIC_BASE_URL;
+  return process.env.NEXT_PUBLIC_BASE_URL ?? "";
 };
 
 export function getRootFontSize() {
