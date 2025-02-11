@@ -23,14 +23,8 @@ import UserCard from "./user-card";
 export default function UserList() {
   const isServer = useIsServer();
 
-  const searchParams = useSearchParams();
-
-  const { order } = cursorSchema.parse({
-    order: searchParams.get("order"),
-  });
-
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useLoadMoreUsers({ order });
+    useLoadMoreUsers(cursorSchema.parse(Object.fromEntries(useSearchParams())));
 
   const countPerRow = useBreakpointValue(
     {

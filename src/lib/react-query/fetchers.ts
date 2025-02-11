@@ -3,6 +3,7 @@ import {
   QueryFunctionContext,
   useSuspenseInfiniteQuery,
 } from "@tanstack/react-query";
+import { z } from "zod";
 
 import { Nullable } from "@/types/common";
 
@@ -11,13 +12,11 @@ import { User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Endpoints, toUrl } from "../routes";
 import { getBaseUrl } from "../utils";
+import { cursorSchema } from "../validation";
 
 type QueryKey = [string, object | undefined];
 
-type CursorParams = {
-  [QueryParamKeys.Limit]?: number;
-  [QueryParamKeys.Order]?: "desc" | "asc";
-};
+type CursorParams = z.infer<typeof cursorSchema>;
 
 type CursorData<T> = {
   data: T[];

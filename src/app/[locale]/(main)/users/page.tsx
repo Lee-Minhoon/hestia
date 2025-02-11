@@ -1,4 +1,5 @@
 import { GridControls, TableControls } from "@/components/query-controls";
+import { QueryParamKeys } from "@/lib/queryParams";
 
 import UserList from "./user-list";
 import UserTable from "./user-table";
@@ -8,11 +9,11 @@ export default async function Users({
   searchParams,
 }: {
   searchParams: Promise<{
-    pageIndex?: string;
-    pageSize?: string;
-    sortBy?: string;
-    search?: string;
-    viewType?: string;
+    [QueryParamKeys.PageIndex]?: string;
+    [QueryParamKeys.PageSize]?: string;
+    [QueryParamKeys.SortBy]?: string;
+    [QueryParamKeys.Search]?: string;
+    [QueryParamKeys.ViewType]?: string;
   }>;
 }) {
   const { viewType, ...rest } = await searchParams;
