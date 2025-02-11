@@ -6,11 +6,13 @@ import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experime
 
 import { getQueryClient } from "@/lib/react-query/query-client";
 
-interface ProvidersProps {
+interface ReactQueryProvidersProps {
   children: React.ReactNode;
 }
 
-export default function Providers({ children }: ProvidersProps) {
+export default function ReactQueryProvider({
+  children,
+}: ReactQueryProvidersProps) {
   const queryClient = getQueryClient();
 
   return (

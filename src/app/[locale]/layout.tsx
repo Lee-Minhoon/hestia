@@ -2,14 +2,12 @@ import { use } from "react";
 
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
-import { NextIntlClientProvider, useMessages } from "next-intl";
-import { ThemeProvider } from "next-themes";
 
 import { Toaster } from "@/components/ui/toaster";
 import { Locale } from "@/lib/i18n/locale";
 import { routing } from "@/lib/i18n/routing";
 
-import Providers from "../providers";
+import Providers from "../providers/providers";
 
 import type { Metadata } from "next";
 
@@ -45,22 +43,11 @@ export default function RootLayout(
     notFound();
   }
 
-  const messages = useMessages();
-
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Toaster />
-            <Providers>{children}</Providers>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );
