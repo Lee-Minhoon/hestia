@@ -10,11 +10,12 @@ import { Slot, SlotProps } from "@radix-ui/react-slot";
 import Image, { ImageProps } from "next/image";
 
 import { cn } from "@/lib/utils";
+import { Nullable } from "@/types/common";
 
 interface ImageUploaderContextValue {
   onClick: () => void;
-  preview?: string | null;
-  clear?: () => void;
+  preview: Nullable<string>;
+  clear: () => void;
 }
 
 const ImageUploaderContext = createContext<
@@ -35,12 +36,12 @@ interface ImageUploaderProps {
   children?:
     | React.ReactNode
     | ((props: ImageUploaderContextValue) => React.ReactNode);
-  onFileChange?: (file: File | null) => void;
+  onFileChange?: (file: Nullable<File>) => void;
 }
 
 const ImageUploader = ({ children, onFileChange }: ImageUploaderProps) => {
   const ref = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [preview, setPreview] = useState<Nullable<string>>(null);
 
   const handleClick = useCallback(() => {
     ref.current?.click();

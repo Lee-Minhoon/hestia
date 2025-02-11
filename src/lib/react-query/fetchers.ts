@@ -4,6 +4,8 @@ import {
   useSuspenseInfiniteQuery,
 } from "@tanstack/react-query";
 
+import { Nullable } from "@/types/common";
+
 import { ResponseData } from "../api";
 import { User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
@@ -19,8 +21,8 @@ type CursorParams = {
 
 type CursorData<T> = {
   data: T[];
-  nextCursor: number | null;
-  prevCursor: number | null;
+  nextCursor: Nullable<number>;
+  prevCursor: Nullable<number>;
 };
 
 const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
