@@ -10,7 +10,6 @@ import { ResponseData } from "../api";
 import { User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Endpoints, toUrl } from "../routes";
-import { getBaseUrl } from "../utils";
 
 type QueryKey = [string, object | undefined];
 
@@ -32,9 +31,7 @@ const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
   if (pageParam && typeof pageParam === "number") {
     queryParams.set(QueryParamKeys.Cursor, pageParam.toString());
   }
-  return await fetch(buildUrl(`${getBaseUrl()}${url}`, queryParams)).then(
-    (res) => res.json()
-  );
+  return await fetch(buildUrl(url, queryParams)).then((res) => res.json());
 };
 
 const useLoadMore = <T>(url: string, params?: object) => {
