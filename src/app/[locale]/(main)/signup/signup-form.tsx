@@ -40,6 +40,7 @@ import { upload } from "@/lib/api";
 import { signupSchema } from "@/lib/db/schema";
 import useActionToast from "@/lib/hooks/use-action-toast";
 import { errorToast } from "@/lib/hooks/use-toast";
+import { Nullable } from "@/types/common";
 
 export default function SignupForm() {
   const t = useTranslations("Signup");
@@ -49,7 +50,7 @@ export default function SignupForm() {
   );
   useActionToast(state);
 
-  const [profile, setProfile] = useState<File | null>(null);
+  const [profile, setProfile] = useState<Nullable<File>>(null);
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),

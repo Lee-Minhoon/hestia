@@ -10,6 +10,8 @@ import {
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+import { Nullable } from "@/types/common";
+
 import type { AdapterAccountType } from "next-auth/adapters";
 
 const base = {
@@ -26,7 +28,7 @@ export interface BaseSchema {
   id: number;
   updatedAt: Date;
   createdAt: Date;
-  deletedAt: Date | null;
+  deletedAt: Nullable<Date>;
 }
 
 export const users = pgTable("user", {
