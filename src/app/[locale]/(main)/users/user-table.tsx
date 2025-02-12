@@ -1,4 +1,4 @@
-import { count, like } from "drizzle-orm";
+import { and, count, isNull, like } from "drizzle-orm";
 
 import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/db";
@@ -19,7 +19,10 @@ interface UserTableProps {
 export default async function UserTable({ sortBy, ...rest }: UserTableProps) {
   const { pageIndex, pageSize, search } = paginationSchema.parse(rest);
 
-  const condition = search ? like(users.name, `%${search}%`) : undefined;
+  const condition = and(
+    search ? like(users.name, `%${search}%`) : undefined,
+    isNull(users.deletedAt)
+  );
 
   const qb = db.select().from(users).where(condition).$dynamic();
 

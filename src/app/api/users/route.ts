@@ -1,4 +1,4 @@
-import { and, asc, desc, gt, like, lt } from "drizzle-orm";
+import { and, asc, desc, gt, isNull, like, lt } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
 import db from "@/lib/db";
@@ -20,7 +20,8 @@ export async function GET(req: NextRequest) {
             ? gt(users.id, cursor)
             : lt(users.id, cursor)
           : undefined,
-        search ? like(users.name, `%${search}%`) : undefined
+        search ? like(users.name, `%${search}%`) : undefined,
+        isNull(users.deletedAt)
       )
     )
     .limit(limit + 1)

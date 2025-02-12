@@ -1,6 +1,7 @@
 "use server";
 
 import { hash } from "bcrypt";
+import { desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import { errorState, successState } from "@/lib/action";
@@ -13,13 +14,17 @@ export const addTestUsersAction = async () => {
   try {
     const password = await hash("q1w2e3r4", 10);
 
+    const lastUserId =
+      (await db.select().from(users).orderBy(desc(users.id)).limit(1))[0]?.id ??
+      0;
+
     await db
       .insert(users)
       .values(
         Array.from({ length: 1000 }).map((_, i) => {
           return {
-            name: `user-${i + 1}`,
-            email: `user-${i + 1}@gmail.com`,
+            name: `user-${lastUserId + i + 1}`,
+            email: `user-${lastUserId + i + 1}@gmail.com`,
             password,
           };
         })
@@ -38,7 +43,7 @@ export const addTestUsersAction = async () => {
 
 export const deleteAllUsersAction = async () => {
   try {
-    await db.delete(users).execute();
+    await db.update(users).set({ deletedAt: new Date() }).execute();
 
     revalidatePath(toUrl(Pages.Users));
 
