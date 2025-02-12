@@ -1,7 +1,7 @@
 import { isInteger } from "lodash-es";
 import { z } from "zod";
 
-const optionalString = z.string().optional().nullable();
+const nullishString = z.string().nullish();
 
 const strToInt = (
   defaultValue: number,
@@ -12,7 +12,7 @@ const strToInt = (
 ) => {
   const min = option?.min ?? 1;
   const max = option?.max ?? Number.MAX_SAFE_INTEGER;
-  return optionalString
+  return nullishString
     .transform((v) => {
       const num = Number(v);
       if (isNaN(num) || !isInteger(num) || num < min || num > max) return;
@@ -24,6 +24,7 @@ const strToInt = (
 export const paginationSchema = z.object({
   pageIndex: strToInt(1),
   pageSize: strToInt(10),
+  search: nullishString.transform((v) => v ?? ""),
 });
 
 export const cursorSchema = z.object({
@@ -35,6 +36,7 @@ export const cursorSchema = z.object({
     .nullable()
     .transform((v) => (v === "asc" ? v : "desc"))
     .default("desc"),
+  search: nullishString.transform((v) => v ?? ""),
 });
 
 export const uploadSchema = z.object({

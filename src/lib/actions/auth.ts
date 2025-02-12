@@ -14,6 +14,8 @@ import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
 import { Pages, toUrl, withLocale } from "@/lib/routes";
 
+import { redirect } from "../i18n/routing";
+
 const getRedirectUrl = async () => {
   const url = new URL((await headers()).get("referer") ?? "");
   const next = url.searchParams.get("next");
@@ -86,8 +88,15 @@ export const signupAction = async (
       return errorState("Failed to create user.");
     }
 
+    const locale = (await getLocale()) as Locale;
+
+    redirect({ href: toUrl(Pages.Signin), locale });
+
     return successState(user.insertedId, "User created successfully.");
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
     if (error instanceof z.ZodError) {
       return errorState(error.errors.map((e) => e.message).join("\n"));
     }

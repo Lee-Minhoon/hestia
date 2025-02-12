@@ -1,4 +1,4 @@
-import { asc, desc, gt, lt } from "drizzle-orm";
+import { and, asc, desc, gt, like, lt } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
 import db from "@/lib/db";
@@ -6,23 +6,22 @@ import { users } from "@/lib/db/schema";
 import { cursorSchema } from "@/lib/validation";
 
 export async function GET(req: NextRequest) {
-  const searchParams = req.nextUrl.searchParams;
-
-  const { cursor, limit, order } = cursorSchema.parse({
-    cursor: searchParams.get("cursor"),
-    limit: searchParams.get("limit"),
-    order: searchParams.get("order"),
-  });
+  const { cursor, limit, order, search } = cursorSchema.parse(
+    Object.fromEntries(req.nextUrl.searchParams)
+  );
 
   const data = await db
     .select()
     .from(users)
     .where(
-      cursor
-        ? order === "asc"
-          ? gt(users.id, cursor)
-          : lt(users.id, cursor)
-        : undefined
+      and(
+        cursor
+          ? order === "asc"
+            ? gt(users.id, cursor)
+            : lt(users.id, cursor)
+          : undefined,
+        search ? like(users.name, `%${search}%`) : undefined
+      )
     )
     .limit(limit + 1)
     .orderBy(order === "asc" ? asc(users.id) : desc(users.id))

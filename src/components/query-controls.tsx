@@ -63,18 +63,21 @@ const GridControls = () => {
 };
 
 interface SearchFormProps {
-  onSubmit: (data: { search: string }) => void;
+  onSubmit: (data: { [QueryParamKeys.Search]: string }) => void;
 }
 
 const SearchForm = ({ onSubmit }: SearchFormProps) => {
-  const form = useForm<{ search: string }>();
+  const form = useForm<{ [QueryParamKeys.Search]: string }>();
 
   return (
     <form
       className="flex gap-2"
       onSubmit={form.handleSubmit(useCallback(onSubmit, [onSubmit]))}
     >
-      <Input {...form.register("search")} placeholder="Search..." />
+      <Input
+        {...form.register(QueryParamKeys.Search)}
+        placeholder="Search..."
+      />
       <Button>Search</Button>
     </form>
   );

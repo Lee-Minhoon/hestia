@@ -4,23 +4,20 @@ import { DataTable } from "@/components/ui/data-table";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
 import { users } from "@/lib/db/schema";
+import { QueryParamKeys } from "@/lib/queryParams";
 import { paginationSchema } from "@/lib/validation";
 
 import { columns } from "./columns";
 
 interface UserTableProps {
-  pageIndex?: string;
-  pageSize?: string;
-  sortBy?: string;
-  search?: string;
+  [QueryParamKeys.PageIndex]?: string;
+  [QueryParamKeys.PageSize]?: string;
+  [QueryParamKeys.SortBy]?: string;
+  [QueryParamKeys.Search]?: string;
 }
 
-export default async function UserTable({
-  sortBy,
-  search,
-  ...rest
-}: UserTableProps) {
-  const { pageIndex, pageSize } = paginationSchema.parse(rest);
+export default async function UserTable({ sortBy, ...rest }: UserTableProps) {
+  const { pageIndex, pageSize, search } = paginationSchema.parse(rest);
 
   const condition = search ? like(users.name, `%${search}%`) : undefined;
 
