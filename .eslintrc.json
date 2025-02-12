@@ -6,6 +6,7 @@
     "plugin:@tanstack/query/recommended"
   ],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
     "import/order": [
       "error",
       {

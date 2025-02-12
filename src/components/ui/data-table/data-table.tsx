@@ -36,8 +36,8 @@ import {
 import { usePagination } from "./use-pagination";
 import { useSorting } from "./use-sorting";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+interface DataTableProps<TData> {
+  columns: ColumnDef<TData, any>[];
   data: TData[];
   rowCount: number;
 }
@@ -45,11 +45,7 @@ interface DataTableProps<TData, TValue> {
 const pageRange = 10;
 
 // https://ui.shadcn.com/docs/components/data-table
-function DataTable<TData, TValue>({
-  columns,
-  data,
-  rowCount,
-}: DataTableProps<TData, TValue>) {
+function DataTable<TData>({ columns, data, rowCount }: DataTableProps<TData>) {
   const { pagination, onPaginationChange } = usePagination();
   const { sortBy, onSortingChange } = useSorting();
 
