@@ -10,8 +10,6 @@ import {
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { Nullable } from "@/types/common";
-
 import type { AdapterAccountType } from "next-auth/adapters";
 
 const base = {
@@ -23,13 +21,6 @@ const base = {
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   deletedAt: timestamp("deleted_at", { mode: "date" }),
 };
-
-export interface BaseSchema {
-  id: number;
-  updatedAt: Date;
-  createdAt: Date;
-  deletedAt: Nullable<Date>;
-}
 
 export const users = pgTable("user", {
   name: text("name").notNull(),
@@ -103,3 +94,16 @@ export const signinSchema = insertUserSchema
       password: z.string().min(8),
     })
   );
+
+export const posts = pgTable("post", {
+  userId: integer("userId")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  ...base,
+});
+
+export type Post = InferSelectModel<typeof posts>;
