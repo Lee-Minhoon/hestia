@@ -10,6 +10,8 @@ import {
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+import { Nullable } from "@/types/common";
+
 import type { AdapterAccountType } from "next-auth/adapters";
 
 const base = {
@@ -107,3 +109,8 @@ export const posts = pgTable("post", {
 });
 
 export type Post = InferSelectModel<typeof posts>;
+
+export type PostWithUser = {
+  post: Post;
+  user: Nullable<User>;
+};

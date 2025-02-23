@@ -8,7 +8,7 @@ import { z } from "zod";
 import { Nullable } from "@/types/common";
 
 import { ResponseData } from "../api";
-import { User } from "../db/schema";
+import { PostWithUser, User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Endpoints, toUrl } from "../routes";
 import { getBaseUrl } from "../utils";
@@ -53,4 +53,8 @@ const useLoadMore = <T>(url: string, params?: object) => {
 
 export const useLoadMoreUsers = (params?: CursorParams) => {
   return useLoadMore<User>(toUrl(Endpoints.Users), params);
+};
+
+export const useLoadMorePosts = (params?: CursorParams) => {
+  return useLoadMore<PostWithUser>(toUrl(Endpoints.Posts), params);
 };

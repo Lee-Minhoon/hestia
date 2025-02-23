@@ -12,6 +12,7 @@ export enum Pages {
 
 export enum Endpoints {
   Users = "/api/users{/:id}",
+  Posts = "/api/posts{/:id}",
   Upload = "/api/upload",
 }
 
