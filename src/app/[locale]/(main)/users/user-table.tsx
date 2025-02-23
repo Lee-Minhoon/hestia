@@ -26,8 +26,10 @@ export default async function UserTable({ sortBy, ...rest }: UserTableProps) {
 
   const qb = db.select().from(users).where(condition).$dynamic();
 
+  const [column, order] = (sortBy ?? "id.desc").split(".");
+
   const data = await withPagination(
-    withSorting(qb, users, sortBy ?? "id.desc"),
+    withSorting(qb, [{ table: users, column, order }]),
     pageIndex,
     pageSize
   ).execute();
