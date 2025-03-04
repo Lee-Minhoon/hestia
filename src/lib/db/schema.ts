@@ -114,3 +114,11 @@ export type PostWithUser = {
   post: Post;
   user: Nullable<User>;
 };
+
+export const insertPostSchema = createInsertSchema(posts, {
+  title: (schema) => schema.title.min(3),
+  content: (schema) => schema.content.min(3),
+}).pick({
+  title: true,
+  content: true,
+});

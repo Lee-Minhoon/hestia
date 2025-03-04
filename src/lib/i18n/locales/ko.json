@@ -20,5 +20,10 @@
     "Signin Description": "계정에 로그인하세요",
     "Email": "이메일",
     "Password": "비밀번호"
+  },
+  "Post": {
+    "Title": "제목",
+    "Content": "내용",
+    "Post": "게시"
   }
 }

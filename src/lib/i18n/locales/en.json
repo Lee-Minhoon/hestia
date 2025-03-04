@@ -20,5 +20,10 @@
     "Signin Description": "Signin to your account",
     "Email": "Email",
     "Password": "Password"
+  },
+  "Post": {
+    "Title": "Title",
+    "Content": "Content",
+    "Post": "Post"
   }
 }

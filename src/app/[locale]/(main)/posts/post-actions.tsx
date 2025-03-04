@@ -2,17 +2,25 @@
 
 import { useActionState, useEffect } from "react";
 
+import { PlusIcon } from "@radix-ui/react-icons";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { initState } from "@/lib/action";
 import { addTestPostsAction, deleteAllPostsAction } from "@/lib/actions/post";
 import useActionToast from "@/lib/hooks/use-action-toast";
-import { Endpoints, toUrl } from "@/lib/routes";
+import { Link } from "@/lib/i18n/routing";
+import { buildUrl, Endpoints, Pages, toUrl } from "@/lib/routes";
 
-export default function PostTestSection() {
+export default function PostActions() {
   return (
     <div className="flex gap-2">
+      <Button asChild>
+        <Link href={buildUrl(toUrl(Pages.PostAdd))}>
+          <PlusIcon />
+          Add Post
+        </Link>
+      </Button>
       <AddTestPostsForm />
       <DeleteAllPostsForm />
     </div>
