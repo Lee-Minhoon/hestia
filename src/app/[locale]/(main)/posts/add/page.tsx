@@ -1,5 +1,5 @@
-import PostForm from "./post-form";
+import PostUpsertForm from "../post-upsert-form";
 
 export default function PostAdd() {
-  return <PostForm />;
+  return <PostUpsertForm />;
 }

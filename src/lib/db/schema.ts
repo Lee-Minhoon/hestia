@@ -122,3 +122,8 @@ export const insertPostSchema = createInsertSchema(posts, {
   title: true,
   content: true,
 });
+
+export const updatePostSchema = insertPostSchema.pick({
+  title: true,
+  content: true,
+});

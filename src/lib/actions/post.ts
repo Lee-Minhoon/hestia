@@ -1,5 +1,6 @@
 "use server";
 
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { getLocale } from "next-intl/server";
@@ -7,7 +8,7 @@ import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
-import { insertPostSchema, posts } from "@/lib/db/schema";
+import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
 
 import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
@@ -69,6 +70,64 @@ export const addPostAction = async (
     redirect({ href: toUrl(Pages.Posts, { id: post.insertedId }), locale });
 
     return successState(null, "Successfully created post.");
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    if (error instanceof z.ZodError) {
+      return errorState(error.errors.map((e) => e.message).join("\n"));
+    }
+    return errorState(
+      error instanceof Error ? error.message : "An unknown error occurred."
+    );
+  }
+};
+
+export const updatePostAction = async (
+  id: number,
+  previousState: ActionState<null>,
+  formData: FormData
+) => {
+  try {
+    const user = await getUser();
+
+    const post = await db.query.posts.findFirst({
+      where: (posts, { eq }) => eq(posts.id, id),
+    });
+
+    if (!post) {
+      return errorState("Post not found.");
+    }
+
+    if (user.id !== post.userId) {
+      return errorState("You do not have permission to update this post.");
+    }
+
+    const parsed = updatePostSchema.parse(Object.fromEntries(formData));
+
+    const result = await db
+      .update(posts)
+      .set({
+        title: parsed.title,
+        content: parsed.content,
+      })
+      .where(eq(posts.id, id))
+      .returning({ insertedId: posts.id });
+
+    const updatedPost = result[0];
+
+    if (!updatedPost) {
+      return errorState("Failed to update post.");
+    }
+
+    const locale = await getLocale();
+
+    redirect({
+      href: toUrl(Pages.Posts, { id: updatedPost.insertedId }),
+      locale,
+    });
+
+    return successState(null, "Successfully updated post.");
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;

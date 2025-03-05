@@ -6,15 +6,17 @@ import { useSearchParams } from "next/navigation";
 import { MdDelete, MdEdit, MdOutlineArrowBack } from "react-icons/md";
 
 import { Button } from "@/components/ui/button";
+import { Post } from "@/lib/db/schema";
 import { useRouter } from "@/lib/i18n/routing";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, Pages, toUrl } from "@/lib/routes";
 
 interface ArticleActionsProps {
+  post: Post;
   isOwner: boolean;
 }
 
-export default function ArticleActions({ isOwner }: ArticleActionsProps) {
+export default function ArticleActions({ post, isOwner }: ArticleActionsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -24,6 +26,10 @@ export default function ArticleActions({ isOwner }: ArticleActionsProps) {
     );
   }, [router, searchParams]);
 
+  const handleEdit = useCallback(() => {
+    router.push(buildUrl(toUrl(Pages.PostEdit, { id: post.id })));
+  }, [post.id, router]);
+
   return (
     <div className="flex justify-between">
       <Button variant="outline" onClick={handleBack}>
@@ -32,7 +38,7 @@ export default function ArticleActions({ isOwner }: ArticleActionsProps) {
       </Button>
       {isOwner && (
         <div className="flex gap-2">
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleEdit}>
             <MdEdit />
             Edit
           </Button>

@@ -65,7 +65,10 @@ export default async function PostDetail({
 
   return (
     <div className="flex flex-col gap-4">
-      <ArticleActions isOwner={post.userId === Number(session?.user?.id)} />
+      <ArticleActions
+        post={post}
+        isOwner={post.userId === Number(session?.user?.id)}
+      />
       <article className="flex flex-col rounded-md border p-4 gap-4">
         <script
           type="application/ld+json"

@@ -19,23 +19,29 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { handleSubmit, initState } from "@/lib/action";
-import { addPostAction } from "@/lib/actions/post";
-import { insertPostSchema } from "@/lib/db/schema";
+import { addPostAction, updatePostAction } from "@/lib/actions/post";
+import { insertPostSchema, Post, updatePostSchema } from "@/lib/db/schema";
 import useActionToast from "@/lib/hooks/use-action-toast";
 
-export default function PostForm() {
+interface PostUpsertFormProps {
+  post?: Post;
+}
+
+export default function PostUpsertForm({ post }: PostUpsertFormProps) {
   const t = useTranslations("Post");
   const [state, dispatch, isPending] = useActionState(
-    addPostAction,
+    post ? updatePostAction.bind(null, post.id) : addPostAction,
     initState()
   );
   useActionToast(state);
 
-  const form = useForm<z.infer<typeof insertPostSchema>>({
-    resolver: zodResolver(insertPostSchema),
+  const form = useForm<
+    z.infer<typeof insertPostSchema | typeof updatePostSchema>
+  >({
+    resolver: zodResolver(post ? updatePostSchema : insertPostSchema),
     defaultValues: {
-      title: "",
-      content: "",
+      title: post?.title ?? "",
+      content: post?.content ?? "",
     },
   });
 
