@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { capitalCase } from "change-case";
+import { useSearchParams } from "next/navigation";
 import {
   TiArrowSortedDown,
   TiArrowSortedUp,
@@ -59,6 +60,7 @@ function DataTable<TData>({ columns, data, rowCount }: DataTableProps<TData>) {
     manualSorting: true,
     onPaginationChange,
     onSortingChange,
+    meta: { searchParams: useSearchParams() },
   });
 
   const maxPage =
