@@ -5,6 +5,7 @@ import { BlogPosting } from "schema-dts";
 import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { JsonLd } from "@/lib/metadata";
+import { QueryParamKeys } from "@/lib/queryParams";
 
 import ArticleActions from "./article-actions";
 import WriterCard from "./writer-card";
@@ -28,10 +29,16 @@ export async function generateMetadata({
 
 export default async function PostDetail({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{
+    [QueryParamKeys.Next]?: string;
+  }>;
 }) {
   const { id } = await params;
+
+  const { next } = await searchParams;
 
   const post = await db.query.posts.findFirst({
     where: (posts, { eq }) => eq(posts.id, Number(id)),
@@ -66,6 +73,7 @@ export default async function PostDetail({
   return (
     <div className="flex flex-col gap-4">
       <ArticleActions
+        previous={next}
         post={post}
         isOwner={post.userId === Number(session?.user?.id)}
       />
