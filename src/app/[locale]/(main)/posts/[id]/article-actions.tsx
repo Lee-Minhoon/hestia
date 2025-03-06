@@ -1,6 +1,7 @@
 import { MdDelete, MdEdit, MdOutlineArrowBack } from "react-icons/md";
 
 import { Button } from "@/components/ui/button";
+import { deletePostAction } from "@/lib/actions/post";
 import { Post } from "@/lib/db/schema";
 import { Link } from "@/lib/i18n/routing";
 import { Pages, toUrl } from "@/lib/routes";
@@ -32,10 +33,18 @@ export default function ArticleActions({
               Edit
             </Link>
           </Button>
-          <Button variant="outline">
-            <MdDelete />
-            Delete
-          </Button>
+          <form
+            action={deletePostAction.bind(
+              null,
+              post.id,
+              previous ?? toUrl(Pages.Posts)
+            )}
+          >
+            <Button variant="outline">
+              <MdDelete />
+              Delete
+            </Button>
+          </form>
         </div>
       )}
     </div>

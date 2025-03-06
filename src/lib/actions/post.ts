@@ -1,6 +1,6 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { getLocale } from "next-intl/server";
@@ -134,6 +134,43 @@ export const updatePostAction = async (
     }
     if (error instanceof z.ZodError) {
       return errorState(error.errors.map((e) => e.message).join("\n"));
+    }
+    return errorState(
+      error instanceof Error ? error.message : "An unknown error occurred."
+    );
+  }
+};
+
+export const deletePostAction = async (id: number, next: string) => {
+  try {
+    const user = await getUser();
+
+    const post = await db.query.posts.findFirst({
+      where: (posts, { eq }) => eq(posts.id, id),
+    });
+
+    if (!post) {
+      return errorState("Post not found.");
+    }
+
+    if (user.id !== post.userId) {
+      return errorState("You do not have permission to delete this post.");
+    }
+
+    await db
+      .update(posts)
+      .set({ deletedAt: new Date() })
+      .where(and(eq(posts.id, id), eq(posts.userId, user.id)))
+      .execute();
+
+    const locale = await getLocale();
+
+    redirect({ href: next, locale });
+
+    return successState(null, "Successfully deleted post.");
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
     }
     return errorState(
       error instanceof Error ? error.message : "An unknown error occurred."

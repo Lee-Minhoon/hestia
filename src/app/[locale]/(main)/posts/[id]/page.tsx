@@ -41,7 +41,8 @@ export default async function PostDetail({
   const { next } = await searchParams;
 
   const post = await db.query.posts.findFirst({
-    where: (posts, { eq }) => eq(posts.id, Number(id)),
+    where: (posts, { and, eq, isNull }) =>
+      and(eq(posts.id, Number(id)), isNull(posts.deletedAt)),
   });
 
   if (!post) {
