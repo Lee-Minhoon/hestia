@@ -1,5 +1,16 @@
 import { MdDelete, MdEdit, MdOutlineArrowBack } from "react-icons/md";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { deletePostAction } from "@/lib/actions/post";
 import { Post } from "@/lib/db/schema";
@@ -33,18 +44,35 @@ export default function ArticleActions({
               Edit
             </Link>
           </Button>
-          <form
-            action={deletePostAction.bind(
-              null,
-              post.id,
-              previous ?? toUrl(Pages.Posts)
-            )}
-          >
-            <Button variant="outline">
-              <MdDelete />
-              Delete
-            </Button>
-          </form>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline">
+                <MdDelete />
+                Delete
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your post.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <form
+                  action={deletePostAction.bind(
+                    null,
+                    post.id,
+                    previous ?? toUrl(Pages.Posts)
+                  )}
+                >
+                  <AlertDialogAction type="submit">Continue</AlertDialogAction>
+                </form>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       )}
     </div>
