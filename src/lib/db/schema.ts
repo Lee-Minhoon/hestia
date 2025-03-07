@@ -24,13 +24,6 @@ const base = {
   deletedAt: timestamp("deleted_at", { mode: "date" }),
 };
 
-export interface BaseSchema {
-  id: number;
-  updatedAt: Date;
-  createdAt: Date;
-  deletedAt: Nullable<Date>;
-}
-
 export const users = pgTable("user", {
   name: text("name").notNull(),
   email: text("email").unique().notNull(),
@@ -103,3 +96,34 @@ export const signinSchema = insertUserSchema
       password: z.string().min(8),
     })
   );
+
+export const posts = pgTable("post", {
+  userId: integer("userId")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  ...base,
+});
+
+export type Post = InferSelectModel<typeof posts>;
+
+export type PostWithUser = {
+  post: Post;
+  user: Nullable<User>;
+};
+
+export const insertPostSchema = createInsertSchema(posts, {
+  title: (schema) => schema.title.min(3),
+  content: (schema) => schema.content.min(3),
+}).pick({
+  title: true,
+  content: true,
+});
+
+export const updatePostSchema = insertPostSchema.pick({
+  title: true,
+  content: true,
+});

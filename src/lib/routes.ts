@@ -8,10 +8,13 @@ export enum Pages {
   Signup = "/signup",
   Users = "/users{/:id}",
   Posts = "/posts{/:id}",
+  PostAdd = "/posts/add",
+  PostEdit = "/posts/{/:id}/edit",
 }
 
 export enum Endpoints {
   Users = "/api/users{/:id}",
+  Posts = "/api/posts{/:id}",
   Upload = "/api/upload",
 }
 

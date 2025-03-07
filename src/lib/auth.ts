@@ -21,6 +21,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     usersTable: users as any,
     accountsTable: accounts as any,
   }),
+  callbacks: {
+    session: ({ session, token }) => {
+      if (token.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
   providers: [
     GitHub,
     Google,
@@ -52,8 +60,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         return {
+          ...user,
           id: user.id.toString(),
-          email: user.email,
         };
       },
     }),

@@ -36,9 +36,13 @@ export function handleSubmit<T extends FieldValues>(
   dispatch: (value: FormData) => void
 ) {
   return (e: React.FormEvent<HTMLFormElement>) => {
-    form.handleSubmit(() => {
+    form.handleSubmit((data) => {
       startTransition(() => {
-        dispatch(new FormData(e.target as HTMLFormElement));
+        const formData = new FormData();
+        for (const key in data) {
+          formData.append(key, data[key]);
+        }
+        dispatch(formData);
       });
     })(e);
   };

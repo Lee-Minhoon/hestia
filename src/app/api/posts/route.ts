@@ -1,8 +1,8 @@
-import { and, asc, desc, gt, isNull, like, lt } from "drizzle-orm";
+import { and, asc, desc, eq, gt, isNull, like, lt } from "drizzle-orm";
 import { NextRequest } from "next/server";
 
 import db from "@/lib/db";
-import { users } from "@/lib/db/schema";
+import { posts, users } from "@/lib/db/schema";
 import { cursorSchema } from "@/lib/validation";
 
 export async function GET(req: NextRequest) {
@@ -12,29 +12,31 @@ export async function GET(req: NextRequest) {
 
   const data = await db
     .select()
-    .from(users)
+    .from(posts)
+    .leftJoin(users, eq(posts.userId, users.id))
     .where(
       and(
         cursor
           ? order === "asc"
-            ? gt(users.id, cursor)
-            : lt(users.id, cursor)
+            ? gt(posts.id, cursor)
+            : lt(posts.id, cursor)
           : undefined,
-        search ? like(users.name, `%${search}%`) : undefined,
-        isNull(users.deletedAt)
+        search ? like(posts.title, `%${search}%`) : undefined,
+        isNull(posts.deletedAt)
       )
     )
     .limit(limit + 1)
-    .orderBy(order === "asc" ? asc(users.id) : desc(users.id))
+    .orderBy(order === "asc" ? asc(posts.id) : desc(posts.id))
     .execute();
 
-  const nextCursor = data.length > limit ? data[data.length - 2]?.id : null;
+  const nextCursor =
+    data.length > limit ? data[data.length - 2]?.post.id : null;
 
   return Response.json({
     data: {
       data: data.slice(0, limit),
       nextCursor,
     },
-    message: "Successfully fetched users.",
+    message: "Successfully fetched posts.",
   });
 }

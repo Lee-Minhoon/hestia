@@ -1,6 +1,8 @@
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { ThemeProvider } from "next-themes";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 import ReactQueryProvider from "./react-query-provider";
 
 interface ProvidersProps {
@@ -18,7 +20,9 @@ export default function Providers({ children }: ProvidersProps) {
         enableSystem
         disableTransitionOnChange
       >
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
+        </ReactQueryProvider>
       </ThemeProvider>
     </NextIntlClientProvider>
   );
