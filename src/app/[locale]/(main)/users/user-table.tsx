@@ -1,4 +1,5 @@
 import { and, count, isNull, like } from "drizzle-orm";
+import { clamp } from "lodash-es";
 
 import { DataTable } from "@/components/ui/data-table";
 import { Paginator } from "@/components/ui/pagination";
@@ -29,15 +30,15 @@ export default async function UserTable({ sortBy, ...rest }: UserTableProps) {
 
   const [column, order] = (sortBy ?? "id.desc").split(".");
 
-  const data = await withPagination(
-    withSorting(qb, [{ table: users, column, order }]),
-    pageIndex,
-    pageSize
-  ).execute();
-
   const rowCount = (
     await db.select({ count: count() }).from(users).where(condition)
   )[0].count;
+
+  const data = await withPagination(
+    withSorting(qb, [{ table: users, column, order }]),
+    clamp(pageIndex, 0, Math.ceil(rowCount / pageSize)),
+    pageSize
+  ).execute();
 
   return (
     <div className="flex flex-col gap-4">
