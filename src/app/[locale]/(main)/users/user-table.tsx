@@ -1,6 +1,8 @@
 import { and, count, isNull, like } from "drizzle-orm";
+import { clamp } from "lodash-es";
 
 import { DataTable } from "@/components/ui/data-table";
+import { Paginator } from "@/components/ui/pagination";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
 import { users } from "@/lib/db/schema";
@@ -28,15 +30,24 @@ export default async function UserTable({ sortBy, ...rest }: UserTableProps) {
 
   const [column, order] = (sortBy ?? "id.desc").split(".");
 
-  const data = await withPagination(
-    withSorting(qb, [{ table: users, column, order }]),
-    pageIndex,
-    pageSize
-  ).execute();
-
   const rowCount = (
     await db.select({ count: count() }).from(users).where(condition)
   )[0].count;
 
-  return <DataTable columns={columns} data={data} rowCount={rowCount} />;
+  const data = await withPagination(
+    withSorting(qb, [{ table: users, column, order }]),
+    clamp(pageIndex, 0, Math.ceil(rowCount / pageSize)),
+    pageSize
+  ).execute();
+
+  return (
+    <div className="flex flex-col gap-4">
+      <DataTable columns={columns} data={data} />
+      <Paginator
+        pageIndex={pageIndex}
+        pageSize={pageSize}
+        rowCount={rowCount}
+      />
+    </div>
+  );
 }
