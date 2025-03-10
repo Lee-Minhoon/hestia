@@ -127,3 +127,35 @@ export const updatePostSchema = insertPostSchema.pick({
   title: true,
   content: true,
 });
+
+export const comments = pgTable("comment", {
+  userId: integer("userId")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+  postId: integer("postId")
+    .notNull()
+    .references(() => posts.id, {
+      onDelete: "cascade",
+    }),
+  content: text("content").notNull(),
+  ...base,
+});
+
+export type Comment = InferSelectModel<typeof comments>;
+
+export type CommentWithUser = {
+  comment: Comment;
+  user: Nullable<User>;
+};
+
+export const insertCommentSchema = createInsertSchema(comments, {
+  content: (schema) => schema.content.min(3),
+}).pick({
+  content: true,
+});
+
+export const updateCommentSchema = insertCommentSchema.pick({
+  content: true,
+});
