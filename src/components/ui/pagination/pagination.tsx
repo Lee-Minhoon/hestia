@@ -6,10 +6,9 @@ import {
   DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
 
-import { ButtonProps } from "@/components/ui/button";
+import { ButtonProps, buttonVariants } from "@/components/ui/button";
+import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
-
-import { Button } from "./button";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
@@ -43,18 +42,30 @@ PaginationItem.displayName = "PaginationItem";
 
 type PaginationLinkProps = {
   isActive?: boolean;
+  isDisabled?: boolean;
 } & Pick<ButtonProps, "size"> &
-  React.ComponentProps<typeof Button>;
+  React.ComponentProps<typeof Link>;
 
 const PaginationLink = ({
+  className,
   isActive,
+  isDisabled,
   size = "icon",
   ...props
 }: PaginationLinkProps) => (
-  <Button
+  <Link
+    aria-disabled={isDisabled}
     aria-current={isActive ? "page" : undefined}
-    variant={isActive ? "outline" : "ghost"}
-    size={size}
+    className={cn(
+      buttonVariants({
+        variant: isActive ? "outline" : "ghost",
+        size,
+      }),
+      isDisabled
+        ? "pointer-events-none text-muted-foreground"
+        : "cursor-pointer",
+      className
+    )}
     {...props}
   />
 );
