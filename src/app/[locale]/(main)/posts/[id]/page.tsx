@@ -15,7 +15,7 @@ import { paginationSchema } from "@/lib/validation";
 
 import ArticleActions from "./article-actions";
 import Comment from "./comment";
-import CommentUpsertForm from "./comment-upsert-form";
+import CommentCreateForm from "./comment-create-form";
 import WriterCard from "./writer-card";
 
 export async function generateMetadata({
@@ -148,7 +148,7 @@ export default async function PostDetail({
             pageSize={pageSize}
             rowCount={commentCount}
           />
-          <CommentUpsertForm postId={post.id} />
+          <CommentCreateForm postId={post.id} />
         </section>
       </article>
     </div>
