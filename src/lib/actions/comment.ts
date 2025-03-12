@@ -49,7 +49,7 @@ const getUser = async () => {
   }
 };
 
-export const addCommentAction = async (
+export const createCommentAction = async (
   postId: number,
   previousState: ActionState<null>,
   formData: FormData
