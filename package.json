@@ -119,6 +119,7 @@
   },
   "resolutions": {
     "@types/react": "19.0.10",
-    "@types/react-dom": "19.0.4"
+    "@types/react-dom": "19.0.4",
+    "jsdom": "^25.0.1"
   }
 }
