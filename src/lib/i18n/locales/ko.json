@@ -24,6 +24,8 @@
   "Post": {
     "Title": "제목",
     "Content": "내용",
-    "Post": "게시"
+    "Post": "게시",
+    "Edit": "수정",
+    "Cancel": "취소"
   }
 }
