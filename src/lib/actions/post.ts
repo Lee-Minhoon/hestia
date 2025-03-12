@@ -2,7 +2,7 @@
 
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { isRedirectError } from "next/dist/client/components/redirect";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
