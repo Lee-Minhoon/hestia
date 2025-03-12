@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { handleSubmit, initState } from "@/lib/action";
-import { addCommentAction } from "@/lib/actions/comment";
+import { createCommentAction } from "@/lib/actions/comment";
 import { insertCommentSchema } from "@/lib/db/schema";
 import useActionToast from "@/lib/hooks/use-action-toast";
 
@@ -26,11 +26,11 @@ interface CommentCreateFormProps {
 }
 
 export default function CommentCreateForm({ postId }: CommentCreateFormProps) {
-  const bindedAddCommentAction = addCommentAction.bind(null, postId);
+  const createCommentWithPostId = createCommentAction.bind(null, postId);
 
   const t = useTranslations("Post");
   const [state, dispatch, isPending] = useActionState(
-    bindedAddCommentAction,
+    createCommentWithPostId,
     initState()
   );
   useActionToast(state);

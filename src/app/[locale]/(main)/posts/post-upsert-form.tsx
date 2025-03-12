@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { handleSubmit, initState } from "@/lib/action";
-import { addPostAction, updatePostAction } from "@/lib/actions/post";
+import { createPostAction, updatePostAction } from "@/lib/actions/post";
 import { insertPostSchema, Post, updatePostSchema } from "@/lib/db/schema";
 import useActionToast from "@/lib/hooks/use-action-toast";
 
@@ -30,7 +30,7 @@ interface PostUpsertFormProps {
 export default function PostUpsertForm({ post }: PostUpsertFormProps) {
   const t = useTranslations("Post");
   const [state, dispatch, isPending] = useActionState(
-    post ? updatePostAction.bind(null, post.id) : addPostAction,
+    post ? updatePostAction.bind(null, post.id) : createPostAction,
     initState()
   );
   useActionToast(state);

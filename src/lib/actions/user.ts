@@ -10,7 +10,7 @@ import { users } from "@/lib/db/schema";
 
 import { Pages, toUrl } from "../routes";
 
-export const addTestUsersAction = async () => {
+export const createTestUsersAction = async () => {
   try {
     const password = await hash("q1w2e3r4", 10);
 

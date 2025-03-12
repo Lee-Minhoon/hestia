@@ -1,9 +1,9 @@
 import { GridControls, TableControls } from "@/components/query-controls";
 import { QueryParamKeys } from "@/lib/queryParams";
 
+import UserActions from "./user-actions";
 import UserList from "./user-list";
 import UserTable from "./user-table";
-import UserTestSection from "./user-test-section";
 
 export default async function Users({
   searchParams,
@@ -23,7 +23,7 @@ export default async function Users({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
-        <UserTestSection />
+        <UserActions />
         {isTableView ? <TableControls /> : <GridControls />}
       </div>
       {isTableView ? <UserTable {...rest} /> : <UserList />}
