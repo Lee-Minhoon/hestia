@@ -1,7 +1,7 @@
 "use server";
 
 import { hash } from "bcrypt";
-import { isRedirectError } from "next/dist/client/components/redirect";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { headers } from "next/headers";
 import { AuthError } from "next-auth";
 import { getLocale } from "next-intl/server";
