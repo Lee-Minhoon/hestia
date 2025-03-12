@@ -1,3 +1,7 @@
+"use client";
+
+import { startTransition, useActionState, useCallback } from "react";
+
 import { MdDelete, MdEdit, MdOutlineArrowBack } from "react-icons/md";
 
 import {
@@ -12,8 +16,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { initState } from "@/lib/action";
 import { deletePostAction } from "@/lib/actions/post";
 import { Post } from "@/lib/db/schema";
+import useActionToast from "@/lib/hooks/use-action-toast";
 import { Link } from "@/lib/i18n/routing";
 import { Pages, toUrl } from "@/lib/routes";
 
@@ -28,6 +34,18 @@ export default function ArticleActions({
   post,
   isOwner,
 }: ArticleActionsProps) {
+  const [state, dispatch, isPending] = useActionState(
+    deletePostAction.bind(null, post.id, previous ?? toUrl(Pages.Posts)),
+    initState()
+  );
+  useActionToast(state);
+
+  const handleSubmit = useCallback(() => {
+    startTransition(() => {
+      dispatch();
+    });
+  }, [dispatch]);
+
   return (
     <div className="flex justify-between">
       <Button asChild variant="outline">
@@ -61,14 +79,10 @@ export default function ArticleActions({
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <form
-                  action={deletePostAction.bind(
-                    null,
-                    post.id,
-                    previous ?? toUrl(Pages.Posts)
-                  )}
-                >
-                  <AlertDialogAction type="submit">Continue</AlertDialogAction>
+                <form action={dispatch} onSubmit={handleSubmit}>
+                  <AlertDialogAction type="submit" disabled={isPending}>
+                    Continue
+                  </AlertDialogAction>
                 </form>
               </AlertDialogFooter>
             </AlertDialogContent>

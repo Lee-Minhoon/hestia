@@ -1,5 +1,7 @@
 "use client";
 
+import { startTransition, useActionState, useCallback } from "react";
+
 import { format } from "date-fns";
 import { FaUserAlt } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
@@ -22,8 +24,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { initState } from "@/lib/action";
 import { deleteCommentAction } from "@/lib/actions/comment";
 import { CommentWithUser } from "@/lib/db/schema";
+import useActionToast from "@/lib/hooks/use-action-toast";
 import { useDisclosure } from "@/lib/hooks/use-disclosure";
 
 import CommentUpdateForm from "./comment-update-form";
@@ -35,6 +39,19 @@ interface CommentProps {
 export default function Comment({ comment }: CommentProps) {
   const updateForm = useDisclosure();
   const deleteDialog = useDisclosure();
+
+  const [state, dispatch, isPending] = useActionState(
+    deleteCommentAction.bind(null, comment.comment.id),
+    initState()
+  );
+  useActionToast(state);
+
+  const handleSubmit = useCallback(() => {
+    deleteDialog.onClose();
+    startTransition(() => {
+      dispatch();
+    });
+  }, [deleteDialog, dispatch]);
 
   return (
     <li className="flex py-4 border-b last:border-b-0">
@@ -89,13 +106,16 @@ export default function Comment({ comment }: CommentProps) {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel onClick={deleteDialog.onClose}>
+                <AlertDialogCancel
+                  onClick={deleteDialog.onClose}
+                  disabled={isPending}
+                >
                   Cancel
                 </AlertDialogCancel>
-                <form
-                  action={deleteCommentAction.bind(null, comment.comment.id)}
-                >
-                  <AlertDialogAction type="submit">Continue</AlertDialogAction>
+                <form action={dispatch} onSubmit={handleSubmit}>
+                  <AlertDialogAction type="submit" disabled={isPending}>
+                    Continue
+                  </AlertDialogAction>
                 </form>
               </AlertDialogFooter>
             </AlertDialogContent>
