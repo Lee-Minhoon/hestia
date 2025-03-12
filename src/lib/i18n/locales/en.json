@@ -24,6 +24,8 @@
   "Post": {
     "Title": "Title",
     "Content": "Content",
-    "Post": "Post"
+    "Post": "Post",
+    "Edit": "Edit",
+    "Cancel": "Cancel"
   }
 }

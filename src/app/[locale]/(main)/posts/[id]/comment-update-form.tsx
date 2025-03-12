@@ -17,38 +17,30 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { handleSubmit, initState } from "@/lib/action";
-import { addCommentAction, updateCommentAction } from "@/lib/actions/comment";
-import {
-  Comment,
-  insertCommentSchema,
-  updateCommentSchema,
-} from "@/lib/db/schema";
+import { updateCommentAction } from "@/lib/actions/comment";
+import { Comment, updateCommentSchema } from "@/lib/db/schema";
 import useActionToast from "@/lib/hooks/use-action-toast";
 
-interface CommentUpsertFormProps {
-  postId: number;
-  comment?: Comment;
+interface CommentUpdateFormProps {
+  comment: Comment;
+  onCancel: () => void;
 }
 
-export default function CommentUpsertForm({
-  postId,
+export default function CommentUpdateForm({
   comment,
-}: CommentUpsertFormProps) {
-  const bindedAddCommentAction = addCommentAction.bind(null, postId);
+  onCancel,
+}: CommentUpdateFormProps) {
+  const bindedUpdateCommentAction = updateCommentAction.bind(null, comment.id);
 
   const t = useTranslations("Post");
   const [state, dispatch, isPending] = useActionState(
-    comment
-      ? updateCommentAction.bind(null, comment.id)
-      : bindedAddCommentAction,
+    bindedUpdateCommentAction,
     initState()
   );
   useActionToast(state);
 
-  const form = useForm<
-    z.infer<typeof insertCommentSchema | typeof updateCommentSchema>
-  >({
-    resolver: zodResolver(comment ? updateCommentSchema : insertCommentSchema),
+  const form = useForm<z.infer<typeof updateCommentSchema>>({
+    resolver: zodResolver(updateCommentSchema),
     defaultValues: {
       content: comment?.content ?? "",
     },
@@ -56,9 +48,9 @@ export default function CommentUpsertForm({
 
   useEffect(() => {
     if (state.status === "success") {
-      form.reset();
+      onCancel();
     }
-  }, [form, state]);
+  }, [onCancel, state]);
 
   return (
     <Form {...form}>
@@ -76,9 +68,12 @@ export default function CommentUpsertForm({
               </FormItem>
             )}
           />
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            <Button variant="ghost" onClick={onCancel} disabled={isPending}>
+              {t("Cancel")}
+            </Button>
             <Button type="submit" disabled={isPending}>
-              {t("Post")}
+              {t("Edit")}
             </Button>
           </div>
         </div>
