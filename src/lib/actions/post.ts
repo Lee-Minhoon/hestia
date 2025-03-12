@@ -42,7 +42,7 @@ const getUser = async () => {
   }
 };
 
-export const addPostAction = async (
+export const createPostAction = async (
   previousState: ActionState<null>,
   formData: FormData
 ) => {

@@ -21,13 +21,13 @@ export default function PostActions() {
           Add Post
         </Link>
       </Button>
-      <AddTestPostsForm />
+      <CreateTestPostsForm />
       <DeleteAllPostsForm />
     </div>
   );
 }
 
-const AddTestPostsForm = () => {
+const CreateTestPostsForm = () => {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(

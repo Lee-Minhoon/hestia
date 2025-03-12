@@ -6,24 +6,27 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { initState } from "@/lib/action";
-import { addTestUsersAction, deleteAllUsersAction } from "@/lib/actions/user";
+import {
+  createTestUsersAction,
+  deleteAllUsersAction,
+} from "@/lib/actions/user";
 import useActionToast from "@/lib/hooks/use-action-toast";
 import { Endpoints, toUrl } from "@/lib/routes";
 
-export default function UserTestSection() {
+export default function UserActions() {
   return (
     <div className="flex gap-2">
-      <AddTestUsersForm />
+      <CreateTestUsersForm />
       <DeleteAllUsersForm />
     </div>
   );
 }
 
-const AddTestUsersForm = () => {
+const CreateTestUsersForm = () => {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
-    addTestUsersAction,
+    createTestUsersAction,
     initState()
   );
 
