@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 
-import resolveConfig from "tailwindcss/resolveConfig";
+import defaultTheme from "tailwindcss/defaultTheme";
 import { Entries } from "type-fest";
 
-import tailwindConfig from "../../../tailwind.config";
 import { getRootFontSize } from "../utils";
 
-const { screens } = resolveConfig(tailwindConfig).theme;
+const screens = defaultTheme.screens;
 
 const toPx = (value: string) => {
   const isRem = value.endsWith("rem");
