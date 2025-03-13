@@ -23,7 +23,7 @@ const extensions = [
 
 const editorContainerProps = {
   className:
-    "p-4 h-[400px] overflow-y-auto [&_div]:outline-none [&_div]:h-full",
+    "p-4 h-[400px] overflow-y-auto [&_div]:outline-hidden [&_div]:h-full",
 };
 
 interface EditorProps {
