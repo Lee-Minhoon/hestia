@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { FaUserAlt } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -39,7 +40,6 @@ import { signupAction } from "@/lib/actions/auth";
 import { upload } from "@/lib/api";
 import { signupSchema } from "@/lib/db/schema";
 import useActionToast from "@/lib/hooks/use-action-toast";
-import { errorToast } from "@/lib/hooks/use-toast";
 import { Nullable } from "@/types/common";
 
 export default function SignupForm() {
@@ -71,9 +71,16 @@ export default function SignupForm() {
             const { data } = await upload(profile);
             formData.append("image", data);
           } catch (err) {
-            errorToast(
-              err instanceof Error ? err.message : "An unknown error occurred."
-            );
+            toast.error("Error", {
+              description:
+                err instanceof Error
+                  ? err.message
+                  : "An unknown error occurred.",
+              cancel: {
+                label: "Dismiss",
+                onClick: () => toast.dismiss(),
+              },
+            });
             return;
           }
         }

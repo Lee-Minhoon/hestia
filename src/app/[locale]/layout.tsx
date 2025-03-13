@@ -3,7 +3,7 @@ import { use } from "react";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { Locale } from "@/lib/i18n/locale";
 import { routing } from "@/lib/i18n/routing";
 
