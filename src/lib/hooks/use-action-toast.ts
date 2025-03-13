@@ -1,17 +1,29 @@
 import { useEffect } from "react";
 
-import { ActionState } from "@/lib/action";
+import { toast } from "sonner";
 
-import { errorToast, successToast } from "./use-toast";
+import { ActionState } from "@/lib/action";
 
 export default function useActionToast(state: ActionState<unknown>) {
   useEffect(() => {
     switch (state.status) {
       case "success":
-        successToast(state.message);
+        toast.success("Success", {
+          description: state.message,
+          cancel: {
+            label: "Dismiss",
+            onClick: () => toast.dismiss(),
+          },
+        });
         break;
       case "error":
-        errorToast(state.message);
+        toast.error("Error", {
+          description: state.message,
+          cancel: {
+            label: "Dismiss",
+            onClick: () => toast.dismiss(),
+          },
+        });
         break;
     }
   }, [state]);
