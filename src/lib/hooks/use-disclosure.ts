@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useDisclosure = (initialState = false) => {
+function useDisclosure(initialState = false) {
   const [isOpen, setIsOpen] = useState(initialState);
 
   const onOpen = useCallback(() => setIsOpen(true), []);
@@ -8,6 +8,6 @@ const useDisclosure = (initialState = false) => {
   const onToggle = useCallback(() => setIsOpen((prev) => !prev), []);
 
   return { isOpen, onOpen, onClose, onToggle };
-};
+}
 
 export { useDisclosure };

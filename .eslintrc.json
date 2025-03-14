@@ -7,6 +7,11 @@
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
+    "func-style": ["error", "declaration", { "allowArrowFunctions": false }],
+    "react/function-component-definition": [
+      "error",
+      { "namedComponents": ["function-declaration"] }
+    ],
     "import/order": [
       "error",
       {

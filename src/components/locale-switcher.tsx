@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-const LocaleSwitcher = () => {
+function LocaleSwitcher() {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -44,6 +44,6 @@ const LocaleSwitcher = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}
 
 export { LocaleSwitcher };

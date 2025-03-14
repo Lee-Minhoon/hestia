@@ -10,7 +10,7 @@ import { users } from "@/lib/db/schema";
 
 import { Pages, toUrl } from "../routes";
 
-export const createTestUsersAction = async () => {
+export async function createTestUsersAction() {
   try {
     const password = await hash("q1w2e3r4", 10);
 
@@ -39,9 +39,9 @@ export const createTestUsersAction = async () => {
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const deleteAllUsersAction = async () => {
+export async function deleteAllUsersAction() {
   try {
     await db.update(users).set({ deletedAt: new Date() }).execute();
 
@@ -53,4 +53,4 @@ export const deleteAllUsersAction = async () => {
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}

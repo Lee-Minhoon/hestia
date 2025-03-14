@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useIsServer = () => {
+function useIsServer() {
   const [isServer, setIsServer] = useState(true);
 
   useEffect(() => {
@@ -8,4 +8,6 @@ export const useIsServer = () => {
   }, []);
 
   return isServer;
-};
+}
+
+export { useIsServer };

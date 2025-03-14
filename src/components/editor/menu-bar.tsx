@@ -32,7 +32,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 import { ImagesInput } from "./images-input";
 
-const MenuBar = () => {
+function MenuBar() {
   const { editor } = useCurrentEditor();
 
   const menuBarItems = useMemo<MenuBarItemProps[][]>(() => {
@@ -271,7 +271,7 @@ const MenuBar = () => {
       })}
     </div>
   );
-};
+}
 
 interface MenuBarItemProps {
   label: string;
@@ -282,13 +282,13 @@ interface MenuBarItemProps {
   popover?: () => React.ReactNode;
 }
 
-const MenuBarItem = ({
+function MenuBarItem({
   label,
   disabled,
   isActive,
   popover,
   ...props
-}: MenuBarItemProps) => {
+}: MenuBarItemProps) {
   if (popover) {
     return (
       <Popover key={label}>
@@ -336,6 +336,6 @@ const MenuBarItem = ({
       {...props}
     />
   );
-};
+}
 
 export { MenuBar };

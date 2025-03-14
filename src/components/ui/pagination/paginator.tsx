@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback } from "react";
+
 import { UrlObject } from "url";
 
 import { clamp } from "lodash-es";
@@ -40,17 +42,20 @@ function Paginator({
   const startPage = Math.floor((safePageIndex - 1) / pageCount) * pageCount + 1;
   const endPage = Math.min(startPage + pageCount - 1, totalPages);
 
-  const getHref = (page: number): UrlObject => {
-    return {
-      pathname,
-      query: toQueryString(
-        new URLSearchParams({
-          ...Object.fromEntries(searchParams.entries()),
-          [QueryParamKeys.PageIndex]: page.toString(),
-        })
-      ),
-    };
-  };
+  const getHref = useCallback(
+    (page: number): UrlObject => {
+      return {
+        pathname,
+        query: toQueryString(
+          new URLSearchParams({
+            ...Object.fromEntries(searchParams.entries()),
+            [QueryParamKeys.PageIndex]: page.toString(),
+          })
+        ),
+      };
+    },
+    [pathname, searchParams]
+  );
 
   return (
     <Pagination>

@@ -15,7 +15,7 @@ type Search =
   | Record<string, string>
   | React.SetStateAction<URLSearchParams>;
 
-export function useSearchParams() {
+function useSearchParams() {
   const searchParams = _useSearchParams();
   const pathname = usePathname();
   const { push } = useRouter();
@@ -33,3 +33,5 @@ export function useSearchParams() {
 
   return { searchParams, setSearchParams };
 }
+
+export { useSearchParams };

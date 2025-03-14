@@ -3,13 +3,13 @@ import { z } from "zod";
 
 const nullishString = z.string().nullish();
 
-const strToInt = (
+function strToInt(
   defaultValue: number,
   option?: {
     min?: number;
     max?: number;
   }
-) => {
+) {
   const min = option?.min ?? 1;
   const max = option?.max ?? Number.MAX_SAFE_INTEGER;
   return nullishString
@@ -19,7 +19,7 @@ const strToInt = (
       return num;
     })
     .pipe(z.number().int().min(min).max(max).default(defaultValue));
-};
+}
 
 export const paginationSchema = z.object({
   pageIndex: strToInt(1),

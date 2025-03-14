@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { initState } from "@/lib/action";
 import { deletePostAction } from "@/lib/actions/post";
 import { Post } from "@/lib/db/schema";
-import useActionToast from "@/lib/hooks/use-action-toast";
+import { useActionToast } from "@/lib/hooks/use-action-toast";
 import { Link } from "@/lib/i18n/routing";
 import { Pages, toUrl } from "@/lib/routes";
 

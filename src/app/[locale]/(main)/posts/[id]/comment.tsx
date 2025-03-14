@@ -27,7 +27,7 @@ import {
 import { initState } from "@/lib/action";
 import { deleteCommentAction } from "@/lib/actions/comment";
 import { CommentWithUser } from "@/lib/db/schema";
-import useActionToast from "@/lib/hooks/use-action-toast";
+import { useActionToast } from "@/lib/hooks/use-action-toast";
 import { useDisclosure } from "@/lib/hooks/use-disclosure";
 
 import CommentUpdateForm from "./comment-update-form";

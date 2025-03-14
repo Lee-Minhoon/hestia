@@ -14,7 +14,7 @@ import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
 import { Pages, toUrl } from "../routes";
 
-const getUser = async () => {
+async function getUser() {
   try {
     const session = await auth();
 
@@ -40,12 +40,12 @@ const getUser = async () => {
   } catch (err) {
     throw err;
   }
-};
+}
 
-export const createPostAction = async (
+export async function createPostAction(
   previousState: ActionState<null>,
   formData: FormData
-) => {
+) {
   try {
     const user = await getUser();
 
@@ -81,13 +81,13 @@ export const createPostAction = async (
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const updatePostAction = async (
+export async function updatePostAction(
   id: number,
   previousState: ActionState<null>,
   formData: FormData
-) => {
+) {
   try {
     const user = await getUser();
 
@@ -139,9 +139,9 @@ export const updatePostAction = async (
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const deletePostAction = async (id: number, next: string) => {
+export async function deletePostAction(id: number, next: string) {
   try {
     const user = await getUser();
 
@@ -176,9 +176,9 @@ export const deletePostAction = async (id: number, next: string) => {
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const addTestPostsAction = async () => {
+export async function addTestPostsAction() {
   try {
     const user = await getUser();
 
@@ -203,9 +203,9 @@ export const addTestPostsAction = async () => {
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const deleteAllPostsAction = async () => {
+export async function deleteAllPostsAction() {
   try {
     await db.update(posts).set({ deletedAt: new Date() }).execute();
 
@@ -217,4 +217,4 @@ export const deleteAllPostsAction = async () => {
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}

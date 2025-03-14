@@ -32,11 +32,11 @@ export const navItems: NavItem[] = [
  * @param parents the accumulated parent nav items
  * @returns parent nav items containing the matching nav item for the pathname
  */
-export const findNavHierarchy = (
+export function findNavHierarchy(
   pathname: string,
   current = navItems,
   parents: NavItem[] = []
-): NavItem[] => {
+): NavItem[] {
   for (const navItem of current) {
     if (match(navItem.pathname)(pathname)) {
       return [...parents, navItem];
@@ -52,4 +52,4 @@ export const findNavHierarchy = (
     }
   }
   return [];
-};
+}

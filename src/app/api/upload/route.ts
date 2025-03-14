@@ -4,12 +4,12 @@ import { fileStorage } from "@/lib/storage";
 import { getBaseUrl } from "@/lib/utils";
 import { uploadSchema } from "@/lib/validation";
 
-const getFileUrl = (type: string, name: string) => {
+function getFileUrl(type: string, name: string) {
   if (type.startsWith("image/")) {
     return `${getBaseUrl()}/api/images/${name}`;
   }
   throw new Error("Invalid type");
-};
+}
 
 export async function POST(req: NextRequest) {
   const data = await req.formData();

@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 import { ActionState } from "@/lib/action";
 
-export default function useActionToast(state: ActionState<unknown>) {
+function useActionToast(state: ActionState<unknown>) {
   useEffect(() => {
     switch (state.status) {
       case "success":
@@ -28,3 +28,5 @@ export default function useActionToast(state: ActionState<unknown>) {
     }
   }, [state]);
 }
+
+export { useActionToast };
