@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import defaultTheme from "tailwindcss/defaultTheme";
 import { Entries } from "type-fest";
 
+import { Optional } from "@/types/common";
+
 import { getRootFontSize } from "../utils";
 
 const screens = defaultTheme.screens;
@@ -55,7 +57,7 @@ function useMediaQueries(queries: string[]) {
 
 const queries = Object.values(breakpoints).map((bp) => `(min-width: ${bp}px)`);
 
-function useBreakpointValue<T, S extends T | undefined>(
+function useBreakpointValue<T, S extends Optional<T>>(
   values: Partial<Record<keyof typeof breakpoints, T>>,
   fallback?: S
 ) {
