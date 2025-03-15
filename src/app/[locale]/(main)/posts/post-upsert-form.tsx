@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { handleSubmit, initState } from "@/lib/action";
 import { createPostAction, updatePostAction } from "@/lib/actions/post";
 import { insertPostSchema, Post, updatePostSchema } from "@/lib/db/schema";
-import useActionToast from "@/lib/hooks/use-action-toast";
+import { useActionToast } from "@/lib/hooks/use-action-toast";
 
 interface PostUpsertFormProps {
   post?: Post;

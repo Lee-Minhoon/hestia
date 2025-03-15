@@ -16,18 +16,18 @@ import { Pages, toUrl, withLocale } from "@/lib/routes";
 
 import { redirect } from "../i18n/routing";
 
-const getRedirectUrl = async () => {
+async function getRedirectUrl() {
   const url = new URL((await headers()).get("referer") ?? "");
   const next = url.searchParams.get("next");
   const locale = (await getLocale()) as Locale;
 
   return next || withLocale(toUrl(Pages.Home), locale);
-};
+}
 
-export const signinAction = async (
+export async function signinAction(
   previousState: ActionState<null>,
   formData: FormData
-) => {
+) {
   try {
     const parsed = signinSchema.parse(Object.fromEntries(formData));
 
@@ -51,9 +51,9 @@ export const signinAction = async (
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const socialLoginAction = async (provider: AvailableProviders) => {
+export async function socialLoginAction(provider: AvailableProviders) {
   try {
     await signIn(provider, {
       redirectTo: await getRedirectUrl(),
@@ -66,12 +66,12 @@ export const socialLoginAction = async (provider: AvailableProviders) => {
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const signupAction = async (
+export async function signupAction(
   previousState: ActionState<number>,
   formData: FormData
-) => {
+) {
   try {
     const parsed = signupSchema.parse(Object.fromEntries(formData));
     const result = await db
@@ -104,4 +104,4 @@ export const signupAction = async (
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}

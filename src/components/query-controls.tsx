@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "./ui/select";
 
-const TableControls = () => {
+function TableControls() {
   const { setSearchParams } = useSearchParams();
 
   return (
@@ -41,9 +41,9 @@ const TableControls = () => {
       <ViewTypeSelector />
     </div>
   );
-};
+}
 
-const GridControls = () => {
+function GridControls() {
   const { setSearchParams } = useSearchParams();
 
   return (
@@ -60,13 +60,13 @@ const GridControls = () => {
       <ViewTypeSelector />
     </div>
   );
-};
+}
 
 interface SearchFormProps {
   onSubmit: (data: { [QueryParamKeys.Search]: string }) => void;
 }
 
-const SearchForm = ({ onSubmit }: SearchFormProps) => {
+function SearchForm({ onSubmit }: SearchFormProps) {
   const form = useForm<{ [QueryParamKeys.Search]: string }>();
 
   return (
@@ -81,7 +81,7 @@ const SearchForm = ({ onSubmit }: SearchFormProps) => {
       <Button>Search</Button>
     </form>
   );
-};
+}
 
 const viewTypes = [
   {
@@ -96,7 +96,7 @@ const viewTypes = [
   },
 ];
 
-const ViewTypeSelector = () => {
+function ViewTypeSelector() {
   const { searchParams, setSearchParams } = useSearchParams();
 
   return (
@@ -128,11 +128,11 @@ const ViewTypeSelector = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}
 
 const rowsPerPage = [10, 20, 50, 100];
 
-const PageSizeSelector = () => {
+function PageSizeSelector() {
   const { searchParams, setSearchParams } = useSearchParams();
 
   return (
@@ -157,7 +157,7 @@ const PageSizeSelector = () => {
       </SelectContent>
     </Select>
   );
-};
+}
 
 const orders = [
   {
@@ -170,7 +170,7 @@ const orders = [
   },
 ];
 
-const OrderSelector = () => {
+function OrderSelector() {
   const { searchParams, setSearchParams } = useSearchParams();
 
   return (
@@ -195,6 +195,6 @@ const OrderSelector = () => {
       </SelectContent>
     </Select>
   );
-};
+}
 
 export { GridControls, TableControls };

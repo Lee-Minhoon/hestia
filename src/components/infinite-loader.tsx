@@ -15,7 +15,7 @@ const InfiniteLoaderContext = createContext<
   InfiniteLoaderContextValue | undefined
 >(undefined);
 
-const useInfiniteLoader = () => {
+function useInfiniteLoader() {
   const context = useContext(InfiniteLoaderContext);
   if (!context) {
     throw new Error(
@@ -23,7 +23,7 @@ const useInfiniteLoader = () => {
     );
   }
   return context;
-};
+}
 
 type InfiniteLoaderProps = {
   autoLoad?: boolean;
@@ -32,27 +32,27 @@ type InfiniteLoaderProps = {
   onLoadMore: () => void;
 };
 
-const InfiniteLoader = ({
+function InfiniteLoader({
   autoLoad = true,
   disabled,
   children,
   onLoadMore,
-}: InfiniteLoaderProps) => {
+}: InfiniteLoaderProps) {
   return (
     <InfiniteLoaderContext.Provider value={{ autoLoad, disabled, onLoadMore }}>
       {children}
     </InfiniteLoaderContext.Provider>
   );
-};
+}
 
 interface InfiniteLoaderLoadMoreProps extends SlotProps {
   asChild?: boolean;
 }
 
-const InfiniteLoaderLoadMore = ({
+function InfiniteLoaderLoadMore({
   asChild,
   ...props
-}: InfiniteLoaderLoadMoreProps) => {
+}: InfiniteLoaderLoadMoreProps) {
   const { ref, inView } = useInView();
 
   const { autoLoad, disabled, onLoadMore } = useInfiniteLoader();
@@ -68,6 +68,6 @@ const InfiniteLoaderLoadMore = ({
   }, [autoLoad, disabled, inView, onLoadMore]);
 
   return <Comp ref={ref} onClick={onLoadMore} disabled={disabled} {...props} />;
-};
+}
 
 export { InfiniteLoader, InfiniteLoaderLoadMore };

@@ -24,7 +24,7 @@ type CursorData<T> = {
   prevCursor: Nullable<number>;
 };
 
-const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
+async function fetcher(context: QueryFunctionContext<QueryKey>) {
   const { queryKey, pageParam } = context;
   const [url, params] = queryKey;
   const queryParams = new URLSearchParams(Object.entries(params ?? {}));
@@ -34,9 +34,9 @@ const fetcher = async (context: QueryFunctionContext<QueryKey>) => {
   return await fetch(buildUrl(`${getBaseUrl()}${url}`, queryParams)).then(
     (res) => res.json()
   );
-};
+}
 
-const useLoadMore = <T>(url: string, params?: object) => {
+function useLoadMore<T>(url: string, params?: object) {
   return useSuspenseInfiniteQuery<
     ResponseData<CursorData<T>>,
     Error,
@@ -49,12 +49,12 @@ const useLoadMore = <T>(url: string, params?: object) => {
     getNextPageParam: (lastPage) => lastPage.data.nextCursor,
     getPreviousPageParam: (firstPage) => firstPage.data.prevCursor,
   });
-};
+}
 
-export const useLoadMoreUsers = (params?: CursorParams) => {
+export function useLoadMoreUsers(params?: CursorParams) {
   return useLoadMore<User>(toUrl(Endpoints.Users), params);
-};
+}
 
-export const useLoadMorePosts = (params?: CursorParams) => {
+export function useLoadMorePosts(params?: CursorParams) {
   return useLoadMore<PostWithUser>(toUrl(Endpoints.Posts), params);
-};
+}

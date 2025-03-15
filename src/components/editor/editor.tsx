@@ -31,7 +31,7 @@ interface EditorProps {
   onChange: (value: string) => void;
 }
 
-const Editor = ({ value, onChange }: EditorProps) => {
+function Editor({ value, onChange }: EditorProps) {
   const handleUpdate = useCallback<(props: EditorEvents["update"]) => void>(
     ({ editor }) => {
       onChange(editor.getHTML());
@@ -51,6 +51,6 @@ const Editor = ({ value, onChange }: EditorProps) => {
       />
     </div>
   );
-};
+}
 
 export { Editor };
