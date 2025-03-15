@@ -5,7 +5,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { CiGrid41, CiViewTable } from "react-icons/ci";
 
-import { useSearchParams } from "@/lib/hooks/use-search-params";
+import { useSearchParams } from "@/hooks/use-search-params";
 import { QueryParamKeys } from "@/lib/queryParams";
 
 import { Button } from "./ui/button";

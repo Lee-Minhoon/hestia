@@ -16,10 +16,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { deletePostAction } from "@/lib/actions/post";
 import { Post } from "@/lib/db/schema";
-import { useActionToast } from "@/lib/hooks/use-action-toast";
 import { Link } from "@/lib/i18n/routing";
 import { Pages, toUrl } from "@/lib/routes";
 

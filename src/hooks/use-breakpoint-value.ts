@@ -5,7 +5,7 @@ import { Entries } from "type-fest";
 
 import { Optional } from "@/types/common";
 
-import { getRootFontSize } from "../utils";
+import { getRootFontSize } from "../lib/utils";
 
 const screens = defaultTheme.screens;
 
