@@ -5,9 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getBaseUrl = () => {
+export function getBaseUrl() {
   return process.env.NEXT_PUBLIC_BASE_URL ?? "";
-};
+}
 
 export function getRootFontSize() {
   if (typeof window === "undefined") {

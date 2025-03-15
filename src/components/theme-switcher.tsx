@@ -15,7 +15,7 @@ import {
 const themeOptions = ["light", "dark", "system"];
 
 // https://ui.shadcn.com/docs/dark-mode/next
-const ThemeSwitcher = () => {
+function ThemeSwitcher() {
   const { setTheme } = useTheme();
 
   return (
@@ -36,6 +36,6 @@ const ThemeSwitcher = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}
 
 export { ThemeSwitcher };

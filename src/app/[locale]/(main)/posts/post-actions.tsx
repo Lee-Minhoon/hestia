@@ -8,7 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { initState } from "@/lib/action";
 import { addTestPostsAction, deleteAllPostsAction } from "@/lib/actions/post";
-import useActionToast from "@/lib/hooks/use-action-toast";
+import { useActionToast } from "@/lib/hooks/use-action-toast";
 import { Link } from "@/lib/i18n/routing";
 import { buildUrl, Endpoints, Pages, toUrl } from "@/lib/routes";
 
@@ -27,7 +27,7 @@ export default function PostActions() {
   );
 }
 
-const CreateTestPostsForm = () => {
+function CreateTestPostsForm() {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -49,9 +49,9 @@ const CreateTestPostsForm = () => {
       </Button>
     </form>
   );
-};
+}
 
-const DeleteAllPostsForm = () => {
+function DeleteAllPostsForm() {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -73,4 +73,4 @@ const DeleteAllPostsForm = () => {
       </Button>
     </form>
   );
-};
+}

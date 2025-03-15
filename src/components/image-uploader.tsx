@@ -22,7 +22,7 @@ const ImageUploaderContext = createContext<
   ImageUploaderContextValue | undefined
 >(undefined);
 
-const useImageUploader = () => {
+function useImageUploader() {
   const context = useContext(ImageUploaderContext);
   if (!context) {
     throw new Error(
@@ -30,7 +30,7 @@ const useImageUploader = () => {
     );
   }
   return context;
-};
+}
 
 interface ImageUploaderProps {
   children?:
@@ -39,7 +39,7 @@ interface ImageUploaderProps {
   onFileChange?: (file: Nullable<File>) => void;
 }
 
-const ImageUploader = ({ children, onFileChange }: ImageUploaderProps) => {
+function ImageUploader({ children, onFileChange }: ImageUploaderProps) {
   const ref = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<Nullable<string>>(null);
 
@@ -87,20 +87,20 @@ const ImageUploader = ({ children, onFileChange }: ImageUploaderProps) => {
         : children}
     </ImageUploaderContext.Provider>
   );
-};
+}
 
-const ImageUploaderTrigger = (props: Omit<SlotProps, "onClick">) => {
+function ImageUploaderTrigger(props: Omit<SlotProps, "onClick">) {
   const { onClick } = useImageUploader();
 
   return <Slot onClick={onClick} {...props} />;
-};
+}
 
 interface ImageUploaderPreviewProps extends Omit<ImageProps, "alt" | "src"> {
   alt?: ImageProps["alt"];
   src?: ImageProps["src"];
 }
 
-const ImageUploaderPreview = (props: ImageUploaderPreviewProps) => {
+function ImageUploaderPreview(props: ImageUploaderPreviewProps) {
   const { onClick, preview } = useImageUploader();
 
   return preview ? (
@@ -112,13 +112,13 @@ const ImageUploaderPreview = (props: ImageUploaderPreviewProps) => {
       {...props}
     />
   ) : null;
-};
+}
 
-const ImageUploaderClear = (props: Omit<SlotProps, "onClick">) => {
+function ImageUploaderClear(props: Omit<SlotProps, "onClick">) {
   const { clear } = useImageUploader();
 
   return <Slot onClick={clear} {...props} />;
-};
+}
 
 export {
   ImageUploader,

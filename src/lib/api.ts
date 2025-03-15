@@ -5,9 +5,9 @@ export type ResponseData<T> = {
   message: string;
 };
 
-const fetcher = async <T>(
+async function fetcher<T>(
   ...props: Parameters<typeof fetch>
-): Promise<ResponseData<T>> => {
+): Promise<ResponseData<T>> {
   try {
     const res = await fetch(...props);
     if (!res.ok) {
@@ -20,13 +20,13 @@ const fetcher = async <T>(
       err instanceof Error ? err.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const upload = (file: File) => {
+export function upload(file: File) {
   const formData = new FormData();
   formData.append("file", file);
   return fetcher<string>(toUrl(Endpoints.Upload), {
     method: "POST",
     body: formData,
   });
-};
+}

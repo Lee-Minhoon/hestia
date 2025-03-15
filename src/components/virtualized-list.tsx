@@ -13,7 +13,7 @@ const VirtualizedListContext = createContext<
   VirtualizedListContextValue | undefined
 >(undefined);
 
-const useVirtualizedList = () => {
+function useVirtualizedList() {
   const context = useContext(VirtualizedListContext);
   if (!context) {
     throw new Error(
@@ -21,7 +21,7 @@ const useVirtualizedList = () => {
     );
   }
   return context;
-};
+}
 
 type VirtualizedListProps = {
   count: number;
@@ -29,7 +29,7 @@ type VirtualizedListProps = {
   children?: React.ReactNode;
 };
 
-const VirtualizedList = ({ count, gap, children }: VirtualizedListProps) => {
+function VirtualizedList({ count, gap, children }: VirtualizedListProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const virtualizer = useWindowVirtualizer({
@@ -46,19 +46,19 @@ const VirtualizedList = ({ count, gap, children }: VirtualizedListProps) => {
       </VirtualizedListContext.Provider>
     </div>
   );
-};
+}
 
 interface VirtualizedListContainerProps extends Omit<SlotProps, "children"> {
   asChild?: boolean;
   children?: (props: { index: number }) => React.ReactNode;
 }
 
-const VirtualizedListContainer = ({
+function VirtualizedListContainer({
   asChild,
   children,
   className,
   ...props
-}: VirtualizedListContainerProps) => {
+}: VirtualizedListContainerProps) {
   const { virtualizer } = useVirtualizedList();
 
   const Comp = asChild ? Slot : "ul";
@@ -86,6 +86,6 @@ const VirtualizedListContainer = ({
       })}
     </Comp>
   );
-};
+}
 
 export { VirtualizedList, VirtualizedListContainer };

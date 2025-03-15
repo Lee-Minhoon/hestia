@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { handleSubmit, initState } from "@/lib/action";
 import { createCommentAction } from "@/lib/actions/comment";
 import { insertCommentSchema } from "@/lib/db/schema";
-import useActionToast from "@/lib/hooks/use-action-toast";
+import { useActionToast } from "@/lib/hooks/use-action-toast";
 
 interface CommentCreateFormProps {
   postId: number;

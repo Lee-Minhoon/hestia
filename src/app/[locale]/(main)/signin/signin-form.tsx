@@ -28,7 +28,7 @@ import { Input } from "@/components/ui/input";
 import { handleSubmit, initState } from "@/lib/action";
 import { signinAction } from "@/lib/actions/auth";
 import { signinSchema } from "@/lib/db/schema";
-import useActionToast from "@/lib/hooks/use-action-toast";
+import { useActionToast } from "@/lib/hooks/use-action-toast";
 
 import SocialLoginSection from "./social-login-section";
 

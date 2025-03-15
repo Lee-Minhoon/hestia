@@ -10,18 +10,20 @@ import { join } from "path";
 
 const rootPath = join(__dirname, "../src/components/ui");
 
-const isTsx = (file: string) => file.endsWith(".tsx");
+function isTsx(file: string) {
+  return file.endsWith(".tsx");
+}
 
 // Shadcn always overwrites the file.
 // If you want to keep your changes, add a comment "// backup" at the top of the file.
-const shouldBackup = (path: string) => {
+function shouldBackup(path: string) {
   try {
     const content = readFileSync(path, "utf-8");
     return content.startsWith("// backup");
   } catch {
     return false;
   }
-};
+}
 
 const components: {
   name: string;

@@ -21,7 +21,7 @@ import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Pages, toUrl } from "../routes";
 import { paginationSchema } from "../validation";
 
-const getUser = async () => {
+async function getUser() {
   try {
     const session = await auth();
 
@@ -47,13 +47,13 @@ const getUser = async () => {
   } catch (err) {
     throw err;
   }
-};
+}
 
-export const createCommentAction = async (
+export async function createCommentAction(
   postId: number,
   previousState: ActionState<null>,
   formData: FormData
-) => {
+) {
   try {
     const user = await getUser();
 
@@ -119,13 +119,13 @@ export const createCommentAction = async (
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const updateCommentAction = async (
+export async function updateCommentAction(
   id: number,
   previousState: ActionState<null>,
   formData: FormData
-) => {
+) {
   try {
     const user = await getUser();
 
@@ -171,9 +171,9 @@ export const updateCommentAction = async (
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}
 
-export const deleteCommentAction = async (id: number) => {
+export async function deleteCommentAction(id: number) {
   try {
     const user = await getUser();
 
@@ -206,4 +206,4 @@ export const deleteCommentAction = async (id: number) => {
       error instanceof Error ? error.message : "An unknown error occurred."
     );
   }
-};
+}

@@ -10,7 +10,7 @@ import {
   createTestUsersAction,
   deleteAllUsersAction,
 } from "@/lib/actions/user";
-import useActionToast from "@/lib/hooks/use-action-toast";
+import { useActionToast } from "@/lib/hooks/use-action-toast";
 import { Endpoints, toUrl } from "@/lib/routes";
 
 export default function UserActions() {
@@ -22,7 +22,7 @@ export default function UserActions() {
   );
 }
 
-const CreateTestUsersForm = () => {
+function CreateTestUsersForm() {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -44,9 +44,9 @@ const CreateTestUsersForm = () => {
       </Button>
     </form>
   );
-};
+}
 
-const DeleteAllUsersForm = () => {
+function DeleteAllUsersForm() {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -68,4 +68,4 @@ const DeleteAllUsersForm = () => {
       </Button>
     </form>
   );
-};
+}
