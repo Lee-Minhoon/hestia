@@ -6,9 +6,9 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
+import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { addTestPostsAction, deleteAllPostsAction } from "@/lib/actions/post";
-import { useActionToast } from "@/lib/hooks/use-action-toast";
 import { Link } from "@/lib/i18n/routing";
 import { buildUrl, Endpoints, Pages, toUrl } from "@/lib/routes";
 

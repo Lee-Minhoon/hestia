@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { z } from "zod";
 
-import { Nullable } from "@/types/common";
+import { Nullable, Optional } from "@/types/common";
 
 import { ResponseData } from "../api";
 import { PostWithUser, User } from "../db/schema";
@@ -14,7 +14,7 @@ import { buildUrl, Endpoints, toUrl } from "../routes";
 import { getBaseUrl } from "../utils";
 import { cursorSchema } from "../validation";
 
-type QueryKey = [string, object | undefined];
+type QueryKey = [string, Optional<object>];
 
 type CursorParams = z.infer<typeof cursorSchema>;
 

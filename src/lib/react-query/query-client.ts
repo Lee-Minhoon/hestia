@@ -1,5 +1,7 @@
 import { QueryClient, isServer } from "@tanstack/react-query";
 
+import { Optional } from "@/types/common";
+
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
@@ -10,7 +12,7 @@ function makeQueryClient() {
   });
 }
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient: Optional<QueryClient> = undefined;
 
 export function getQueryClient() {
   if (isServer) {

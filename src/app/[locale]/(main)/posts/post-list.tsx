@@ -12,8 +12,8 @@ import {
   VirtualizedList,
   VirtualizedListContainer,
 } from "@/components/virtualized-list";
-import { useBreakpointValue } from "@/lib/hooks/use-breakpoint-value";
-import { useIsServer } from "@/lib/hooks/use-is-server";
+import { useBreakpointValue } from "@/hooks/use-breakpoint-value";
+import { useIsServer } from "@/hooks/use-is-server";
 import { useLoadMorePosts } from "@/lib/react-query/fetchers";
 import { toRem } from "@/lib/utils";
 import { cursorSchema } from "@/lib/validation";

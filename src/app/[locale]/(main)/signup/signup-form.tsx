@@ -35,11 +35,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { signupAction } from "@/lib/actions/auth";
 import { upload } from "@/lib/api";
 import { signupSchema } from "@/lib/db/schema";
-import { useActionToast } from "@/lib/hooks/use-action-toast";
 import { Nullable } from "@/types/common";
 
 export default function SignupForm() {

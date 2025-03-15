@@ -5,12 +5,12 @@ import { useActionState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
+import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import {
   createTestUsersAction,
   deleteAllUsersAction,
 } from "@/lib/actions/user";
-import { useActionToast } from "@/lib/hooks/use-action-toast";
 import { Endpoints, toUrl } from "@/lib/routes";
 
 export default function UserActions() {

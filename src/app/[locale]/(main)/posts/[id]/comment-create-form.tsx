@@ -16,10 +16,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useActionToast } from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
 import { createCommentAction } from "@/lib/actions/comment";
 import { insertCommentSchema } from "@/lib/db/schema";
-import { useActionToast } from "@/lib/hooks/use-action-toast";
 
 interface CommentCreateFormProps {
   postId: number;
