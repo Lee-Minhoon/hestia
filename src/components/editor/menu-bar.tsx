@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 
 import { useCurrentEditor } from "@tiptap/react";
 import { HexColorPicker } from "react-colorful";
@@ -29,8 +29,6 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Toggle } from "../ui/toggle";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-
-import { ImagesInput } from "./images-input";
 
 function MenuBar() {
   const { editor } = useCurrentEditor();
@@ -225,7 +223,7 @@ function MenuBar() {
         {
           label: "Image",
           children: <MdOutlineImage />,
-          onClick: () => imagesInputRef.current?.click(),
+          onClick: () => editor.chain().focus().addImages().run(),
         },
       ],
       [
@@ -245,11 +243,8 @@ function MenuBar() {
     ];
   }, [editor]);
 
-  const imagesInputRef = useRef<HTMLInputElement>(null);
-
   return (
     <div className="flex border-b p-1">
-      <ImagesInput ref={imagesInputRef} editor={editor} />
       {menuBarItems.map((block, blockIndex) => {
         return (
           <div key={blockIndex} className="flex">
