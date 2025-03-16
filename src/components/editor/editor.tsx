@@ -3,13 +3,16 @@
 import { useCallback } from "react";
 
 import { Color } from "@tiptap/extension-color";
-import { Image } from "@tiptap/extension-image";
+import Image from "@tiptap/extension-image";
 import { TextAlign } from "@tiptap/extension-text-align";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Underline } from "@tiptap/extension-underline";
 import { EditorEvents, EditorProvider } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 
+import { upload } from "@/lib/api";
+
+import { ImageWithUpload } from "./extensions";
 import { MenuBar } from "./menu-bar";
 
 const extensions = [
@@ -17,8 +20,14 @@ const extensions = [
   Underline,
   TextStyle,
   Color,
-  TextAlign.configure({ types: ["heading", "paragraph", "image"] }),
   Image,
+  TextAlign.configure({ types: ["heading", "paragraph", "image"] }),
+  ImageWithUpload.configure({
+    upload: async (file) => {
+      const { data } = await upload(file);
+      return data;
+    },
+  }),
 ];
 
 const editorContainerProps = {
