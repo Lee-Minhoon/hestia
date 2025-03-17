@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckIcon, XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -70,9 +71,11 @@ export default function CommentUpdateForm({
           />
           <div className="flex justify-end gap-2">
             <Button variant="ghost" onClick={onCancel} disabled={isPending}>
+              <XIcon />
               {t("Cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
+              <CheckIcon />
               {t("Edit")}
             </Button>
           </div>

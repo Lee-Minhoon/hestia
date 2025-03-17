@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PencilIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -66,6 +67,7 @@ export default function CommentCreateForm({ postId }: CommentCreateFormProps) {
           />
           <div className="flex justify-end">
             <Button type="submit" disabled={isPending}>
+              <PencilIcon />
               {t("Post")}
             </Button>
           </div>

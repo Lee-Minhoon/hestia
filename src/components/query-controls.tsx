@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 
-import { LayoutGridIcon, TableIcon } from "lucide-react";
+import { LayoutGridIcon, SearchIcon, TableIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { useSearchParams } from "@/hooks/use-search-params";
@@ -78,7 +78,10 @@ function SearchForm({ onSubmit }: SearchFormProps) {
         {...form.register(QueryParamKeys.Search)}
         placeholder="Search..."
       />
-      <Button>Search</Button>
+      <Button>
+        <SearchIcon />
+        Search
+      </Button>
     </form>
   );
 }
@@ -119,10 +122,8 @@ function ViewTypeSelector() {
               setSearchParams(searchParams);
             }}
           >
-            <div className="flex gap-2 items-center">
-              {icon}
-              {label}
-            </div>
+            {icon}
+            {label}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

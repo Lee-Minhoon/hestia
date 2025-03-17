@@ -2,7 +2,7 @@
 
 import { startTransition, useActionState, useCallback } from "react";
 
-import { ArrowLeftIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { ArrowLeftIcon, DeleteIcon, EditIcon } from "lucide-react";
 
 import {
   AlertDialog,
@@ -58,14 +58,14 @@ export default function ArticleActions({
         <div className="flex gap-2">
           <Button asChild variant="outline">
             <Link href={toUrl(Pages.PostEdit, { id: post.id })}>
-              <PencilIcon />
+              <EditIcon />
               Edit
             </Link>
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="outline">
-                <TrashIcon />
+                <DeleteIcon />
                 Delete
               </Button>
             </AlertDialogTrigger>

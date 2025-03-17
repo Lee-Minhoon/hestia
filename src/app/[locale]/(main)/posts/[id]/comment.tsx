@@ -3,7 +3,7 @@
 import { startTransition, useActionState, useCallback } from "react";
 
 import { format } from "date-fns";
-import { Ellipsis } from "lucide-react";
+import { DeleteIcon, EditIcon, Ellipsis } from "lucide-react";
 
 import {
   AlertDialog,
@@ -85,9 +85,11 @@ export default function Comment({ comment }: CommentProps) {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={updateForm.onOpen}>
+                  <EditIcon />
                   Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={deleteDialog.onOpen}>
+                  <DeleteIcon />
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>

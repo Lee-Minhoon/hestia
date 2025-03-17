@@ -1,3 +1,4 @@
+import { LogOutIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -75,7 +76,10 @@ export default async function Account() {
                   });
                 }}
               >
-                <Button variant={"outline"}>{t("Signout")}</Button>
+                <Button variant={"outline"}>
+                  <LogOutIcon />
+                  {t("Signout")}
+                </Button>
               </form>
             </SheetFooter>
           </SheetContent>
