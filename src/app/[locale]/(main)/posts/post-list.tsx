@@ -15,8 +15,9 @@ import {
 import { useBreakpointValue } from "@/hooks/use-breakpoint-value";
 import { useIsServer } from "@/hooks/use-is-server";
 import { Link } from "@/lib/i18n/routing";
+import { QueryParamKeys } from "@/lib/queryParams";
 import { useLoadMorePosts } from "@/lib/react-query/fetchers";
-import { Pages, toUrl } from "@/lib/routes";
+import { buildUrl, Pages, toUrl } from "@/lib/routes";
 import { toRem } from "@/lib/utils";
 import { cursorSchema } from "@/lib/validation";
 
@@ -24,9 +25,10 @@ import PostCard from "./post-card";
 
 export default function PostList() {
   const isServer = useIsServer();
+  const searchParams = useSearchParams();
 
   const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useLoadMorePosts(cursorSchema.parse(Object.fromEntries(useSearchParams())));
+    useLoadMorePosts(cursorSchema.parse(Object.fromEntries(searchParams)));
 
   const countPerRow = useBreakpointValue(
     {
@@ -63,7 +65,12 @@ export default function PostList() {
               <li key={rowIndex}>
                 {row.map((col, i) => (
                   <Link
-                    href={{ pathname: toUrl(Pages.Posts, { id: col.post.id }) }}
+                    href={buildUrl(toUrl(Pages.Posts, { id: col.post.id }), {
+                      [QueryParamKeys.Next]: buildUrl(
+                        toUrl(Pages.Posts),
+                        searchParams
+                      ),
+                    })}
                     key={i}
                   >
                     <PostCard data={col} className="hover:bg-accent" />
@@ -85,9 +92,15 @@ export default function PostList() {
                   >
                     {rows[index].map((col, i) => (
                       <Link
-                        href={{
-                          pathname: toUrl(Pages.Posts, { id: col.post.id }),
-                        }}
+                        href={buildUrl(
+                          toUrl(Pages.Posts, { id: col.post.id }),
+                          {
+                            [QueryParamKeys.Next]: buildUrl(
+                              toUrl(Pages.Posts),
+                              searchParams
+                            ),
+                          }
+                        )}
                         key={i}
                       >
                         <PostCard data={col} className="hover:bg-accent" />
