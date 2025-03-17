@@ -3,10 +3,9 @@
 import { startTransition, useActionState, useCallback, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UserRoundPlusIcon, XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { FaUserAlt } from "react-icons/fa";
-import { IoCloseOutline } from "react-icons/io5";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -115,7 +114,7 @@ export default function SignupForm() {
                         <>
                           <ImageUploaderClear className="absolute top-1 right-1 z-10 rounded-full w-6 h-6 p-0">
                             <Button type="button" variant="outline">
-                              <IoCloseOutline />
+                              <XIcon />
                             </Button>
                           </ImageUploaderClear>
                           <figure className="relative rounded-full overflow-hidden w-20 h-20 ">
@@ -125,7 +124,7 @@ export default function SignupForm() {
                       ) : (
                         <ImageUploaderTrigger className="rounded-full w-20 h-20 p-0 [&_svg]:size-6">
                           <Button type="button" variant="outline">
-                            <FaUserAlt className="text-muted-foreground" />
+                            <UserRoundPlusIcon className="text-muted-foreground size-10" />
                           </Button>
                         </ImageUploaderTrigger>
                       )}

@@ -2,8 +2,8 @@
 
 import { useActionState, useEffect } from "react";
 
-import { PlusIcon } from "@radix-ui/react-icons";
 import { useQueryClient } from "@tanstack/react-query";
+import { PlusIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useActionToast } from "@/hooks/use-action-toast";

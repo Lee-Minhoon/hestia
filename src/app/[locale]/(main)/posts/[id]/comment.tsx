@@ -3,7 +3,7 @@
 import { startTransition, useActionState, useCallback } from "react";
 
 import { format } from "date-fns";
-import { IoIosMore } from "react-icons/io";
+import { Ellipsis } from "lucide-react";
 
 import {
   AlertDialog,
@@ -80,7 +80,7 @@ export default function Comment({ comment }: CommentProps) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <IoIosMore />
+                  <Ellipsis />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>

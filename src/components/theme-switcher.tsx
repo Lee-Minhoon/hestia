@@ -1,7 +1,7 @@
 "use client";
 
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { capitalize } from "lodash-es";
+import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "./ui/button";

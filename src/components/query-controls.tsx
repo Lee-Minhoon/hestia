@@ -2,8 +2,8 @@
 
 import { useCallback } from "react";
 
+import { LayoutGridIcon, TableIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { CiGrid41, CiViewTable } from "react-icons/ci";
 
 import { useSearchParams } from "@/hooks/use-search-params";
 import { QueryParamKeys } from "@/lib/queryParams";
@@ -86,12 +86,12 @@ function SearchForm({ onSubmit }: SearchFormProps) {
 const viewTypes = [
   {
     label: "Table View",
-    icon: <CiViewTable className="w-4 h-4" />,
+    icon: <TableIcon className="size-4" />,
     value: "table",
   },
   {
     label: "Grid View",
-    icon: <CiGrid41 className="w-4 h-4" />,
+    icon: <LayoutGridIcon className="size-4" />,
     value: "grid",
   },
 ];
