@@ -3,8 +3,7 @@
 import { startTransition, useActionState, useCallback } from "react";
 
 import { format } from "date-fns";
-import { FaUserAlt } from "react-icons/fa";
-import { IoIosMore } from "react-icons/io";
+import { DeleteIcon, EditIcon, Ellipsis } from "lucide-react";
 
 import {
   AlertDialog,
@@ -66,9 +65,7 @@ export default function Comment({ comment }: CommentProps) {
         <div className="flex flex-1 gap-2">
           <Avatar className="w-10 h-10">
             <AvatarImage src={comment.user?.image ?? undefined} alt="profile" />
-            <AvatarFallback>
-              <FaUserAlt />
-            </AvatarFallback>
+            <AvatarFallback />
           </Avatar>
           <div className="flex flex-1 flex-col overflow-hidden">
             <div className="flex gap-2">
@@ -83,14 +80,16 @@ export default function Comment({ comment }: CommentProps) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <IoIosMore />
+                  <Ellipsis />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={updateForm.onOpen}>
+                  <EditIcon />
                   Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={deleteDialog.onOpen}>
+                  <DeleteIcon />
                   Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -8,12 +8,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { capitalCase } from "change-case";
-import { useSearchParams } from "next/navigation";
 import {
-  TiArrowSortedDown,
-  TiArrowSortedUp,
-  TiArrowUnsorted,
-} from "react-icons/ti";
+  ChevronDownIcon,
+  ChevronUpIcon,
+  ChevronsUpDownIcon,
+} from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 import {
   Table,
@@ -120,11 +120,11 @@ function SortableHeader<TData, TValue>({
     >
       {children ?? capitalCase(column.id)}
       {column.getIsSorted() === "desc" ? (
-        <TiArrowSortedDown />
+        <ChevronDownIcon />
       ) : column.getIsSorted() === "asc" ? (
-        <TiArrowSortedUp />
+        <ChevronUpIcon />
       ) : (
-        <TiArrowUnsorted />
+        <ChevronsUpDownIcon />
       )}
     </Button>
   );

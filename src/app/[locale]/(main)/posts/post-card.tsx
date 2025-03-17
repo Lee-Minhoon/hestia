@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { FaUserAlt } from "react-icons/fa";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -21,11 +20,9 @@ export default function PostCard({ data }: PostCardProps) {
     <Card className="overflow-hidden">
       <CardHeader>
         <div className="flex gap-4">
-          <Avatar>
+          <Avatar className="size-10">
             <AvatarImage src={data.user?.image ?? undefined} alt="profile" />
-            <AvatarFallback>
-              <FaUserAlt />
-            </AvatarFallback>
+            <AvatarFallback />
           </Avatar>
           <div className="flex flex-col overflow-hidden">
             <CardTitle className="text-sm">{data.post.title}</CardTitle>

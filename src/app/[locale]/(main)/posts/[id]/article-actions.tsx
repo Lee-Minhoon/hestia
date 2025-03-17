@@ -2,7 +2,7 @@
 
 import { startTransition, useActionState, useCallback } from "react";
 
-import { MdDelete, MdEdit, MdOutlineArrowBack } from "react-icons/md";
+import { ArrowLeftIcon, DeleteIcon, EditIcon } from "lucide-react";
 
 import {
   AlertDialog,
@@ -50,7 +50,7 @@ export default function ArticleActions({
     <div className="flex justify-between">
       <Button asChild variant="outline">
         <Link href={previous ?? toUrl(Pages.Posts)}>
-          <MdOutlineArrowBack />
+          <ArrowLeftIcon />
           Back
         </Link>
       </Button>
@@ -58,14 +58,14 @@ export default function ArticleActions({
         <div className="flex gap-2">
           <Button asChild variant="outline">
             <Link href={toUrl(Pages.PostEdit, { id: post.id })}>
-              <MdEdit />
+              <EditIcon />
               Edit
             </Link>
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="outline">
-                <MdDelete />
+                <DeleteIcon />
                 Delete
               </Button>
             </AlertDialogTrigger>

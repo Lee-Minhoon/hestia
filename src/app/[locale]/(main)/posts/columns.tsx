@@ -2,7 +2,6 @@
 
 import { createColumnHelper } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { FaUserAlt } from "react-icons/fa";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SortableHeader } from "@/components/ui/data-table";
@@ -21,14 +20,12 @@ export const columns = [
     header: SortableHeader,
     cell: ({ row }) => (
       <div className="flex items-center gap-2 max-w-28 overflow-hidden">
-        <Avatar className="w-8 h-8">
+        <Avatar>
           <AvatarImage
-            src={row.original.user?.image || undefined}
+            src={row.original.user?.image ?? undefined}
             alt="profile"
           />
-          <AvatarFallback>
-            <FaUserAlt />
-          </AvatarFallback>
+          <AvatarFallback />
         </Avatar>
         <span className="truncate">{row.original.user?.name}</span>
       </div>

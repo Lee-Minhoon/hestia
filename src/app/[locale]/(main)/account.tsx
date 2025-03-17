@@ -1,6 +1,6 @@
+import { LogOutIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
-import { FaUserAlt } from "react-icons/fa";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -29,27 +29,23 @@ export default async function Account() {
       {session?.user ? (
         <Sheet>
           <SheetTrigger>
-            <Avatar>
+            <Avatar className="size-10">
               <AvatarImage
                 src={session.user.image ?? undefined}
                 alt="profile"
               />
-              <AvatarFallback>
-                <FaUserAlt />
-              </AvatarFallback>
+              <AvatarFallback />
             </Avatar>
           </SheetTrigger>
-          <SheetContent className="flex flex-col gap-4">
+          <SheetContent className="flex flex-col gap-0">
             <SheetHeader>
               <div className="flex gap-4">
-                <Avatar>
+                <Avatar className="size-10">
                   <AvatarImage
                     src={session.user.image ?? undefined}
                     alt="profile"
                   />
-                  <AvatarFallback>
-                    <FaUserAlt />
-                  </AvatarFallback>
+                  <AvatarFallback />
                 </Avatar>
                 <div className="flex flex-col">
                   <SheetTitle className="text-sm">
@@ -59,7 +55,9 @@ export default async function Account() {
                 </div>
               </div>
             </SheetHeader>
-            <Separator />
+            <div className="px-4">
+              <Separator />
+            </div>
             <SheetFooter>
               <form
                 action={async () => {
@@ -78,7 +76,10 @@ export default async function Account() {
                   });
                 }}
               >
-                <Button variant={"outline"}>{t("Signout")}</Button>
+                <Button variant={"outline"}>
+                  <LogOutIcon />
+                  {t("Signout")}
+                </Button>
               </form>
             </SheetFooter>
           </SheetContent>

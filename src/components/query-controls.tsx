@@ -2,8 +2,8 @@
 
 import { useCallback } from "react";
 
+import { LayoutGridIcon, SearchIcon, TableIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { CiGrid41, CiViewTable } from "react-icons/ci";
 
 import { useSearchParams } from "@/hooks/use-search-params";
 import { QueryParamKeys } from "@/lib/queryParams";
@@ -78,7 +78,10 @@ function SearchForm({ onSubmit }: SearchFormProps) {
         {...form.register(QueryParamKeys.Search)}
         placeholder="Search..."
       />
-      <Button>Search</Button>
+      <Button>
+        <SearchIcon />
+        Search
+      </Button>
     </form>
   );
 }
@@ -86,12 +89,12 @@ function SearchForm({ onSubmit }: SearchFormProps) {
 const viewTypes = [
   {
     label: "Table View",
-    icon: <CiViewTable className="w-4 h-4" />,
+    icon: <TableIcon className="size-4" />,
     value: "table",
   },
   {
     label: "Grid View",
-    icon: <CiGrid41 className="w-4 h-4" />,
+    icon: <LayoutGridIcon className="size-4" />,
     value: "grid",
   },
 ];
@@ -119,10 +122,8 @@ function ViewTypeSelector() {
               setSearchParams(searchParams);
             }}
           >
-            <div className="flex gap-2 items-center">
-              {icon}
-              {label}
-            </div>
+            {icon}
+            {label}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

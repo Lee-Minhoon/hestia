@@ -1,5 +1,3 @@
-import { FaUserAlt } from "react-icons/fa";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@/lib/db/schema";
 
@@ -10,11 +8,9 @@ interface WriterCardProps {
 export default function WriterCard({ user }: WriterCardProps) {
   return (
     <div className="flex items-center gap-2">
-      <Avatar className="w-10 h-10">
+      <Avatar className="size-10">
         <AvatarImage src={user.image ?? undefined} alt="profile" />
-        <AvatarFallback>
-          <FaUserAlt />
-        </AvatarFallback>
+        <AvatarFallback />
       </Avatar>
       <div className="flex flex-col">
         <h2 className="text-sm truncate">{user.name}</h2>

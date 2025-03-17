@@ -1,7 +1,7 @@
 "use client";
 
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { capitalize } from "lodash-es";
+import { MoonIcon, SunIcon, SunMoonIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "./ui/button";
@@ -12,7 +12,20 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-const themeOptions = ["light", "dark", "system"];
+const themeOptions = [
+  {
+    icon: <SunIcon className="size-4" />,
+    value: "light",
+  },
+  {
+    icon: <MoonIcon className="size-4" />,
+    value: "dark",
+  },
+  {
+    icon: <SunMoonIcon className="size-4" />,
+    value: "system",
+  },
+];
 
 // https://ui.shadcn.com/docs/dark-mode/next
 function ThemeSwitcher() {
@@ -28,9 +41,10 @@ function ThemeSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {themeOptions.map((theme) => (
-          <DropdownMenuItem key={theme} onClick={() => setTheme(theme)}>
-            {capitalize(theme)}
+        {themeOptions.map(({ icon, value }) => (
+          <DropdownMenuItem key={value} onClick={() => setTheme(value)}>
+            {icon}
+            {capitalize(value)}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
