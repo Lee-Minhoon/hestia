@@ -1,6 +1,5 @@
 import { headers } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
-import { FaUserAlt } from "react-icons/fa";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -29,27 +28,23 @@ export default async function Account() {
       {session?.user ? (
         <Sheet>
           <SheetTrigger>
-            <Avatar>
+            <Avatar className="size-10">
               <AvatarImage
                 src={session.user.image ?? undefined}
                 alt="profile"
               />
-              <AvatarFallback>
-                <FaUserAlt />
-              </AvatarFallback>
+              <AvatarFallback />
             </Avatar>
           </SheetTrigger>
           <SheetContent className="flex flex-col gap-4">
             <SheetHeader>
               <div className="flex gap-4">
-                <Avatar>
+                <Avatar className="size-10">
                   <AvatarImage
                     src={session.user.image ?? undefined}
                     alt="profile"
                   />
-                  <AvatarFallback>
-                    <FaUserAlt />
-                  </AvatarFallback>
+                  <AvatarFallback />
                 </Avatar>
                 <div className="flex flex-col">
                   <SheetTitle className="text-sm">

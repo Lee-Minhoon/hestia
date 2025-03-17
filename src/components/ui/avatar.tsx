@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import { UserRoundIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -37,6 +38,7 @@ function AvatarImage({
 
 function AvatarFallback({
   className,
+  children = <UserRoundIcon className="size-5" />,
   ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
   return (
@@ -47,7 +49,9 @@ function AvatarFallback({
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </AvatarPrimitive.Fallback>
   );
 }
 

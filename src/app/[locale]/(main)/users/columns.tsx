@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { FaUserAlt } from "react-icons/fa";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DataTableHeader, SortableHeader } from "@/components/ui/data-table";
@@ -15,13 +14,13 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "image",
-    header: DataTableHeader,
+    header: ({ column }) => (
+      <DataTableHeader column={column}>Profile</DataTableHeader>
+    ),
     cell: ({ row }) => (
-      <Avatar className="w-8 h-8">
+      <Avatar>
         <AvatarImage src={row.original.image || undefined} alt="profile" />
-        <AvatarFallback>
-          <FaUserAlt />
-        </AvatarFallback>
+        <AvatarFallback />
       </Avatar>
     ),
   },
