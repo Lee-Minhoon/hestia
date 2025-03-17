@@ -14,7 +14,9 @@ import {
 } from "@/components/virtualized-list";
 import { useBreakpointValue } from "@/hooks/use-breakpoint-value";
 import { useIsServer } from "@/hooks/use-is-server";
+import { Link } from "@/lib/i18n/routing";
 import { useLoadMorePosts } from "@/lib/react-query/fetchers";
+import { Pages, toUrl } from "@/lib/routes";
 import { toRem } from "@/lib/utils";
 import { cursorSchema } from "@/lib/validation";
 
@@ -60,7 +62,12 @@ export default function PostList() {
             {rows.map((row, rowIndex) => (
               <li key={rowIndex}>
                 {row.map((col, i) => (
-                  <PostCard key={i} data={col} />
+                  <Link
+                    href={{ pathname: toUrl(Pages.Posts, { id: col.post.id }) }}
+                    key={i}
+                  >
+                    <PostCard data={col} className="hover:bg-accent" />
+                  </Link>
                 ))}
               </li>
             ))}
@@ -77,7 +84,14 @@ export default function PostList() {
                     }}
                   >
                     {rows[index].map((col, i) => (
-                      <PostCard key={i} data={col} />
+                      <Link
+                        href={{
+                          pathname: toUrl(Pages.Posts, { id: col.post.id }),
+                        }}
+                        key={i}
+                      >
+                        <PostCard data={col} className="hover:bg-accent" />
+                      </Link>
                     ))}
                   </div>
                 )}
