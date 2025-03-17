@@ -36,7 +36,7 @@ export default async function Account() {
               <AvatarFallback />
             </Avatar>
           </SheetTrigger>
-          <SheetContent className="flex flex-col gap-4">
+          <SheetContent className="flex flex-col gap-0">
             <SheetHeader>
               <div className="flex gap-4">
                 <Avatar className="size-10">
@@ -54,7 +54,9 @@ export default async function Account() {
                 </div>
               </div>
             </SheetHeader>
-            <Separator />
+            <div className="px-4">
+              <Separator />
+            </div>
             <SheetFooter>
               <form
                 action={async () => {
