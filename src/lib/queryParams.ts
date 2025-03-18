@@ -8,4 +8,5 @@ export enum QueryParamKeys {
   Order = "order",
   Search = "search",
   ViewType = "viewType",
+  Notification = "notification",
 }

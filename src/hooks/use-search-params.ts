@@ -10,25 +10,33 @@ import {
 
 import { buildUrl, toQueryString } from "@/lib/routes";
 
-type Search =
+type SetSearchParamsAction =
   | string
   | Record<string, string>
   | React.SetStateAction<URLSearchParams>;
 
+interface SetSearchParamsActionOptions {
+  replace: boolean;
+}
+
 function useSearchParams() {
   const searchParams = _useSearchParams();
   const pathname = usePathname();
-  const { push } = useRouter();
+  const router = useRouter();
 
   const setSearchParams = useCallback(
-    (search: Search) => {
-      const queryString =
-        typeof search === "function"
-          ? search(new URLSearchParams(searchParams)).toString()
-          : toQueryString(search);
-      push(buildUrl(pathname, queryString));
+    (value: SetSearchParamsAction, options?: SetSearchParamsActionOptions) => {
+      const { replace = false } = options ?? {};
+
+      if (typeof value === "function") {
+        value = value(searchParams);
+      }
+
+      const routingFn = replace ? router.replace : router.push;
+
+      routingFn(buildUrl(pathname, toQueryString(value)));
     },
-    [pathname, push, searchParams]
+    [pathname, router.push, router.replace, searchParams]
   );
 
   return { searchParams, setSearchParams };

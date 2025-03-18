@@ -12,9 +12,10 @@ import { AvailableProviders, signIn } from "@/lib/auth";
 import db from "@/lib/db";
 import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
-import { Pages, toUrl, withLocale } from "@/lib/routes";
+import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
 
 import { redirect } from "../i18n/routing";
+import { QueryParamKeys } from "../queryParams";
 
 async function getRedirectUrl() {
   const url = new URL((await headers()).get("referer") ?? "");
@@ -33,7 +34,9 @@ export async function signinAction(
 
     await signIn("credentials", {
       ...parsed,
-      redirectTo: await getRedirectUrl(),
+      redirectTo: buildUrl(await getRedirectUrl(), {
+        [QueryParamKeys.Notification]: "Successfully signed in.",
+      }),
     });
 
     return successState(null, "Successfully signed in.");
@@ -56,7 +59,9 @@ export async function signinAction(
 export async function socialLoginAction(provider: AvailableProviders) {
   try {
     await signIn(provider, {
-      redirectTo: await getRedirectUrl(),
+      redirectTo: buildUrl(await getRedirectUrl(), {
+        [QueryParamKeys.Notification]: "Successfully signed in.",
+      }),
     });
   } catch (error) {
     if (isRedirectError(error)) {
@@ -90,7 +95,12 @@ export async function signupAction(
 
     const locale = (await getLocale()) as Locale;
 
-    redirect({ href: toUrl(Pages.Signin), locale });
+    redirect({
+      href: buildUrl(toUrl(Pages.Signin), {
+        [QueryParamKeys.Notification]: "User created successfully.",
+      }),
+      locale,
+    });
 
     return successState(user.insertedId, "User created successfully.");
   } catch (error) {
