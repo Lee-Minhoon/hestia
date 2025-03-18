@@ -12,7 +12,8 @@ import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
 
 import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
-import { Pages, toUrl } from "../routes";
+import { QueryParamKeys } from "../queryParams";
+import { buildUrl, Pages, toUrl } from "../routes";
 
 async function getUser() {
   try {
@@ -67,7 +68,12 @@ export async function createPostAction(
 
     const locale = await getLocale();
 
-    redirect({ href: toUrl(Pages.Posts, { id: post.insertedId }), locale });
+    redirect({
+      href: buildUrl(toUrl(Pages.Posts, { id: post.insertedId }), {
+        [QueryParamKeys.Notification]: "Successfully created post.",
+      }),
+      locale,
+    });
 
     return successState(null, "Successfully created post.");
   } catch (error) {
@@ -123,7 +129,9 @@ export async function updatePostAction(
     const locale = await getLocale();
 
     redirect({
-      href: toUrl(Pages.Posts, { id: updatedPost.insertedId }),
+      href: buildUrl(toUrl(Pages.Posts, { id: updatedPost.insertedId }), {
+        [QueryParamKeys.Notification]: "Successfully updated post.",
+      }),
       locale,
     });
 
@@ -165,7 +173,12 @@ export async function deletePostAction(id: number, next: string) {
 
     const locale = await getLocale();
 
-    redirect({ href: next, locale });
+    redirect({
+      href: buildUrl(next, {
+        [QueryParamKeys.Notification]: "Successfully deleted post.",
+      }),
+      locale,
+    });
 
     return successState(null, "Successfully deleted post.");
   } catch (error) {
