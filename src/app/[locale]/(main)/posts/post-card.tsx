@@ -10,14 +10,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PostWithUser } from "@/lib/db/schema";
+import { cn } from "@/lib/utils";
 
-interface PostCardProps {
+interface PostCardProps extends React.ComponentProps<typeof Card> {
   data: PostWithUser;
 }
 
-export default function PostCard({ data }: PostCardProps) {
+export default function PostCard({ data, className, ...props }: PostCardProps) {
   return (
-    <Card className="overflow-hidden">
+    <Card className={cn("overflow-hidden", className)} {...props}>
       <CardHeader>
         <div className="flex gap-4">
           <Avatar className="size-10">
