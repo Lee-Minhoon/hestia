@@ -1,15 +1,17 @@
 "use client";
 
-import { useCallback } from "react";
+import { useActionState } from "react";
 
 import { capitalize } from "lodash-es";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
+import { useActionToast } from "@/hooks/use-action-toast";
+import { initState } from "@/lib/action";
 import { socialLoginAction } from "@/lib/actions/auth";
 import { AvailableProviders } from "@/lib/auth";
 
-const availableProviders: {
+const socialLoginTypes: {
   provider: AvailableProviders;
   icon: React.ReactNode;
 }[] = [
@@ -28,28 +30,36 @@ const availableProviders: {
 ];
 
 export default function SocialLoginSection() {
-  const handleSocialLogin = useCallback<
-    React.MouseEventHandler<HTMLButtonElement>
-  >((e) => {
-    socialLoginAction(e.currentTarget.id as AvailableProviders);
-  }, []);
-
   return (
     <div className="flex gap-2">
-      {availableProviders.map(({ provider, icon }) => {
+      {socialLoginTypes.map((socialLoginType) => {
         return (
-          <Button
-            key={provider}
-            id={provider}
-            variant={"outline"}
-            className={"flex-1"}
-            onClick={handleSocialLogin}
-          >
-            {icon}
-            {capitalize(provider)}
-          </Button>
+          <SocialLoginForm
+            key={socialLoginType.provider}
+            {...socialLoginType}
+          />
         );
       })}
     </div>
+  );
+}
+
+function SocialLoginForm({
+  provider,
+  icon,
+}: (typeof socialLoginTypes)[number]) {
+  const [state, dispatch, isPending] = useActionState(
+    socialLoginAction.bind(null, provider),
+    initState()
+  );
+  useActionToast(state);
+
+  return (
+    <form action={dispatch} className="flex-1">
+      <Button variant="outline" className="w-full" disabled={isPending}>
+        {icon}
+        {capitalize(provider)}
+      </Button>
+    </form>
   );
 }
