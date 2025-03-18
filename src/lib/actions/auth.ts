@@ -63,6 +63,8 @@ export async function socialLoginAction(provider: AvailableProviders) {
         [QueryParamKeys.Notification]: "Successfully signed in.",
       }),
     });
+
+    return successState(null, "Successfully signed in.");
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
