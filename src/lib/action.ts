@@ -47,3 +47,7 @@ export function handleSubmit<T extends FieldValues>(
     })(e);
   };
 }
+
+export function noop() {
+  return Promise.resolve(initState());
+}
