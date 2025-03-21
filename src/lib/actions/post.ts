@@ -14,6 +14,7 @@ import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Pages, toUrl } from "../routes";
+import { getBaseUrl } from "../utils";
 
 async function getUser() {
   try {
@@ -173,8 +174,11 @@ export async function deletePostAction(id: number, next: string) {
 
     const locale = await getLocale();
 
+    const nextUrl = new URL(next, getBaseUrl());
+
     redirect({
-      href: buildUrl(next, {
+      href: buildUrl(nextUrl.pathname, {
+        ...Object.fromEntries(nextUrl.searchParams),
         [QueryParamKeys.Notification]: "Successfully deleted post.",
       }),
       locale,
