@@ -1,32 +1,24 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 import { toast } from "sonner";
 
 import { ActionState } from "@/lib/action";
 
 function useActionToast(state: ActionState<unknown>) {
+  const handleDissmiss = useCallback(() => {
+    toast.dismiss();
+  }, []);
+
   useEffect(() => {
-    switch (state.status) {
-      case "success":
-        toast.success("Success", {
-          description: state.message,
-          cancel: {
-            label: "Dismiss",
-            onClick: () => toast.dismiss(),
-          },
-        });
-        break;
-      case "error":
-        toast.error("Error", {
-          description: state.message,
-          cancel: {
-            label: "Dismiss",
-            onClick: () => toast.dismiss(),
-          },
-        });
-        break;
-    }
-  }, [state]);
+    if (state.status === "idle") return;
+    toast[state.status]("Success", {
+      description: state.message,
+      cancel: {
+        label: "Dismiss",
+        onClick: handleDissmiss,
+      },
+    });
+  }, [handleDissmiss, state]);
 }
 
 export { useActionToast };
