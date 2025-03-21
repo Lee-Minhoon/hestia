@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
 import { createPostAction, updatePostAction } from "@/lib/actions/post";
@@ -35,6 +36,7 @@ export default function PostUpsertForm({ post }: PostUpsertFormProps) {
     initState()
   );
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   const form = useForm<
     z.infer<typeof insertPostSchema | typeof updatePostSchema>

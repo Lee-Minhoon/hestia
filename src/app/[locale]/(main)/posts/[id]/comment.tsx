@@ -1,20 +1,8 @@
 "use client";
 
-import { startTransition, useActionState, useCallback } from "react";
-
 import { format } from "date-fns";
 import { DeleteIcon, EditIcon, Ellipsis } from "lucide-react";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,34 +11,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useActionToast } from "@/hooks/use-action-toast";
 import { useDisclosure } from "@/hooks/use-disclosure";
-import { initState } from "@/lib/action";
-import { deleteCommentAction } from "@/lib/actions/comment";
 import { CommentWithUser } from "@/lib/db/schema";
 
 import CommentUpdateForm from "./comment-update-form";
 
 interface CommentProps {
   comment: CommentWithUser;
+  onDelete: (id: number) => void;
 }
 
-export default function Comment({ comment }: CommentProps) {
+export default function Comment({ comment, onDelete }: CommentProps) {
   const updateForm = useDisclosure();
-  const deleteDialog = useDisclosure();
-
-  const [state, dispatch, isPending] = useActionState(
-    deleteCommentAction.bind(null, comment.comment.id),
-    initState()
-  );
-  useActionToast(state);
-
-  const handleSubmit = useCallback(() => {
-    deleteDialog.onClose();
-    startTransition(() => {
-      dispatch();
-    });
-  }, [deleteDialog, dispatch]);
 
   return (
     <li className="flex py-4 border-b last:border-b-0">
@@ -76,49 +48,23 @@ export default function Comment({ comment }: CommentProps) {
             </div>
             <p className="text-sm break-words">{comment.comment.content}</p>
           </div>
-          <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Ellipsis />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={updateForm.onOpen}>
-                  <EditIcon />
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={deleteDialog.onOpen}>
-                  <DeleteIcon />
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <AlertDialog open={deleteDialog.isOpen}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your comment.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel
-                  onClick={deleteDialog.onClose}
-                  disabled={isPending}
-                >
-                  Cancel
-                </AlertDialogCancel>
-                <form action={dispatch} onSubmit={handleSubmit}>
-                  <AlertDialogAction type="submit" disabled={isPending}>
-                    Continue
-                  </AlertDialogAction>
-                </form>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Ellipsis />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={updateForm.onOpen}>
+                <EditIcon />
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDelete(comment.comment.id)}>
+                <DeleteIcon />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       )}
     </li>

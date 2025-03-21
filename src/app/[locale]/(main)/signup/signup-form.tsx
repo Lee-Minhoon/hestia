@@ -34,6 +34,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { signupAction } from "@/lib/actions/auth";
@@ -48,6 +49,7 @@ export default function SignupForm() {
     initState()
   );
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   const [profile, setProfile] = useState<Nullable<File>>(null);
 

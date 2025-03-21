@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { PlusIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { addTestPostsAction, deleteAllPostsAction } from "@/lib/actions/post";
@@ -34,8 +35,8 @@ function CreateTestPostsForm() {
     addTestPostsAction,
     initState()
   );
-
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   useEffect(() => {
     if (state.status === "idle") return;
@@ -58,8 +59,8 @@ function DeleteAllPostsForm() {
     deleteAllPostsAction,
     initState()
   );
-
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   useEffect(() => {
     if (state.status === "idle") return;

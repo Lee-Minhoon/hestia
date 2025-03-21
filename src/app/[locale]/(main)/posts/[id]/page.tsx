@@ -14,8 +14,8 @@ import { QueryParamKeys } from "@/lib/queryParams";
 import { paginationSchema } from "@/lib/validation";
 
 import ArticleActions from "./article-actions";
-import Comment from "./comment";
 import CommentCreateForm from "./comment-create-form";
+import CommentList from "./comment-list";
 import WriterCard from "./writer-card";
 
 export async function generateMetadata({
@@ -138,11 +138,7 @@ export default async function PostDetail({
         </main>
         <section className="flex flex-col gap-4">
           <h2 className="text-sm font-bold">{`Comments ${commentCount}`}</h2>
-          <ul className="flex flex-col">
-            {registeredComments.map((comment) => (
-              <Comment key={comment.comment.id} comment={comment} />
-            ))}
-          </ul>
+          <CommentList comments={registeredComments} />
           <Paginator
             pageIndex={pageIndex}
             pageSize={pageSize}
