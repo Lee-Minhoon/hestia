@@ -6,6 +6,7 @@ import { capitalize } from "lodash-es";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { socialLoginAction } from "@/lib/actions/auth";
@@ -53,6 +54,7 @@ function SocialLoginForm({
     initState()
   );
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   return (
     <form action={dispatch} className="flex-1">

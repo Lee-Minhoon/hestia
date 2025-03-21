@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
 import { updateCommentAction } from "@/lib/actions/comment";
@@ -39,6 +40,7 @@ export default function CommentUpdateForm({
     initState()
   );
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   const form = useForm<z.infer<typeof updateCommentSchema>>({
     resolver: zodResolver(updateCommentSchema),

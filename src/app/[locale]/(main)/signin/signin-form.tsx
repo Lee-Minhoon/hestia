@@ -25,6 +25,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
 import { signinAction } from "@/lib/actions/auth";
@@ -39,6 +40,7 @@ export default function SigninForm() {
     initState()
   );
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),

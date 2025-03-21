@@ -5,6 +5,7 @@ import { useActionState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import {
@@ -29,8 +30,8 @@ function CreateTestUsersForm() {
     createTestUsersAction,
     initState()
   );
-
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   useEffect(() => {
     if (state.status === "idle") return;
@@ -53,8 +54,8 @@ function DeleteAllUsersForm() {
     deleteAllUsersAction,
     initState()
   );
-
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   useEffect(() => {
     if (state.status === "idle") return;

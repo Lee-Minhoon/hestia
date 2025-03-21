@@ -12,6 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { useActiveId } from "@/hooks/use-active-id";
 import { initState, noop } from "@/lib/action";
@@ -32,6 +33,7 @@ export default function CommentList({ comments }: CommentListProps) {
     initState()
   );
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   const handleSubmit = useCallback(() => {
     deleting.deactive();

@@ -16,6 +16,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { deletePostAction } from "@/lib/actions/post";
@@ -39,6 +40,7 @@ export default function ArticleActions({
     initState()
   );
   useActionToast(state);
+  useActionProgress(state, isPending);
 
   const handleSubmit = useCallback(() => {
     startTransition(() => {
