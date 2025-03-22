@@ -4,6 +4,7 @@ import { useActionState } from "react";
 
 import { HeartIcon, MessageCircleIcon } from "lucide-react";
 
+import { ScrollIntoViewTrigger } from "@/components/scroll-into-view";
 import { Button } from "@/components/ui/button";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
@@ -25,10 +26,12 @@ export default function ArticleActions({
   return (
     <div className="flex gap-2">
       <LikeToggleForm postId={postId} liked={liked} likeCount={likeCount} />
-      <Button size="sm" variant="outline">
-        <MessageCircleIcon />
-        {commentCount}
-      </Button>
+      <ScrollIntoViewTrigger asChild options={{ behavior: "smooth" }}>
+        <Button size="sm" variant="outline">
+          <MessageCircleIcon />
+          {commentCount}
+        </Button>
+      </ScrollIntoViewTrigger>
     </div>
   );
 }
