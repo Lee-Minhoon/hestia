@@ -15,38 +15,24 @@ import {
   updateCommentSchema,
 } from "@/lib/db/schema";
 
-import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Pages, toUrl } from "../routes";
 import { paginationSchema } from "../validation";
 
-async function getUser() {
-  try {
-    const session = await auth();
+import { getCurrentUser } from "./auth";
+import { getPostById } from "./post";
 
-    const userId = session?.user?.id;
+export async function getCommentById(id: number) {
+  const comment = await db.query.comments.findFirst({
+    where: and(eq(comments.id, id), isNull(comments.deletedAt)),
+  });
 
-    if (!session || !userId) {
-      throw new Error("You must be logged in to add a comment.");
-    }
-
-    if (isNaN(Number(userId))) {
-      throw new Error("Invalid user ID.");
-    }
-
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, Number(userId)),
-    });
-
-    if (!user) {
-      throw new Error("User not found.");
-    }
-
-    return user;
-  } catch (err) {
-    throw err;
+  if (!comment) {
+    throw new Error("Comment not found.");
   }
+
+  return comment;
 }
 
 export async function createCommentAction(
@@ -55,7 +41,11 @@ export async function createCommentAction(
   formData: FormData
 ) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
+
+    const post = await getPostById(postId);
+
+    console.log("post", post);
 
     const parsed = insertCommentSchema.parse(Object.fromEntries(formData));
 
@@ -63,7 +53,7 @@ export async function createCommentAction(
       .insert(comments)
       .values({
         ...parsed,
-        postId,
+        postId: post.id,
         userId: user.id,
       })
       .returning({ insertedId: comments.id });
@@ -127,15 +117,9 @@ export async function updateCommentAction(
   formData: FormData
 ) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
-    const comment = await db.query.comments.findFirst({
-      where: (comments, { eq }) => eq(comments.id, id),
-    });
-
-    if (!comment) {
-      return errorState("Comment not found.");
-    }
+    const comment = await getCommentById(id);
 
     if (user.id !== comment.userId) {
       return errorState("You do not have permission to update this comment.");
@@ -175,15 +159,9 @@ export async function updateCommentAction(
 
 export async function deleteCommentAction(id: number) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
-    const comment = await db.query.comments.findFirst({
-      where: (comments, { eq }) => eq(comments.id, id),
-    });
-
-    if (!comment) {
-      return errorState("Comment not found.");
-    }
+    const comment = await getCommentById(id);
 
     if (user.id !== comment.userId) {
       return errorState("You do not have permission to delete this comment.");

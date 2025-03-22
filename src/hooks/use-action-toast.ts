@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from "react";
 
+import { capitalCase } from "change-case";
 import { toast } from "sonner";
 
 import { ActionState } from "@/lib/action";
@@ -11,7 +12,7 @@ function useActionToast(state: ActionState<unknown>) {
 
   useEffect(() => {
     if (state.status === "idle") return;
-    toast[state.status]("Success", {
+    toast[state.status](capitalCase(state.status), {
       description: state.message,
       cancel: {
         label: "Dismiss",

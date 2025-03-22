@@ -25,9 +25,8 @@ export default function Notifier() {
 
     setSearchParams(
       (searchParams) => {
-        const newSearchParams = new URLSearchParams(searchParams);
-        newSearchParams.delete(QueryParamKeys.Notification);
-        return newSearchParams;
+        searchParams.delete(QueryParamKeys.Notification);
+        return searchParams;
       },
       { replace: true }
     );

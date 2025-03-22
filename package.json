@@ -51,6 +51,7 @@
     "change-case": "^5.4.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "copy-to-clipboard": "^3.3.3",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.36.0",
     "drizzle-zod": "^0.5.1",

@@ -1,96 +1,104 @@
 "use client";
 
-import { startTransition, useActionState, useCallback } from "react";
+import { useActionState } from "react";
 
-import { ArrowLeftIcon, DeleteIcon, EditIcon } from "lucide-react";
-
+import copy from "copy-to-clipboard";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  ForwardIcon,
+  HeartIcon,
+  LinkIcon,
+  MessageCircleIcon,
+} from "lucide-react";
+import { toast } from "sonner";
+
+import { ScrollIntoViewTrigger } from "@/components/scroll-into-view";
 import { Button } from "@/components/ui/button";
-import { useActionProgress } from "@/hooks/use-action-progress";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
-import { deletePostAction } from "@/lib/actions/post";
-import { Post } from "@/lib/db/schema";
-import { Link } from "@/lib/i18n/routing";
-import { Pages, toUrl } from "@/lib/routes";
+import { createLikeAction, deleteLikeAction } from "@/lib/actions/like";
 
 interface ArticleActionsProps {
-  previous?: string;
-  post: Post;
-  isOwner: boolean;
+  postId: number;
+  liked: boolean;
+  likeCount: number;
+  commentCount: number;
 }
 
 export default function ArticleActions({
-  previous,
-  post,
-  isOwner,
+  postId,
+  liked,
+  likeCount,
+  commentCount,
 }: ArticleActionsProps) {
+  return (
+    <div className="flex justify-between">
+      <div className="flex gap-2">
+        <LikeToggleForm postId={postId} liked={liked} likeCount={likeCount} />
+        <ScrollIntoViewTrigger asChild options={{ behavior: "smooth" }}>
+          <Button size="sm" variant="outline">
+            <MessageCircleIcon />
+            {commentCount}
+          </Button>
+        </ScrollIntoViewTrigger>
+      </div>
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button size="sm" variant="outline">
+              <ForwardIcon />
+              Share
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => {
+                if (copy(window.location.href)) {
+                  toast.success("Link copied to clipboard");
+                } else {
+                  toast.error("Failed to copy link to clipboard");
+                }
+              }}
+            >
+              <LinkIcon />
+              Copy Link
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  );
+}
+
+interface LikeToggleFormProps {
+  postId: number;
+  likeCount: number;
+  liked: boolean;
+}
+
+function LikeToggleForm({ postId, likeCount, liked }: LikeToggleFormProps) {
+  const createLikeWithPostId = createLikeAction.bind(null, postId);
+  const deleteLikeWithPostId = deleteLikeAction.bind(null, postId);
+
   const [state, dispatch, isPending] = useActionState(
-    deletePostAction.bind(null, post.id, previous ?? toUrl(Pages.Posts)),
+    liked ? deleteLikeWithPostId : createLikeWithPostId,
     initState()
   );
   useActionToast(state);
-  useActionProgress(state, isPending);
-
-  const handleSubmit = useCallback(() => {
-    startTransition(() => {
-      dispatch();
-    });
-  }, [dispatch]);
 
   return (
-    <div className="flex justify-between">
-      <Button asChild variant="outline">
-        <Link href={previous ?? toUrl(Pages.Posts)}>
-          <ArrowLeftIcon />
-          Back
-        </Link>
+    <form action={dispatch}>
+      <Button type="submit" size="sm" variant="outline" disabled={isPending}>
+        <HeartIcon
+          className={liked ? "fill-foreground stroke-foreground" : ""}
+        />
+        {likeCount}
       </Button>
-      {isOwner && (
-        <div className="flex gap-2">
-          <Button asChild variant="outline">
-            <Link href={toUrl(Pages.PostEdit, { id: post.id })}>
-              <EditIcon />
-              Edit
-            </Link>
-          </Button>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="outline">
-                <DeleteIcon />
-                Delete
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your post.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <form action={dispatch} onSubmit={handleSubmit}>
-                  <AlertDialogAction type="submit" disabled={isPending}>
-                    Continue
-                  </AlertDialogAction>
-                </form>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      )}
-    </div>
+    </form>
   );
 }

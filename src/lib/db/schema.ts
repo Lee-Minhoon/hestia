@@ -159,3 +159,20 @@ export const insertCommentSchema = createInsertSchema(comments, {
 export const updateCommentSchema = insertCommentSchema.pick({
   content: true,
 });
+
+export const likes = pgTable("like", {
+  id: base.id,
+  createdAt: base.createdAt,
+  userId: integer("userId")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+    }),
+  postId: integer("postId")
+    .notNull()
+    .references(() => posts.id, {
+      onDelete: "cascade",
+    }),
+});
+
+export type Like = InferSelectModel<typeof likes>;

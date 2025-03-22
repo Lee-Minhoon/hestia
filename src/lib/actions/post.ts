@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { getLocale } from "next-intl/server";
@@ -10,38 +10,23 @@ import { ActionState, errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
 
-import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Pages, toUrl } from "../routes";
 import { getBaseUrl } from "../utils";
 
-async function getUser() {
-  try {
-    const session = await auth();
+import { getCurrentUser } from "./auth";
 
-    const userId = session?.user?.id;
+export async function getPostById(id: number) {
+  const post = await db.query.posts.findFirst({
+    where: and(eq(posts.id, id), isNull(posts.deletedAt)),
+  });
 
-    if (!session || !userId) {
-      throw new Error("You must be logged in to add a post.");
-    }
-
-    if (isNaN(Number(userId))) {
-      throw new Error("Invalid user ID.");
-    }
-
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, Number(userId)),
-    });
-
-    if (!user) {
-      throw new Error("User not found.");
-    }
-
-    return user;
-  } catch (err) {
-    throw err;
+  if (!post) {
+    throw new Error("Post not found.");
   }
+
+  return post;
 }
 
 export async function createPostAction(
@@ -49,7 +34,7 @@ export async function createPostAction(
   formData: FormData
 ) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     const parsed = insertPostSchema.parse(Object.fromEntries(formData));
 
@@ -96,15 +81,9 @@ export async function updatePostAction(
   formData: FormData
 ) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
-    const post = await db.query.posts.findFirst({
-      where: (posts, { eq }) => eq(posts.id, id),
-    });
-
-    if (!post) {
-      return errorState("Post not found.");
-    }
+    const post = await getPostById(id);
 
     if (user.id !== post.userId) {
       return errorState("You do not have permission to update this post.");
@@ -152,15 +131,9 @@ export async function updatePostAction(
 
 export async function deletePostAction(id: number, next: string) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
-    const post = await db.query.posts.findFirst({
-      where: (posts, { eq }) => eq(posts.id, id),
-    });
-
-    if (!post) {
-      return errorState("Post not found.");
-    }
+    const post = await getPostById(id);
 
     if (user.id !== post.userId) {
       return errorState("You do not have permission to delete this post.");
@@ -197,7 +170,7 @@ export async function deletePostAction(id: number, next: string) {
 
 export async function addTestPostsAction() {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     await db
       .insert(posts)

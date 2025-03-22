@@ -1,22 +1,28 @@
 import { and, count, eq, isNull } from "drizzle-orm";
 import DOMPurify from "isomorphic-dompurify";
 import { clamp } from "lodash-es";
+import { ArrowLeftIcon } from "lucide-react";
 import { Metadata } from "next";
 import { BlogPosting } from "schema-dts";
 
+import { ScrollIntoView } from "@/components/scroll-into-view";
+import { Button } from "@/components/ui/button";
 import { Paginator } from "@/components/ui/pagination";
 import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
-import { comments, users } from "@/lib/db/schema";
+import { comments, likes, users } from "@/lib/db/schema";
+import { Link } from "@/lib/i18n/routing";
 import { JsonLd } from "@/lib/metadata";
 import { QueryParamKeys } from "@/lib/queryParams";
+import { Pages, toUrl } from "@/lib/routes";
 import { paginationSchema } from "@/lib/validation";
 
 import ArticleActions from "./article-actions";
+import ArticleAuthor from "./article-author";
+import AuthorActions from "./author-actions";
 import CommentCreateForm from "./comment-create-form";
 import CommentList from "./comment-list";
-import WriterCard from "./writer-card";
 
 export async function generateMetadata({
   params,
@@ -95,6 +101,20 @@ export default async function PostDetail({
 
   const session = await auth();
 
+  const liked = !!(await db.query.likes.findFirst({
+    where: and(
+      eq(likes.postId, post.id),
+      eq(likes.userId, Number(session?.user?.id))
+    ),
+  }));
+
+  const likeCount = (
+    await db
+      .select({ count: count() })
+      .from(likes)
+      .where(eq(likes.postId, post.id))
+  )[0].count;
+
   const jsonLd = JsonLd<BlogPosting>({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -107,13 +127,19 @@ export default async function PostDetail({
     },
   });
 
+  const isAuthor = post.userId === Number(session?.user?.id);
+
   return (
     <div className="flex flex-col gap-4">
-      <ArticleActions
-        previous={next}
-        post={post}
-        isOwner={post.userId === Number(session?.user?.id)}
-      />
+      <div className="flex justify-between">
+        <Button asChild variant="outline">
+          <Link href={next ?? toUrl(Pages.Posts)}>
+            <ArrowLeftIcon />
+            Back
+          </Link>
+        </Button>
+        {isAuthor && <AuthorActions previous={next} post={post} />}
+      </div>
       <article className="flex flex-col rounded-md border p-4 gap-4">
         <script
           type="application/ld+json"
@@ -122,7 +148,7 @@ export default async function PostDetail({
         <header className="flex flex-col gap-4 pb-4 border-b">
           <h1 className="font-bold text-xl break-words">{post.title}</h1>
           <div className="flex justify-between">
-            <WriterCard user={user} />
+            <ArticleAuthor user={user} />
             <time className="text-sm text-muted-foreground">
               {post.createdAt.toLocaleString()}
             </time>
@@ -137,8 +163,15 @@ export default async function PostDetail({
           />
         </main>
         <section className="flex flex-col gap-4">
-          <h2 className="text-sm font-bold">{`Comments ${commentCount}`}</h2>
-          <CommentList comments={registeredComments} />
+          <ScrollIntoView>
+            <ArticleActions
+              postId={Number(id)}
+              liked={liked}
+              likeCount={likeCount}
+              commentCount={commentCount}
+            />
+            <CommentList comments={registeredComments} />
+          </ScrollIntoView>
           <Paginator
             pageIndex={pageIndex}
             pageSize={pageSize}
