@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { getLocale } from "next-intl/server";
@@ -16,6 +16,18 @@ import { buildUrl, Pages, toUrl } from "../routes";
 import { getBaseUrl } from "../utils";
 
 import { getCurrentUser } from "./auth";
+
+export async function getPostById(id: number) {
+  const post = await db.query.posts.findFirst({
+    where: and(eq(posts.id, id), isNull(posts.deletedAt)),
+  });
+
+  if (!post) {
+    throw new Error("Post not found.");
+  }
+
+  return post;
+}
 
 export async function createPostAction(
   previousState: ActionState<null>,
@@ -71,13 +83,7 @@ export async function updatePostAction(
   try {
     const user = await getCurrentUser();
 
-    const post = await db.query.posts.findFirst({
-      where: (posts, { eq }) => eq(posts.id, id),
-    });
-
-    if (!post) {
-      return errorState("Post not found.");
-    }
+    const post = await getPostById(id);
 
     if (user.id !== post.userId) {
       return errorState("You do not have permission to update this post.");
@@ -127,13 +133,7 @@ export async function deletePostAction(id: number, next: string) {
   try {
     const user = await getCurrentUser();
 
-    const post = await db.query.posts.findFirst({
-      where: (posts, { eq }) => eq(posts.id, id),
-    });
-
-    if (!post) {
-      return errorState("Post not found.");
-    }
+    const post = await getPostById(id);
 
     if (user.id !== post.userId) {
       return errorState("You do not have permission to delete this post.");
