@@ -10,46 +10,19 @@ import { ActionState, errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
 
-import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Pages, toUrl } from "../routes";
 import { getBaseUrl } from "../utils";
 
-async function getUser() {
-  try {
-    const session = await auth();
-
-    const userId = session?.user?.id;
-
-    if (!session || !userId) {
-      throw new Error("You must be logged in to add a post.");
-    }
-
-    if (isNaN(Number(userId))) {
-      throw new Error("Invalid user ID.");
-    }
-
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, Number(userId)),
-    });
-
-    if (!user) {
-      throw new Error("User not found.");
-    }
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-}
+import { getCurrentUser } from "./auth";
 
 export async function createPostAction(
   previousState: ActionState<null>,
   formData: FormData
 ) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     const parsed = insertPostSchema.parse(Object.fromEntries(formData));
 
@@ -96,7 +69,7 @@ export async function updatePostAction(
   formData: FormData
 ) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     const post = await db.query.posts.findFirst({
       where: (posts, { eq }) => eq(posts.id, id),
@@ -152,7 +125,7 @@ export async function updatePostAction(
 
 export async function deletePostAction(id: number, next: string) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     const post = await db.query.posts.findFirst({
       where: (posts, { eq }) => eq(posts.id, id),
@@ -197,7 +170,7 @@ export async function deletePostAction(id: number, next: string) {
 
 export async function addTestPostsAction() {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     await db
       .insert(posts)

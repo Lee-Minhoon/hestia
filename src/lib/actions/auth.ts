@@ -14,6 +14,7 @@ import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
 import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
 
+import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
 import { QueryParamKeys } from "../queryParams";
 
@@ -23,6 +24,34 @@ async function getRedirectUrl() {
   const locale = (await getLocale()) as Locale;
 
   return next || withLocale(toUrl(Pages.Home), locale);
+}
+
+export async function getCurrentUser() {
+  try {
+    const session = await auth();
+
+    const userId = session?.user?.id;
+
+    if (!session || !userId) {
+      throw new Error("You must be logged in to add a post.");
+    }
+
+    if (isNaN(Number(userId))) {
+      throw new Error("Invalid user ID.");
+    }
+
+    const user = await db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, Number(userId)),
+    });
+
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    return user;
+  } catch (err) {
+    throw err;
+  }
 }
 
 export async function signinAction(

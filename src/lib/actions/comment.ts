@@ -15,39 +15,12 @@ import {
   updateCommentSchema,
 } from "@/lib/db/schema";
 
-import { auth } from "../auth";
 import { redirect } from "../i18n/routing";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Pages, toUrl } from "../routes";
 import { paginationSchema } from "../validation";
 
-async function getUser() {
-  try {
-    const session = await auth();
-
-    const userId = session?.user?.id;
-
-    if (!session || !userId) {
-      throw new Error("You must be logged in to add a comment.");
-    }
-
-    if (isNaN(Number(userId))) {
-      throw new Error("Invalid user ID.");
-    }
-
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, Number(userId)),
-    });
-
-    if (!user) {
-      throw new Error("User not found.");
-    }
-
-    return user;
-  } catch (err) {
-    throw err;
-  }
-}
+import { getCurrentUser } from "./auth";
 
 export async function createCommentAction(
   postId: number,
@@ -55,7 +28,7 @@ export async function createCommentAction(
   formData: FormData
 ) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     const parsed = insertCommentSchema.parse(Object.fromEntries(formData));
 
@@ -127,7 +100,7 @@ export async function updateCommentAction(
   formData: FormData
 ) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     const comment = await db.query.comments.findFirst({
       where: (comments, { eq }) => eq(comments.id, id),
@@ -175,7 +148,7 @@ export async function updateCommentAction(
 
 export async function deleteCommentAction(id: number) {
   try {
-    const user = await getUser();
+    const user = await getCurrentUser();
 
     const comment = await db.query.comments.findFirst({
       where: (comments, { eq }) => eq(comments.id, id),
