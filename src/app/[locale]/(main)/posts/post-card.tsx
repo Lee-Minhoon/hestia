@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import DOMPurify from "isomorphic-dompurify";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -36,7 +37,11 @@ export default function PostCard({ data, className, ...props }: PostCardProps) {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <p className="truncate">{data.post.content}</p>
+        <p className="truncate">
+          {DOMPurify.sanitize(data.post.content, {
+            ALLOWED_TAGS: ["p", "h1", "h2", "h3", "h4", "h5", "h6"],
+          }).replace(/<[^>]*>/g, "") || "No content"}
+        </p>
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-xs text-muted-foreground">
