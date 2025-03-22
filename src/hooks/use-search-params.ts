@@ -29,7 +29,7 @@ function useSearchParams() {
       const { replace = false } = options ?? {};
 
       if (typeof value === "function") {
-        value = value(searchParams);
+        value = value(new URLSearchParams(searchParams));
       }
 
       const routingFn = replace ? router.replace : router.push;
