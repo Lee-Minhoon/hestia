@@ -92,6 +92,7 @@ export default function PostList() {
                   >
                     {rows[index].map((col, i) => (
                       <Link
+                        className="overflow-hidden"
                         href={buildUrl(
                           toUrl(Pages.Posts, { id: col.post.id }),
                           {
