@@ -17,10 +17,10 @@ import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
 import { paginationSchema } from "@/lib/validation";
 
+import ArticleAuthor from "./article-author";
 import AuthorActions from "./author-actions";
 import CommentCreateForm from "./comment-create-form";
 import CommentList from "./comment-list";
-import WriterCard from "./writer-card";
 
 export async function generateMetadata({
   params,
@@ -132,7 +132,7 @@ export default async function PostDetail({
         <header className="flex flex-col gap-4 pb-4 border-b">
           <h1 className="font-bold text-xl break-words">{post.title}</h1>
           <div className="flex justify-between">
-            <WriterCard user={user} />
+            <ArticleAuthor user={user} />
             <time className="text-sm text-muted-foreground">
               {post.createdAt.toLocaleString()}
             </time>

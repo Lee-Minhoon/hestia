@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@/lib/db/schema";
 
-interface WriterCardProps {
+interface ArticleAuthorProps {
   user: User;
 }
 
-export default function WriterCard({ user }: WriterCardProps) {
+export default function ArticleAuthor({ user }: ArticleAuthorProps) {
   return (
     <div className="flex items-center gap-2">
       <Avatar className="size-10">
