@@ -1,19 +1,23 @@
 import { and, count, eq, isNull } from "drizzle-orm";
 import DOMPurify from "isomorphic-dompurify";
 import { clamp } from "lodash-es";
+import { ArrowLeftIcon } from "lucide-react";
 import { Metadata } from "next";
 import { BlogPosting } from "schema-dts";
 
+import { Button } from "@/components/ui/button";
 import { Paginator } from "@/components/ui/pagination";
 import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
 import { comments, users } from "@/lib/db/schema";
+import { Link } from "@/lib/i18n/routing";
 import { JsonLd } from "@/lib/metadata";
 import { QueryParamKeys } from "@/lib/queryParams";
+import { Pages, toUrl } from "@/lib/routes";
 import { paginationSchema } from "@/lib/validation";
 
-import ArticleActions from "./article-actions";
+import AuthorActions from "./author-actions";
 import CommentCreateForm from "./comment-create-form";
 import CommentList from "./comment-list";
 import WriterCard from "./writer-card";
@@ -107,13 +111,19 @@ export default async function PostDetail({
     },
   });
 
+  const isAuthor = post.userId === Number(session?.user?.id);
+
   return (
     <div className="flex flex-col gap-4">
-      <ArticleActions
-        previous={next}
-        post={post}
-        isOwner={post.userId === Number(session?.user?.id)}
-      />
+      <div className="flex justify-between">
+        <Button asChild variant="outline">
+          <Link href={next ?? toUrl(Pages.Posts)}>
+            <ArrowLeftIcon />
+            Back
+          </Link>
+        </Button>
+        {isAuthor && <AuthorActions previous={next} post={post} />}
+      </div>
       <article className="flex flex-col rounded-md border p-4 gap-4">
         <script
           type="application/ld+json"
