@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import { Metadata } from "next";
 import { BlogPosting } from "schema-dts";
 
+import { ScrollIntoView } from "@/components/scroll-into-view";
 import { Button } from "@/components/ui/button";
 import { Paginator } from "@/components/ui/pagination";
 import { auth } from "@/lib/auth";
@@ -162,13 +163,15 @@ export default async function PostDetail({
           />
         </main>
         <section className="flex flex-col gap-4">
-          <ArticleActions
-            postId={Number(id)}
-            liked={liked}
-            likeCount={likeCount}
-            commentCount={commentCount}
-          />
-          <CommentList comments={registeredComments} />
+          <ScrollIntoView>
+            <ArticleActions
+              postId={Number(id)}
+              liked={liked}
+              likeCount={likeCount}
+              commentCount={commentCount}
+            />
+            <CommentList comments={registeredComments} />
+          </ScrollIntoView>
           <Paginator
             pageIndex={pageIndex}
             pageSize={pageSize}

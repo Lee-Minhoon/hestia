@@ -2,6 +2,7 @@
 
 import { startTransition, useActionState, useCallback } from "react";
 
+import { ScrollIntoViewContent } from "@/components/scroll-into-view";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,35 +44,40 @@ export default function CommentList({ comments }: CommentListProps) {
   }, [deleting, dispatch]);
 
   return (
-    <ul className="flex flex-col">
-      {comments.map((comment) => (
-        <Comment
-          key={comment.comment.id}
-          comment={comment}
-          onDelete={deleting.active}
-        />
-      ))}
-      <AlertDialog open={deleting.activated}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              comment.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={deleting.deactive} disabled={isPending}>
-              Cancel
-            </AlertDialogCancel>
-            <form action={dispatch} onSubmit={handleSubmit}>
-              <AlertDialogAction type="submit" disabled={isPending}>
-                Continue
-              </AlertDialogAction>
-            </form>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </ul>
+    <ScrollIntoViewContent>
+      <ul className="flex flex-col">
+        {comments.map((comment) => (
+          <Comment
+            key={comment.comment.id}
+            comment={comment}
+            onDelete={deleting.active}
+          />
+        ))}
+        <AlertDialog open={deleting.activated}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                comment.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                onClick={deleting.deactive}
+                disabled={isPending}
+              >
+                Cancel
+              </AlertDialogCancel>
+              <form action={dispatch} onSubmit={handleSubmit}>
+                <AlertDialogAction type="submit" disabled={isPending}>
+                  Continue
+                </AlertDialogAction>
+              </form>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </ul>
+    </ScrollIntoViewContent>
   );
 }
