@@ -10,13 +10,14 @@ import { Paginator } from "@/components/ui/pagination";
 import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
-import { comments, users } from "@/lib/db/schema";
+import { comments, likes, users } from "@/lib/db/schema";
 import { Link } from "@/lib/i18n/routing";
 import { JsonLd } from "@/lib/metadata";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
 import { paginationSchema } from "@/lib/validation";
 
+import ArticleActions from "./article-actions";
 import ArticleAuthor from "./article-author";
 import AuthorActions from "./author-actions";
 import CommentCreateForm from "./comment-create-form";
@@ -99,6 +100,20 @@ export default async function PostDetail({
 
   const session = await auth();
 
+  const liked = !!(await db.query.likes.findFirst({
+    where: and(
+      eq(likes.postId, post.id),
+      eq(likes.userId, Number(session?.user?.id))
+    ),
+  }));
+
+  const likeCount = (
+    await db
+      .select({ count: count() })
+      .from(likes)
+      .where(eq(likes.postId, post.id))
+  )[0].count;
+
   const jsonLd = JsonLd<BlogPosting>({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -147,7 +162,12 @@ export default async function PostDetail({
           />
         </main>
         <section className="flex flex-col gap-4">
-          <h2 className="text-sm font-bold">{`Comments ${commentCount}`}</h2>
+          <ArticleActions
+            postId={Number(id)}
+            liked={liked}
+            likeCount={likeCount}
+            commentCount={commentCount}
+          />
           <CommentList comments={registeredComments} />
           <Paginator
             pageIndex={pageIndex}
