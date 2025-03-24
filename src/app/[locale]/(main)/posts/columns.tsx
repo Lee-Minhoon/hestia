@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SortableHeader } from "@/components/ui/data-table";
 import { PostWithUser } from "@/lib/db/schema";
-import { Link } from "@/lib/i18n/routing";
+import { Link } from "@/lib/i18n/navigation";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, Pages, toUrl } from "@/lib/routes";
 

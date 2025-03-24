@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import { auth, signOut } from "@/lib/auth";
 import { Locale } from "@/lib/i18n/locale";
-import { Link } from "@/lib/i18n/routing";
+import { Link } from "@/lib/i18n/navigation";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { isPrivatePage, Pages, toUrl, withLocale } from "@/lib/routes";
 

@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import createMiddleware from "next-intl/middleware";
 
-import { routing } from "@/lib/i18n/routing";
-
 import authConfig from "../auth.config";
 
+import { routing } from "./lib/i18n/routing";
 import { QueryParamKeys } from "./lib/queryParams";
 import {
   getLocale,

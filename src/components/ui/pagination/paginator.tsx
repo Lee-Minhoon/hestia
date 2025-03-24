@@ -7,7 +7,7 @@ import { UrlObject } from "url";
 import { clamp } from "lodash-es";
 import { useSearchParams } from "next/navigation";
 
-import { usePathname } from "@/lib/i18n/routing";
+import { usePathname } from "@/lib/i18n/navigation";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { toQueryString } from "@/lib/routes";
 

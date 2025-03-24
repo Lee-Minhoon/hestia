@@ -14,7 +14,7 @@ import {
 } from "@/components/virtualized-list";
 import { useBreakpointValue } from "@/hooks/use-breakpoint-value";
 import { useIsServer } from "@/hooks/use-is-server";
-import { Link } from "@/lib/i18n/routing";
+import { Link } from "@/lib/i18n/navigation";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { useLoadMorePosts } from "@/lib/react-query/fetchers";
 import { buildUrl, Pages, toUrl } from "@/lib/routes";

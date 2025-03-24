@@ -1,4 +1,4 @@
-import { Link } from "@/lib/i18n/routing";
+import { Link } from "@/lib/i18n/navigation";
 import { Pages, toUrl } from "@/lib/routes";
 
 import Account from "./account";

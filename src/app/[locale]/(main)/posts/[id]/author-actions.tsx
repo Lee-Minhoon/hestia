@@ -21,7 +21,7 @@ import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { deletePostAction } from "@/lib/actions/post";
 import { Post } from "@/lib/db/schema";
-import { Link } from "@/lib/i18n/routing";
+import { Link } from "@/lib/i18n/navigation";
 import { Pages, toUrl } from "@/lib/routes";
 
 interface AuthorActionsProps {

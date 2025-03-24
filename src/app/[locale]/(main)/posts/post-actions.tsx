@@ -10,7 +10,7 @@ import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { addTestPostsAction, deleteAllPostsAction } from "@/lib/actions/post";
-import { Link } from "@/lib/i18n/routing";
+import { Link } from "@/lib/i18n/navigation";
 import { buildUrl, Endpoints, Pages, toUrl } from "@/lib/routes";
 
 export default function PostActions() {

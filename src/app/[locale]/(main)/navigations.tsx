@@ -1,6 +1,6 @@
 "use client";
 
-import { Link, usePathname } from "@/lib/i18n/routing";
+import { Link, usePathname } from "@/lib/i18n/navigation";
 import { findNavHierarchy, navItems } from "@/lib/navigation";
 import { buildUrl, toUrl } from "@/lib/routes";
 import { cn } from "@/lib/utils";

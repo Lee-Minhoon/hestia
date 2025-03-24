@@ -15,7 +15,7 @@ import {
   updateCommentSchema,
 } from "@/lib/db/schema";
 
-import { redirect } from "../i18n/routing";
+import { redirect } from "../i18n/navigation";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Pages, toUrl } from "../routes";
 import { paginationSchema } from "../validation";

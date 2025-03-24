@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Link } from "@/lib/i18n/routing";
+import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {

@@ -12,7 +12,7 @@ import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
 import { comments, likes, users } from "@/lib/db/schema";
-import { Link } from "@/lib/i18n/routing";
+import { Link } from "@/lib/i18n/navigation";
 import { JsonLd } from "@/lib/metadata";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
