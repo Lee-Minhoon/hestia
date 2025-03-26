@@ -20,8 +20,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
-import { updateCommentAction } from "@/lib/actions/comment";
 import { Comment, updateCommentSchema } from "@/lib/db/schema";
+import { updateCommentAction } from "@/server-actions/comment";
 
 interface CommentUpdateFormProps {
   comment: Comment;

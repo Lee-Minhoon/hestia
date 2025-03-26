@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
-import { socialLoginAction } from "@/lib/actions/auth";
 import { AvailableProviders } from "@/lib/auth";
+import { socialLoginAction } from "@/server-actions/auth";
 
 const socialLoginTypes: {
   provider: AvailableProviders;

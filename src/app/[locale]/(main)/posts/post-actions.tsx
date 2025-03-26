@@ -10,14 +10,17 @@ import { Button } from "@/components/ui/button";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
-import { addTestPostsAction, deleteAllPostsAction } from "@/lib/actions/post";
-import { buildUrl, Endpoints, Pages, toUrl } from "@/lib/routes";
+import { Endpoints, Pages, toUrl } from "@/lib/routes";
+import {
+  addTestPostsAction,
+  deleteAllPostsAction,
+} from "@/server-actions/post";
 
 export default function PostActions() {
   return (
     <div className="flex gap-2">
       <Button asChild>
-        <ProgressLink href={buildUrl(toUrl(Pages.PostAdd))}>
+        <ProgressLink href={toUrl(Pages.PostAdd)}>
           <PlusIcon />
           Add Post
         </ProgressLink>

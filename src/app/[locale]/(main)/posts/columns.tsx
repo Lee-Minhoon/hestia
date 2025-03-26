@@ -38,9 +38,15 @@ export const columns = [
       return (
         <div className="max-w-sm truncate">
           <ProgressLink
-            href={buildUrl(toUrl(Pages.Posts, { id: row.original.post.id }), {
-              [QueryParamKeys.Next]: buildUrl(toUrl(Pages.Posts), searchParams),
-            })}
+            href={{
+              pathname: toUrl(Pages.Posts, { id: row.original.post.id }),
+              query: {
+                [QueryParamKeys.Next]: buildUrl(
+                  toUrl(Pages.Posts),
+                  searchParams
+                ),
+              },
+            }}
             className="hover:underline"
           >
             {row.original.post.title}

@@ -20,8 +20,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
-import { createCommentAction } from "@/lib/actions/comment";
 import { insertCommentSchema } from "@/lib/db/schema";
+import { createCommentAction } from "@/server-actions/comment";
 
 interface CommentCreateFormProps {
   postId: number;

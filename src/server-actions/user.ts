@@ -7,8 +7,7 @@ import { revalidatePath } from "next/cache";
 import { errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { users } from "@/lib/db/schema";
-
-import { Pages, toUrl } from "../routes";
+import { Pages, toUrl } from "@/lib/routes";
 
 export async function createTestUsersAction() {
   try {
