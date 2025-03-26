@@ -22,8 +22,8 @@ import { Input } from "@/components/ui/input";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
-import { createPostAction, updatePostAction } from "@/lib/actions/post";
 import { insertPostSchema, Post, updatePostSchema } from "@/lib/db/schema";
+import { createPostAction, updatePostAction } from "@/server-actions/post";
 
 interface PostUpsertFormProps {
   post?: Post;

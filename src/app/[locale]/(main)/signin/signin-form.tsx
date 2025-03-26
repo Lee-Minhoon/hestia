@@ -28,8 +28,8 @@ import { Input } from "@/components/ui/input";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { handleSubmit, initState } from "@/lib/action";
-import { signinAction } from "@/lib/actions/auth";
 import { signinSchema } from "@/lib/db/schema";
+import { signinAction } from "@/server-actions/auth";
 
 import SocialLoginSection from "./social-login-section";
 

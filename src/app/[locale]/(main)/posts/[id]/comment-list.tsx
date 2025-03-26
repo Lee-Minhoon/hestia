@@ -17,8 +17,8 @@ import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { useActiveId } from "@/hooks/use-active-id";
 import { initState, noop } from "@/lib/action";
-import { deleteCommentAction } from "@/lib/actions/comment";
 import { CommentWithUser } from "@/lib/db/schema";
+import { deleteCommentAction } from "@/server-actions/comment";
 
 import Comment from "./comment";
 

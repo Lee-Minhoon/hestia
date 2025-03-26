@@ -9,11 +9,10 @@ import { z } from "zod";
 import { ActionState, errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
-
-import { redirect } from "../i18n/navigation";
-import { QueryParamKeys } from "../queryParams";
-import { Pages, toUrl } from "../routes";
-import { getBaseUrl } from "../utils";
+import { redirect } from "@/lib/i18n/navigation";
+import { QueryParamKeys } from "@/lib/queryParams";
+import { Pages, toUrl } from "@/lib/routes";
+import { getBaseUrl } from "@/lib/utils";
 
 import { getCurrentUser } from "./auth";
 

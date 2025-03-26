@@ -37,9 +37,9 @@ import { Input } from "@/components/ui/input";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
-import { signupAction } from "@/lib/actions/auth";
 import { upload } from "@/lib/api";
 import { signupSchema } from "@/lib/db/schema";
+import { signupAction } from "@/server-actions/auth";
 import { Nullable } from "@/types/common";
 
 export default function SignupForm() {

@@ -20,9 +20,9 @@ import { Button } from "@/components/ui/button";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
-import { deletePostAction } from "@/lib/actions/post";
 import { Post } from "@/lib/db/schema";
 import { Pages, toUrl } from "@/lib/routes";
+import { deletePostAction } from "@/server-actions/post";
 
 interface AuthorActionsProps {
   previous?: string;

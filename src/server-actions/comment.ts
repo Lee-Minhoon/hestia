@@ -14,11 +14,10 @@ import {
   insertCommentSchema,
   updateCommentSchema,
 } from "@/lib/db/schema";
-
-import { redirect } from "../i18n/navigation";
-import { QueryParamKeys } from "../queryParams";
-import { Pages, toUrl } from "../routes";
-import { paginationSchema } from "../validation";
+import { redirect } from "@/lib/i18n/navigation";
+import { QueryParamKeys } from "@/lib/queryParams";
+import { Pages, toUrl } from "@/lib/routes";
+import { paginationSchema } from "@/lib/validation";
 
 import { getCurrentUser } from "./auth";
 import { getPostById } from "./post";

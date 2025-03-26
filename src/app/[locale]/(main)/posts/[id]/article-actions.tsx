@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
-import { createLikeAction, deleteLikeAction } from "@/lib/actions/like";
+import { createLikeAction, deleteLikeAction } from "@/server-actions/like";
 
 interface ArticleActionsProps {
   postId: number;

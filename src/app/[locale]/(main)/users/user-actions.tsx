@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
+import { Endpoints, toUrl } from "@/lib/routes";
 import {
   createTestUsersAction,
   deleteAllUsersAction,
-} from "@/lib/actions/user";
-import { Endpoints, toUrl } from "@/lib/routes";
+} from "@/server-actions/user";
 
 export default function UserActions() {
   return (

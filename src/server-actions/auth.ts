@@ -9,14 +9,13 @@ import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
 import { AvailableProviders, signIn } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
+import { redirect } from "@/lib/i18n/navigation";
+import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
-
-import { auth } from "../auth";
-import { redirect } from "../i18n/navigation";
-import { QueryParamKeys } from "../queryParams";
 
 async function getRedirectUrl() {
   const url = new URL((await headers()).get("referer") ?? "");

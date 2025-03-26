@@ -10,8 +10,11 @@ import { Button } from "@/components/ui/button";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
-import { addTestPostsAction, deleteAllPostsAction } from "@/lib/actions/post";
 import { Endpoints, Pages, toUrl } from "@/lib/routes";
+import {
+  addTestPostsAction,
+  deleteAllPostsAction,
+} from "@/server-actions/post";
 
 export default function PostActions() {
   return (

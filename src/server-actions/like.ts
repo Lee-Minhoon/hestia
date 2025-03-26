@@ -8,8 +8,7 @@ import { z } from "zod";
 import { errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { likes } from "@/lib/db/schema";
-
-import { Pages, toUrl } from "../routes";
+import { Pages, toUrl } from "@/lib/routes";
 
 import { getCurrentUser } from "./auth";
 import { getPostById } from "./post";
