@@ -3,8 +3,9 @@
 import { capitalize } from "lodash-es";
 import { useLocale } from "next-intl";
 
+import { useProgressRouter } from "@/hooks/use-progress-router";
 import { Locale } from "@/lib/i18n/locale";
-import { usePathname, useRouter } from "@/lib/i18n/navigation";
+import { usePathname } from "@/lib/i18n/navigation";
 
 import { Button } from "./ui/button";
 import {
@@ -16,7 +17,7 @@ import {
 
 function LocaleSwitcher() {
   const locale = useLocale();
-  const router = useRouter();
+  const router = useProgressRouter();
   const pathname = usePathname();
 
   return (

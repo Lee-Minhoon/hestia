@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import { Metadata } from "next";
 import { BlogPosting } from "schema-dts";
 
+import { ProgressLink } from "@/components/progress-link";
 import { ScrollIntoView } from "@/components/scroll-into-view";
 import { Button } from "@/components/ui/button";
 import { Paginator } from "@/components/ui/pagination";
@@ -12,7 +13,6 @@ import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { withPagination, withSorting } from "@/lib/db/query-helpers";
 import { comments, likes, users } from "@/lib/db/schema";
-import { Link } from "@/lib/i18n/navigation";
 import { JsonLd } from "@/lib/metadata";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
@@ -133,10 +133,10 @@ export default async function PostDetail({
     <div className="flex flex-col gap-4">
       <div className="flex justify-between">
         <Button asChild variant="outline">
-          <Link href={next ?? toUrl(Pages.Posts)}>
+          <ProgressLink href={next ?? toUrl(Pages.Posts)}>
             <ArrowLeftIcon />
             Back
-          </Link>
+          </ProgressLink>
         </Button>
         {isAuthor && <AuthorActions previous={next} post={post} />}
       </div>

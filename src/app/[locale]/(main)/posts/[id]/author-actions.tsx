@@ -4,6 +4,7 @@ import { startTransition, useActionState, useCallback } from "react";
 
 import { DeleteIcon, EditIcon } from "lucide-react";
 
+import { ProgressLink } from "@/components/progress-link";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,7 +22,6 @@ import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { deletePostAction } from "@/lib/actions/post";
 import { Post } from "@/lib/db/schema";
-import { Link } from "@/lib/i18n/navigation";
 import { Pages, toUrl } from "@/lib/routes";
 
 interface AuthorActionsProps {
@@ -46,10 +46,10 @@ export default function AuthorActions({ previous, post }: AuthorActionsProps) {
   return (
     <div className="flex gap-2">
       <Button asChild variant="outline">
-        <Link href={toUrl(Pages.PostEdit, { id: post.id })}>
+        <ProgressLink href={toUrl(Pages.PostEdit, { id: post.id })}>
           <EditIcon />
           Edit
-        </Link>
+        </ProgressLink>
       </Button>
       <AlertDialog>
         <AlertDialogTrigger asChild>
