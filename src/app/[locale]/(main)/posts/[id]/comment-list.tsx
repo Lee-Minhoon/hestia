@@ -36,12 +36,16 @@ export default function CommentList({ comments }: CommentListProps) {
   useActionToast(state);
   useActionProgress(state, isPending);
 
-  const handleSubmit = useCallback(() => {
-    deleting.deactive();
-    startTransition(() => {
-      dispatch();
-    });
-  }, [deleting, dispatch]);
+  const handleSubmit = useCallback<React.FormEventHandler>(
+    (e) => {
+      e.preventDefault();
+      deleting.deactive();
+      startTransition(() => {
+        dispatch();
+      });
+    },
+    [deleting, dispatch]
+  );
 
   return (
     <ScrollIntoViewContent>
