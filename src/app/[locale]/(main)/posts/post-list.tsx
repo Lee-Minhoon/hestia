@@ -8,13 +8,13 @@ import {
   InfiniteLoader,
   InfiniteLoaderLoadMore,
 } from "@/components/infinite-loader";
+import { ProgressLink } from "@/components/progress-link";
 import {
   VirtualizedList,
   VirtualizedListContainer,
 } from "@/components/virtualized-list";
 import { useBreakpointValue } from "@/hooks/use-breakpoint-value";
 import { useIsServer } from "@/hooks/use-is-server";
-import { Link } from "@/lib/i18n/routing";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { useLoadMorePosts } from "@/lib/react-query/fetchers";
 import { buildUrl, Pages, toUrl } from "@/lib/routes";
@@ -64,7 +64,7 @@ export default function PostList() {
             {rows.map((row, rowIndex) => (
               <li key={rowIndex}>
                 {row.map((col, i) => (
-                  <Link
+                  <ProgressLink
                     href={buildUrl(toUrl(Pages.Posts, { id: col.post.id }), {
                       [QueryParamKeys.Next]: buildUrl(
                         toUrl(Pages.Posts),
@@ -74,7 +74,7 @@ export default function PostList() {
                     key={i}
                   >
                     <PostCard data={col} className="hover:bg-accent" />
-                  </Link>
+                  </ProgressLink>
                 ))}
               </li>
             ))}
@@ -91,7 +91,8 @@ export default function PostList() {
                     }}
                   >
                     {rows[index].map((col, i) => (
-                      <Link
+                      <ProgressLink
+                        className="overflow-hidden"
                         href={buildUrl(
                           toUrl(Pages.Posts, { id: col.post.id }),
                           {
@@ -104,7 +105,7 @@ export default function PostList() {
                         key={i}
                       >
                         <PostCard data={col} className="hover:bg-accent" />
-                      </Link>
+                      </ProgressLink>
                     ))}
                   </div>
                 )}

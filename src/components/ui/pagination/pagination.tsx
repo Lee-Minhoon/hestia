@@ -8,8 +8,8 @@ import {
   MoreHorizontalIcon,
 } from "lucide-react";
 
+import { ProgressLink } from "@/components/progress-link";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
@@ -45,7 +45,7 @@ type PaginationLinkProps = {
   isActive?: boolean;
   isDisabled?: boolean;
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<typeof Link>;
+  React.ComponentProps<typeof ProgressLink>;
 
 function PaginationLink({
   className,
@@ -55,7 +55,7 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   return (
-    <Link
+    <ProgressLink
       aria-current={isActive ? "page" : undefined}
       data-slot="pagination-link"
       data-active={isActive}

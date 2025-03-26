@@ -15,7 +15,7 @@ import {
   updateCommentSchema,
 } from "@/lib/db/schema";
 
-import { redirect } from "../i18n/routing";
+import { redirect } from "../i18n/navigation";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Pages, toUrl } from "../routes";
 import { paginationSchema } from "../validation";
@@ -44,8 +44,6 @@ export async function createCommentAction(
     const user = await getCurrentUser();
 
     const post = await getPostById(postId);
-
-    console.log("post", post);
 
     const parsed = insertCommentSchema.parse(Object.fromEntries(formData));
 

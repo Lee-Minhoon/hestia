@@ -44,7 +44,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --width-content: 1280px;
+  --width-content: 1080px;
 }
 
 :root {

@@ -3,10 +3,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { format } from "date-fns";
 
+import { ProgressLink } from "@/components/progress-link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SortableHeader } from "@/components/ui/data-table";
 import { PostWithUser } from "@/lib/db/schema";
-import { Link } from "@/lib/i18n/routing";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, Pages, toUrl } from "@/lib/routes";
 
@@ -37,14 +37,14 @@ export const columns = [
       const { searchParams } = table.options.meta ?? {};
       return (
         <div className="max-w-sm truncate">
-          <Link
+          <ProgressLink
             href={buildUrl(toUrl(Pages.Posts, { id: row.original.post.id }), {
               [QueryParamKeys.Next]: buildUrl(toUrl(Pages.Posts), searchParams),
             })}
             className="hover:underline"
           >
             {row.original.post.title}
-          </Link>
+          </ProgressLink>
         </div>
       );
     },

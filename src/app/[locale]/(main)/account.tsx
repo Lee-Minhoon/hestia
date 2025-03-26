@@ -2,6 +2,7 @@ import { LogOutIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { ProgressLink } from "@/components/progress-link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/sheet";
 import { auth, signOut } from "@/lib/auth";
 import { Locale } from "@/lib/i18n/locale";
-import { Link } from "@/lib/i18n/routing";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { isPrivatePage, Pages, toUrl, withLocale } from "@/lib/routes";
 
@@ -88,12 +88,16 @@ export default async function Account() {
         <ul className="flex gap-2">
           <li>
             <Button asChild variant={"outline"}>
-              <Link href={toUrl(Pages.Signin)}>{t("Signin")}</Link>
+              <ProgressLink href={toUrl(Pages.Signin)}>
+                {t("Signin")}
+              </ProgressLink>
             </Button>
           </li>
           <li>
             <Button asChild>
-              <Link href={toUrl(Pages.Signup)}>{t("Signup")}</Link>
+              <ProgressLink href={toUrl(Pages.Signup)}>
+                {t("Signup")}
+              </ProgressLink>
             </Button>
           </li>
         </ul>

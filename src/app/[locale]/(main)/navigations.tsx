@@ -1,6 +1,7 @@
 "use client";
 
-import { Link, usePathname } from "@/lib/i18n/routing";
+import { ProgressLink } from "@/components/progress-link";
+import { usePathname } from "@/lib/i18n/navigation";
 import { findNavHierarchy, navItems } from "@/lib/navigation";
 import { buildUrl, toUrl } from "@/lib/routes";
 import { cn } from "@/lib/utils";
@@ -13,7 +14,7 @@ export default function Navigations() {
       {navItems.map((item) => {
         return (
           <li key={item.label} className="flex">
-            <Link
+            <ProgressLink
               key={item.label}
               href={buildUrl(toUrl(item.pathname), item.search)}
               className={cn(
@@ -22,7 +23,7 @@ export default function Navigations() {
               )}
             >
               {item.label}
-            </Link>
+            </ProgressLink>
           </li>
         );
       })}

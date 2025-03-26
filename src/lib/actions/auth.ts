@@ -15,7 +15,7 @@ import { Locale } from "@/lib/i18n/locale";
 import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
 
 import { auth } from "../auth";
-import { redirect } from "../i18n/routing";
+import { redirect } from "../i18n/navigation";
 import { QueryParamKeys } from "../queryParams";
 
 async function getRedirectUrl() {

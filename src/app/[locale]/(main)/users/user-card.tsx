@@ -19,13 +19,13 @@ export default function UserCard({ data: user }: UserCardProps) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex gap-4">
+        <div className="flex gap-4 overflow-hidden">
           <Avatar className="size-10">
             <AvatarImage src={user.image ?? undefined} alt="profile" />
             <AvatarFallback />
           </Avatar>
           <div className="flex flex-col overflow-hidden">
-            <CardTitle className="text-sm">{user.name}</CardTitle>
+            <CardTitle className="text-sm truncate">{user.name}</CardTitle>
             <CardDescription className="truncate">{user.email}</CardDescription>
           </div>
         </div>
@@ -35,7 +35,7 @@ export default function UserCard({ data: user }: UserCardProps) {
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-xs text-muted-foreground">
-          {`Joined on ${format(user.createdAt, "PPpp")}`}
+          {`Joined on ${format(user.createdAt, "yyyy-MM-dd HH:mm")}`}
         </p>
       </CardFooter>
     </Card>

@@ -2,13 +2,12 @@
 
 import { useCallback } from "react";
 
-import {
-  useSearchParams as _useSearchParams,
-  usePathname,
-  useRouter,
-} from "next/navigation";
+import { useSearchParams as _useSearchParams } from "next/navigation";
 
+import { usePathname } from "@/lib/i18n/navigation";
 import { buildUrl, toQueryString } from "@/lib/routes";
+
+import { useProgressRouter } from "./use-progress-router";
 
 type SetSearchParamsAction =
   | string
@@ -22,7 +21,7 @@ interface SetSearchParamsActionOptions {
 function useSearchParams() {
   const searchParams = _useSearchParams();
   const pathname = usePathname();
-  const router = useRouter();
+  const router = useProgressRouter();
 
   const setSearchParams = useCallback(
     (value: SetSearchParamsAction, options?: SetSearchParamsActionOptions) => {
