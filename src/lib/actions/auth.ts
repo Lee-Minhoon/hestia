@@ -127,9 +127,12 @@ export async function signupAction(
     const locale = (await getLocale()) as Locale;
 
     redirect({
-      href: buildUrl(toUrl(Pages.Signin), {
-        [QueryParamKeys.Notification]: "User created successfully.",
-      }),
+      href: {
+        pathname: toUrl(Pages.Signin),
+        query: {
+          [QueryParamKeys.Notification]: "User created successfully.",
+        },
+      },
       locale,
     });
 

@@ -12,7 +12,7 @@ import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
 
 import { redirect } from "../i18n/navigation";
 import { QueryParamKeys } from "../queryParams";
-import { buildUrl, Pages, toUrl } from "../routes";
+import { Pages, toUrl } from "../routes";
 import { getBaseUrl } from "../utils";
 
 import { getCurrentUser } from "./auth";
@@ -55,9 +55,12 @@ export async function createPostAction(
     const locale = await getLocale();
 
     redirect({
-      href: buildUrl(toUrl(Pages.Posts, { id: post.insertedId }), {
-        [QueryParamKeys.Notification]: "Successfully created post.",
-      }),
+      href: {
+        pathname: toUrl(Pages.Posts, { id: post.insertedId }),
+        query: {
+          [QueryParamKeys.Notification]: "Successfully created post.",
+        },
+      },
       locale,
     });
 
@@ -109,9 +112,12 @@ export async function updatePostAction(
     const locale = await getLocale();
 
     redirect({
-      href: buildUrl(toUrl(Pages.Posts, { id: updatedPost.insertedId }), {
-        [QueryParamKeys.Notification]: "Successfully updated post.",
-      }),
+      href: {
+        pathname: toUrl(Pages.Posts, { id: updatedPost.insertedId }),
+        query: {
+          [QueryParamKeys.Notification]: "Successfully updated post.",
+        },
+      },
       locale,
     });
 
@@ -150,10 +156,13 @@ export async function deletePostAction(id: number, next: string) {
     const nextUrl = new URL(next, getBaseUrl());
 
     redirect({
-      href: buildUrl(nextUrl.pathname, {
-        ...Object.fromEntries(nextUrl.searchParams),
-        [QueryParamKeys.Notification]: "Successfully deleted post.",
-      }),
+      href: {
+        pathname: nextUrl.pathname,
+        query: {
+          ...Object.fromEntries(nextUrl.searchParams),
+          [QueryParamKeys.Notification]: "Successfully deleted post.",
+        },
+      },
       locale,
     });
 

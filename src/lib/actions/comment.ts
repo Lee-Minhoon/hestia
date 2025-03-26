@@ -17,7 +17,7 @@ import {
 
 import { redirect } from "../i18n/navigation";
 import { QueryParamKeys } from "../queryParams";
-import { buildUrl, Pages, toUrl } from "../routes";
+import { Pages, toUrl } from "../routes";
 import { paginationSchema } from "../validation";
 
 import { getCurrentUser } from "./auth";
@@ -88,9 +88,12 @@ export async function createCommentAction(
     } else {
       const locale = await getLocale();
       redirect({
-        href: buildUrl(toUrl(Pages.Posts, { id: postId }), {
-          [QueryParamKeys.PageIndex]: Math.ceil(commentCount / 10).toString(),
-        }),
+        href: {
+          pathname: toUrl(Pages.Posts, { id: postId }),
+          query: {
+            [QueryParamKeys.PageIndex]: Math.ceil(commentCount / 10).toString(),
+          },
+        },
         locale,
       });
     }

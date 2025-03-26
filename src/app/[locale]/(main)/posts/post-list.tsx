@@ -65,12 +65,15 @@ export default function PostList() {
               <li key={rowIndex}>
                 {row.map((col, i) => (
                   <ProgressLink
-                    href={buildUrl(toUrl(Pages.Posts, { id: col.post.id }), {
-                      [QueryParamKeys.Next]: buildUrl(
-                        toUrl(Pages.Posts),
-                        searchParams
-                      ),
-                    })}
+                    href={{
+                      pathname: toUrl(Pages.Posts, { id: col.post.id }),
+                      query: {
+                        [QueryParamKeys.Next]: buildUrl(
+                          toUrl(Pages.Posts),
+                          searchParams
+                        ),
+                      },
+                    }}
                     key={i}
                   >
                     <PostCard data={col} className="hover:bg-accent" />
@@ -93,15 +96,15 @@ export default function PostList() {
                     {rows[index].map((col, i) => (
                       <ProgressLink
                         className="overflow-hidden"
-                        href={buildUrl(
-                          toUrl(Pages.Posts, { id: col.post.id }),
-                          {
+                        href={{
+                          pathname: toUrl(Pages.Posts, { id: col.post.id }),
+                          query: {
                             [QueryParamKeys.Next]: buildUrl(
                               toUrl(Pages.Posts),
                               searchParams
                             ),
-                          }
-                        )}
+                          },
+                        }}
                         key={i}
                       >
                         <PostCard data={col} className="hover:bg-accent" />

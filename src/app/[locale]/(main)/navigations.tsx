@@ -3,7 +3,7 @@
 import { ProgressLink } from "@/components/progress-link";
 import { usePathname } from "@/lib/i18n/navigation";
 import { findNavHierarchy, navItems } from "@/lib/navigation";
-import { buildUrl, toUrl } from "@/lib/routes";
+import { toUrl } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
 export default function Navigations() {
@@ -16,7 +16,10 @@ export default function Navigations() {
           <li key={item.label} className="flex">
             <ProgressLink
               key={item.label}
-              href={buildUrl(toUrl(item.pathname), item.search)}
+              href={{
+                pathname: toUrl(item.pathname),
+                query: item.search,
+              }}
               className={cn(
                 "text-sm font-medium text-muted-foreground transition-colors hover:text-primary",
                 findNavHierarchy(pathname).includes(item) ? "text-primary" : ""
