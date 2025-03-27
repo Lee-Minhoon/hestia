@@ -1,13 +1,33 @@
 "use server";
 
 import { hash } from "bcrypt";
-import { desc } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import { errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { Pages, toUrl } from "@/lib/routes";
+
+export async function getUserById(id: number) {
+  try {
+    return await db.query.users.findFirst({
+      where: and(eq(users.id, id), isNull(users.deletedAt)),
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getUserByIdOrThrow(id: number) {
+  const user = await getUserById(id);
+
+  if (!user) {
+    throw new Error("User not found.");
+  }
+
+  return user;
+}
 
 export async function createTestUsersAction() {
   try {

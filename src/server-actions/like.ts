@@ -11,13 +11,13 @@ import { likes } from "@/lib/db/schema";
 import { Pages, toUrl } from "@/lib/routes";
 
 import { getCurrentUser } from "./auth";
-import { getPostById } from "./post";
+import { getPostByIdOrThrow } from "./post";
 
 export async function createLikeAction(postId: number) {
   try {
     const user = await getCurrentUser();
 
-    const post = await getPostById(postId);
+    const post = await getPostByIdOrThrow(postId);
 
     const result = await db
       .insert(likes)

@@ -37,11 +37,15 @@ export default function AuthorActions({ previous, post }: AuthorActionsProps) {
   useActionToast(state);
   useActionProgress(state, isPending);
 
-  const handleSubmit = useCallback(() => {
-    startTransition(() => {
-      dispatch();
-    });
-  }, [dispatch]);
+  const handleSubmit = useCallback<React.FormEventHandler>(
+    (e) => {
+      e.preventDefault();
+      startTransition(() => {
+        dispatch();
+      });
+    },
+    [dispatch]
+  );
 
   return (
     <div className="flex gap-2">

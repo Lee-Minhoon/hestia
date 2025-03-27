@@ -30,11 +30,6 @@
             "pattern": "react",
             "group": "builtin",
             "position": "before"
-          },
-          {
-            "pattern": "../**/*.css",
-            "group": "type",
-            "position": "after"
           }
         ],
         "pathGroupsExcludedImportTypes": ["react"],
