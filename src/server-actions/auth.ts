@@ -8,14 +8,15 @@ import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
-import { AvailableProviders, signIn } from "@/lib/auth";
-import { auth } from "@/lib/auth";
+import { auth, AvailableProviders, signIn } from "@/lib/auth";
 import db from "@/lib/db";
 import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
 import { redirect } from "@/lib/i18n/navigation";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
+
+import { getUserByIdOrThrow } from "./user";
 
 async function getRedirectUrl() {
   const url = new URL((await headers()).get("referer") ?? "");
@@ -39,15 +40,7 @@ export async function getCurrentUser() {
       throw new Error("Invalid user ID.");
     }
 
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, Number(userId)),
-    });
-
-    if (!user) {
-      throw new Error("User not found.");
-    }
-
-    return user;
+    return getUserByIdOrThrow(Number(userId));
   } catch (err) {
     throw err;
   }
