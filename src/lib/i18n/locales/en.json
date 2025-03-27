@@ -1,4 +1,8 @@
 {
+  "Error": {
+    "Message": "Something went wrong.",
+    "Try again": "Try again"
+  },
   "NotFound": {
     "NotFound": "Not Found",
     "NotFound Description": "Could not find requested resource.",
