@@ -32,7 +32,7 @@ export async function getCurrentUser() {
     const userId = session?.user?.id;
 
     if (!session || !userId) {
-      throw new Error("You must be logged in to add a post.");
+      throw new Error("You must be logged in.");
     }
 
     if (isNaN(Number(userId))) {
