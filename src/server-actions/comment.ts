@@ -19,7 +19,7 @@ import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
 import { paginationSchema } from "@/lib/validation";
 
-import { getCurrentUser } from "./auth";
+import { getCurrentUserOrThrow } from "./auth";
 import { getPostByIdOrThrow } from "./post";
 
 export async function getCommentById(id: number) {
@@ -48,7 +48,7 @@ export async function createCommentAction(
   formData: FormData
 ) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const post = await getPostByIdOrThrow(postId);
 
@@ -125,7 +125,7 @@ export async function updateCommentAction(
   formData: FormData
 ) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const comment = await getCommentByIdOrThrow(id);
 
@@ -167,7 +167,7 @@ export async function updateCommentAction(
 
 export async function deleteCommentAction(id: number) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const comment = await getCommentByIdOrThrow(id);
 

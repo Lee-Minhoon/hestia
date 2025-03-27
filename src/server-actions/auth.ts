@@ -16,7 +16,7 @@ import { redirect } from "@/lib/i18n/navigation";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
 
-import { getUserByIdOrThrow } from "./user";
+import { getUserById, getUserByIdOrThrow } from "./user";
 
 async function getRedirectUrl() {
   const url = new URL((await headers()).get("referer") ?? "");
@@ -26,19 +26,39 @@ async function getRedirectUrl() {
   return next || withLocale(toUrl(Pages.Home), locale);
 }
 
-export async function getCurrentUser() {
+async function getCurrentUserId() {
   try {
     const session = await auth();
 
     const userId = session?.user?.id;
 
-    if (!session || !userId) {
-      throw new Error("You must be logged in.");
+    if (!userId) {
+      return null;
     }
 
     if (isNaN(Number(userId))) {
       throw new Error("Invalid user ID.");
     }
+
+    return Number(userId);
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getCurrentUser() {
+  try {
+    const userId = await getCurrentUserId();
+
+    return getUserById(Number(userId));
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getCurrentUserOrThrow() {
+  try {
+    const userId = await getCurrentUserId();
 
     return getUserByIdOrThrow(Number(userId));
   } catch (err) {

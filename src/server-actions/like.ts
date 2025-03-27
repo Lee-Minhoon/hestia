@@ -10,12 +10,12 @@ import db from "@/lib/db";
 import { likes } from "@/lib/db/schema";
 import { Pages, toUrl } from "@/lib/routes";
 
-import { getCurrentUser } from "./auth";
+import { getCurrentUserOrThrow } from "./auth";
 import { getPostByIdOrThrow } from "./post";
 
 export async function createLikeAction(postId: number) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const post = await getPostByIdOrThrow(postId);
 
@@ -51,7 +51,7 @@ export async function createLikeAction(postId: number) {
 
 export async function deleteLikeAction(postId: number) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const like = await db.query.likes.findFirst({
       where: and(eq(likes.postId, postId), eq(likes.userId, user.id)),

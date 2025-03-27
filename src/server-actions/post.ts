@@ -14,7 +14,7 @@ import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
 import { getBaseUrl } from "@/lib/utils";
 
-import { getCurrentUser } from "./auth";
+import { getCurrentUserOrThrow } from "./auth";
 
 export async function getPostById(id: number) {
   try {
@@ -41,7 +41,7 @@ export async function createPostAction(
   formData: FormData
 ) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const parsed = insertPostSchema.parse(Object.fromEntries(formData));
 
@@ -91,7 +91,7 @@ export async function updatePostAction(
   formData: FormData
 ) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const post = await getPostByIdOrThrow(id);
 
@@ -144,7 +144,7 @@ export async function updatePostAction(
 
 export async function deletePostAction(id: number, next: string) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const post = await getPostByIdOrThrow(id);
 
@@ -186,7 +186,7 @@ export async function deletePostAction(id: number, next: string) {
 
 export async function addTestPostsAction() {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     await db
       .insert(posts)
