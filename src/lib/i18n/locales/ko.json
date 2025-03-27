@@ -1,4 +1,9 @@
 {
+  "NotFound": {
+    "NotFound": "페이지를 찾을 수 없습니다",
+    "NotFound Description": "요청한 페이지를 찾을 수 없습니다.",
+    "Go Home": "홈으로 가기"
+  },
   "MainLayout": {
     "Signin": "로그인",
     "Signup": "회원가입",

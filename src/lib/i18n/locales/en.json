@@ -1,4 +1,9 @@
 {
+  "NotFound": {
+    "NotFound": "Not Found",
+    "NotFound Description": "Could not find requested resource.",
+    "Go Home": "Go Home"
+  },
   "MainLayout": {
     "Signin": "Sign in",
     "Signup": "Sign up",
