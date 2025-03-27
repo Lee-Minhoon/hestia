@@ -10,8 +10,6 @@ import Providers from "../providers/providers";
 
 import type { Metadata } from "next";
 
-import "../globals.css";
-
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -26,7 +24,7 @@ export async function generateStaticParams() {
   return Object.values(Locale).map((locale) => ({ locale }));
 }
 
-export default function RootLayout(
+export default function LocaleLayout(
   props: Readonly<{
     children: React.ReactNode;
     params: Promise<{ locale: Locale }>;
