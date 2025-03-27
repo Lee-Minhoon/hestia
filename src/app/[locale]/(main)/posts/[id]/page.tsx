@@ -17,6 +17,8 @@ import { JsonLd } from "@/lib/metadata";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
 import { paginationSchema } from "@/lib/validation";
+import { getPostById } from "@/server-actions/post";
+import { getUserById } from "@/server-actions/user";
 
 import ArticleActions from "./article-actions";
 import ArticleAuthor from "./article-author";
@@ -58,18 +60,13 @@ export default async function PostDetail({
 
   const { pageIndex } = paginationSchema.parse(rest);
 
-  const post = await db.query.posts.findFirst({
-    where: (posts, { and, eq, isNull }) =>
-      and(eq(posts.id, Number(id)), isNull(posts.deletedAt)),
-  });
+  const post = await getPostById(Number(id));
 
   if (!post) {
     return <div>Post not found</div>;
   }
 
-  const user = await db.query.users.findFirst({
-    where: (users, { eq }) => eq(users.id, post.userId),
-  });
+  const user = await getUserById(post.userId);
 
   if (!user) {
     return <div>User not found</div>;

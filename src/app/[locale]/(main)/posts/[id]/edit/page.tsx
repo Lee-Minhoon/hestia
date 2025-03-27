@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
-import db from "@/lib/db";
+import { getPostById } from "@/server-actions/post";
+import { getUserById } from "@/server-actions/user";
 
 import PostUpsertForm from "../../post-upsert-form";
 
@@ -10,17 +11,13 @@ export default async function PostEdit({
 }) {
   const { id } = await params;
 
-  const post = await db.query.posts.findFirst({
-    where: (posts, { eq }) => eq(posts.id, Number(id)),
-  });
+  const post = await getPostById(Number(id));
 
   if (!post) {
     return <div>Post not found</div>;
   }
 
-  const user = await db.query.users.findFirst({
-    where: (users, { eq }) => eq(users.id, post.userId),
-  });
+  const user = await getUserById(post.userId);
 
   if (!user) {
     return <div>User not found</div>;
