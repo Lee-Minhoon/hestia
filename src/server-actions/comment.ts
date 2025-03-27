@@ -20,12 +20,20 @@ import { Pages, toUrl } from "@/lib/routes";
 import { paginationSchema } from "@/lib/validation";
 
 import { getCurrentUser } from "./auth";
-import { getPostById } from "./post";
+import { getPostByIdOrThrow } from "./post";
 
 export async function getCommentById(id: number) {
-  const comment = await db.query.comments.findFirst({
-    where: and(eq(comments.id, id), isNull(comments.deletedAt)),
-  });
+  try {
+    return await db.query.comments.findFirst({
+      where: and(eq(comments.id, id), isNull(comments.deletedAt)),
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getCommentByIdOrThrow(id: number) {
+  const comment = await getCommentById(id);
 
   if (!comment) {
     throw new Error("Comment not found.");
@@ -42,7 +50,7 @@ export async function createCommentAction(
   try {
     const user = await getCurrentUser();
 
-    const post = await getPostById(postId);
+    const post = await getPostByIdOrThrow(postId);
 
     const parsed = insertCommentSchema.parse(Object.fromEntries(formData));
 
@@ -119,7 +127,7 @@ export async function updateCommentAction(
   try {
     const user = await getCurrentUser();
 
-    const comment = await getCommentById(id);
+    const comment = await getCommentByIdOrThrow(id);
 
     if (user.id !== comment.userId) {
       return errorState("You do not have permission to update this comment.");
@@ -161,7 +169,7 @@ export async function deleteCommentAction(id: number) {
   try {
     const user = await getCurrentUser();
 
-    const comment = await getCommentById(id);
+    const comment = await getCommentByIdOrThrow(id);
 
     if (user.id !== comment.userId) {
       return errorState("You do not have permission to delete this comment.");

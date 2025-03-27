@@ -17,9 +17,17 @@ import { getBaseUrl } from "@/lib/utils";
 import { getCurrentUser } from "./auth";
 
 export async function getPostById(id: number) {
-  const post = await db.query.posts.findFirst({
-    where: and(eq(posts.id, id), isNull(posts.deletedAt)),
-  });
+  try {
+    return await db.query.posts.findFirst({
+      where: and(eq(posts.id, id), isNull(posts.deletedAt)),
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getPostByIdOrThrow(id: number) {
+  const post = await getPostById(id);
 
   if (!post) {
     throw new Error("Post not found.");
@@ -85,7 +93,7 @@ export async function updatePostAction(
   try {
     const user = await getCurrentUser();
 
-    const post = await getPostById(id);
+    const post = await getPostByIdOrThrow(id);
 
     if (user.id !== post.userId) {
       return errorState("You do not have permission to update this post.");
@@ -138,7 +146,7 @@ export async function deletePostAction(id: number, next: string) {
   try {
     const user = await getCurrentUser();
 
-    const post = await getPostById(id);
+    const post = await getPostByIdOrThrow(id);
 
     if (user.id !== post.userId) {
       return errorState("You do not have permission to delete this post.");
