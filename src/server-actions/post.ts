@@ -10,6 +10,7 @@ import { ActionState, errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
 import { redirect } from "@/lib/i18n/navigation";
+import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
 import { getBaseUrl } from "@/lib/utils";
@@ -65,7 +66,10 @@ export async function createPostAction(
       href: {
         pathname: toUrl(Pages.Posts, { id: post.insertedId }),
         query: {
-          [QueryParamKeys.Notification]: "Successfully created post.",
+          [QueryParamKeys.Notification]: makeNotification({
+            type: "success",
+            description: "Successfully created post.",
+          }),
         },
       },
       locale,
@@ -122,7 +126,10 @@ export async function updatePostAction(
       href: {
         pathname: toUrl(Pages.Posts, { id: updatedPost.insertedId }),
         query: {
-          [QueryParamKeys.Notification]: "Successfully updated post.",
+          [QueryParamKeys.Notification]: makeNotification({
+            type: "success",
+            description: "Successfully updated post.",
+          }),
         },
       },
       locale,
@@ -167,7 +174,10 @@ export async function deletePostAction(id: number, next: string) {
         pathname: nextUrl.pathname,
         query: {
           ...Object.fromEntries(nextUrl.searchParams),
-          [QueryParamKeys.Notification]: "Successfully deleted post.",
+          [QueryParamKeys.Notification]: makeNotification({
+            type: "success",
+            description: "Successfully deleted post.",
+          }),
         },
       },
       locale,

@@ -14,6 +14,7 @@ import db from "@/lib/db";
 import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
 import { redirect } from "@/lib/i18n/navigation";
+import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
 
@@ -77,7 +78,10 @@ export async function signinAction(
     await signIn("credentials", {
       ...parsed,
       redirectTo: buildUrl(await getRedirectUrl(), {
-        [QueryParamKeys.Notification]: "Successfully signed in.",
+        [QueryParamKeys.Notification]: makeNotification({
+          type: "success",
+          description: "Successfully signed in.",
+        }),
       }),
     });
 
@@ -102,7 +106,10 @@ export async function socialLoginAction(provider: AvailableProviders) {
   try {
     await signIn(provider, {
       redirectTo: buildUrl(await getRedirectUrl(), {
-        [QueryParamKeys.Notification]: "Successfully signed in.",
+        [QueryParamKeys.Notification]: makeNotification({
+          type: "success",
+          description: "Successfully signed in.",
+        }),
       }),
     });
 
@@ -147,7 +154,10 @@ export async function signupAction(
       href: {
         pathname: toUrl(Pages.Signin),
         query: {
-          [QueryParamKeys.Notification]: "User created successfully.",
+          [QueryParamKeys.Notification]: makeNotification({
+            type: "success",
+            description: "User created successfully.",
+          }),
         },
       },
       locale,
