@@ -31,7 +31,7 @@ async function queryFetcher<T>(context: QueryFunctionContext<QueryKey>) {
   if (pageParam && typeof pageParam === "number") {
     queryParams.set(QueryParamKeys.Cursor, pageParam.toString());
   }
-  return await fetcher<T>(buildUrl(url, queryParams));
+  return await fetcher<T>(withBaseUrl(buildUrl(url, queryParams)));
 }
 
 function useLoadMore<T>(url: string, params?: object) {
@@ -51,9 +51,9 @@ function useLoadMore<T>(url: string, params?: object) {
 }
 
 export function useLoadMoreUsers(params?: CursorParams) {
-  return useLoadMore<User>(withBaseUrl(toUrl(Endpoints.Users)), params);
+  return useLoadMore<User>(toUrl(Endpoints.Users), params);
 }
 
 export function useLoadMorePosts(params?: CursorParams) {
-  return useLoadMore<PostWithUser>(withBaseUrl(toUrl(Endpoints.Posts)), params);
+  return useLoadMore<PostWithUser>(toUrl(Endpoints.Posts), params);
 }
