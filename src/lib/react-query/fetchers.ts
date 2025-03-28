@@ -11,6 +11,7 @@ import { fetcher, ResponseData } from "../api";
 import { PostWithUser, User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Endpoints, toUrl } from "../routes";
+import { withBaseUrl } from "../utils";
 import { cursorSchema } from "../validation";
 
 type QueryKey = [string, Optional<object>];
@@ -50,9 +51,9 @@ function useLoadMore<T>(url: string, params?: object) {
 }
 
 export function useLoadMoreUsers(params?: CursorParams) {
-  return useLoadMore<User>(toUrl(Endpoints.Users), params);
+  return useLoadMore<User>(withBaseUrl(toUrl(Endpoints.Users)), params);
 }
 
 export function useLoadMorePosts(params?: CursorParams) {
-  return useLoadMore<PostWithUser>(toUrl(Endpoints.Posts), params);
+  return useLoadMore<PostWithUser>(withBaseUrl(toUrl(Endpoints.Posts)), params);
 }

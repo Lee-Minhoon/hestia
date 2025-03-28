@@ -1,5 +1,5 @@
 import { Endpoints, toUrl } from "./routes";
-import { getBaseUrl } from "./utils";
+import { withBaseUrl } from "./utils";
 
 export type ResponseData<T> = {
   data: T;
@@ -9,9 +9,8 @@ export type ResponseData<T> = {
 export async function fetcher<T>(
   ...props: Parameters<typeof fetch>
 ): Promise<ResponseData<T>> {
-  const [url, ...rest] = props;
   try {
-    const res = await fetch(`${getBaseUrl()}${url}`, ...rest);
+    const res = await fetch(...props);
     if (!res.ok) {
       const { message } = await res.json();
       throw new Error(message ?? "An unknown error occurred.");
@@ -27,7 +26,7 @@ export async function fetcher<T>(
 export function upload(file: File) {
   const formData = new FormData();
   formData.append("file", file);
-  return fetcher<string>(toUrl(Endpoints.Upload), {
+  return fetcher<string>(withBaseUrl(toUrl(Endpoints.Upload)), {
     method: "POST",
     body: formData,
   });
