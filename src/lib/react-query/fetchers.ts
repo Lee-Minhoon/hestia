@@ -11,6 +11,7 @@ import { ResponseData } from "../api";
 import { PostWithUser, User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Endpoints, toUrl } from "../routes";
+import { getBaseUrl } from "../utils";
 import { cursorSchema } from "../validation";
 
 type QueryKey = [string, Optional<object>];
@@ -30,7 +31,9 @@ async function fetcher(context: QueryFunctionContext<QueryKey>) {
   if (pageParam && typeof pageParam === "number") {
     queryParams.set(QueryParamKeys.Cursor, pageParam.toString());
   }
-  return await fetch(buildUrl(url, queryParams)).then((res) => res.json());
+  return await fetch(buildUrl(`${getBaseUrl()}${url}`, queryParams)).then(
+    (res) => res.json()
+  );
 }
 
 function useLoadMore<T>(url: string, params?: object) {

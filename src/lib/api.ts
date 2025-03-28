@@ -1,4 +1,5 @@
 import { Endpoints, toUrl } from "./routes";
+import { getBaseUrl } from "./utils";
 
 export type ResponseData<T> = {
   data: T;
@@ -8,8 +9,9 @@ export type ResponseData<T> = {
 async function fetcher<T>(
   ...props: Parameters<typeof fetch>
 ): Promise<ResponseData<T>> {
+  const [url, ...rest] = props;
   try {
-    const res = await fetch(...props);
+    const res = await fetch(`${getBaseUrl()}${url}`, ...rest);
     if (!res.ok) {
       const { message } = await res.json();
       throw new Error(message ?? "An unknown error occurred.");
