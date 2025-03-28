@@ -40,6 +40,7 @@ function useLoadMore<T>(url: string, params?: object) {
     InfiniteData<ResponseData<CursorData<T>>>,
     QueryKey
   >({
+    retry: false,
     queryKey: [url, params],
     queryFn: ({ pageParam, ...rest }) => queryFetcher({ pageParam, ...rest }),
     initialPageParam: 0,
