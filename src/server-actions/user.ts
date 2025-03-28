@@ -33,9 +33,12 @@ export async function createTestUsersAction() {
   try {
     const password = await hash("q1w2e3r4", 10);
 
-    const lastUserId =
-      (await db.select().from(users).orderBy(desc(users.id)).limit(1))[0]?.id ??
-      0;
+    const lastUser = await db.query.users.findFirst({
+      where: isNull(users.deletedAt),
+      orderBy: desc(users.id),
+    });
+
+    const lastUserId = lastUser?.id ?? 0;
 
     await db
       .insert(users)
