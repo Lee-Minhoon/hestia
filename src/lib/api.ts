@@ -6,7 +6,7 @@ export type ResponseData<T> = {
   message: string;
 };
 
-async function fetcher<T>(
+export async function fetcher<T>(
   ...props: Parameters<typeof fetch>
 ): Promise<ResponseData<T>> {
   const [url, ...rest] = props;
