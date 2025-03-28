@@ -74,12 +74,12 @@ export const signupSchema = insertUserSchema
   .pick({
     name: true,
     email: true,
-    image: true,
   })
   .merge(
     z.object({
       password: z.string().min(8),
       checkPassword: z.string().min(8),
+      image: z.instanceof(File).optional(),
     })
   )
   .refine((data) => data.password === data.checkPassword, {

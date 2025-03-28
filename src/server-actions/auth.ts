@@ -8,6 +8,7 @@ import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
+import { upload } from "@/lib/api";
 import { auth, AvailableProviders, signIn } from "@/lib/auth";
 import db from "@/lib/db";
 import { signinSchema, signupSchema, users } from "@/lib/db/schema";
@@ -122,10 +123,14 @@ export async function signupAction(
 ) {
   try {
     const parsed = signupSchema.parse(Object.fromEntries(formData));
+
+    const imageUrl = parsed.image ? (await upload(parsed.image)).data : null;
+
     const result = await db
       .insert(users)
       .values({
         ...parsed,
+        image: imageUrl,
         password: await hash(parsed.password, 10),
       })
       .returning({ insertedId: users.id });

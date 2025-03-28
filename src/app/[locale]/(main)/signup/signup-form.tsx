@@ -1,12 +1,11 @@
 "use client";
 
-import { startTransition, useActionState, useCallback, useState } from "react";
+import { useActionState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserRoundPlusIcon, XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import {
@@ -36,11 +35,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
-import { initState } from "@/lib/action";
-import { upload } from "@/lib/api";
+import { handleSubmit, initState } from "@/lib/action";
 import { signupSchema } from "@/lib/db/schema";
 import { signupAction } from "@/server-actions/auth";
-import { Nullable } from "@/types/common";
 
 export default function SignupForm() {
   const t = useTranslations("Signup");
@@ -50,8 +47,6 @@ export default function SignupForm() {
   );
   useActionToast(state);
   useActionProgress(state, isPending);
-
-  const [profile, setProfile] = useState<Nullable<File>>(null);
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
@@ -63,37 +58,6 @@ export default function SignupForm() {
     },
   });
 
-  const handleSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
-    (e) => {
-      form.handleSubmit(async () => {
-        const formData = new FormData(e.target as HTMLFormElement);
-        if (profile) {
-          try {
-            const { data } = await upload(profile);
-            formData.append("image", data);
-          } catch (err) {
-            toast.error("Error", {
-              description:
-                err instanceof Error
-                  ? err.message
-                  : "An unknown error occurred.",
-              cancel: {
-                label: "Dismiss",
-                onClick: () => toast.dismiss(),
-              },
-            });
-            return;
-          }
-        }
-        startTransition(() => {
-          dispatch(formData);
-        });
-        return;
-      })(e);
-    },
-    [dispatch, form, profile]
-  );
-
   return (
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
@@ -104,37 +68,47 @@ export default function SignupForm() {
         <Form {...form}>
           <form
             action={dispatch}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(form, dispatch)}
             className="flex flex-col gap-4"
           >
-            <ImageUploader onFileChange={setProfile}>
-              {({ preview }) => {
-                return (
-                  <div className="flex justify-center">
-                    <div className="relative w-24 h-24 p-2">
-                      {preview ? (
-                        <>
-                          <ImageUploaderClear className="absolute top-1 right-1 z-10 rounded-full w-6 h-6 p-0">
-                            <Button type="button" variant="outline">
-                              <XIcon />
-                            </Button>
-                          </ImageUploaderClear>
-                          <figure className="relative rounded-full overflow-hidden w-20 h-20 ">
-                            <ImageUploaderPreview fill sizes={"80px"} />
-                          </figure>
-                        </>
-                      ) : (
-                        <ImageUploaderTrigger className="rounded-full w-20 h-20 p-0 [&_svg]:size-6">
-                          <Button type="button" variant="outline">
-                            <UserRoundPlusIcon className="text-muted-foreground size-10" />
-                          </Button>
-                        </ImageUploaderTrigger>
-                      )}
-                    </div>
-                  </div>
-                );
-              }}
-            </ImageUploader>
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <ImageUploader {...field}>
+                      {({ preview }) => {
+                        return (
+                          <div className="flex justify-center">
+                            <div className="relative w-24 h-24 p-2">
+                              {preview ? (
+                                <>
+                                  <ImageUploaderClear className="absolute top-1 right-1 z-10 rounded-full w-6 h-6 p-0">
+                                    <Button type="button" variant="outline">
+                                      <XIcon />
+                                    </Button>
+                                  </ImageUploaderClear>
+                                  <figure className="relative rounded-full overflow-hidden w-20 h-20 ">
+                                    <ImageUploaderPreview fill sizes={"80px"} />
+                                  </figure>
+                                </>
+                              ) : (
+                                <ImageUploaderTrigger className="rounded-full w-20 h-20 p-0 [&_svg]:size-6">
+                                  <Button type="button" variant="outline">
+                                    <UserRoundPlusIcon className="text-muted-foreground size-10" />
+                                  </Button>
+                                </ImageUploaderTrigger>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      }}
+                    </ImageUploader>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
