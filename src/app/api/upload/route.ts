@@ -1,12 +1,12 @@
 import { NextRequest } from "next/server";
 
 import { fileStorage } from "@/lib/storage";
-import { getBaseUrl } from "@/lib/utils";
+import { withBaseUrl } from "@/lib/utils";
 import { uploadSchema } from "@/lib/validation";
 
 function getFileUrl(type: string, name: string) {
   if (type.startsWith("image/")) {
-    return `${getBaseUrl()}/api/images/${name}`;
+    return withBaseUrl(`/api/images/${name}`);
   }
   throw new Error("Invalid type");
 }

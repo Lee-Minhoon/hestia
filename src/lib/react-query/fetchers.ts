@@ -7,10 +7,11 @@ import { z } from "zod";
 
 import { Nullable, Optional } from "@/types/common";
 
-import { ResponseData } from "../api";
+import { fetcher, ResponseData } from "../api";
 import { PostWithUser, User } from "../db/schema";
 import { QueryParamKeys } from "../queryParams";
 import { buildUrl, Endpoints, toUrl } from "../routes";
+import { withBaseUrl } from "../utils";
 import { cursorSchema } from "../validation";
 
 type QueryKey = [string, Optional<object>];
@@ -23,14 +24,14 @@ type CursorData<T> = {
   prevCursor: Nullable<number>;
 };
 
-async function fetcher(context: QueryFunctionContext<QueryKey>) {
+async function queryFetcher<T>(context: QueryFunctionContext<QueryKey>) {
   const { queryKey, pageParam } = context;
   const [url, params] = queryKey;
   const queryParams = new URLSearchParams(Object.entries(params ?? {}));
   if (pageParam && typeof pageParam === "number") {
     queryParams.set(QueryParamKeys.Cursor, pageParam.toString());
   }
-  return await fetch(buildUrl(url, queryParams)).then((res) => res.json());
+  return await fetcher<T>(withBaseUrl(buildUrl(url, queryParams)));
 }
 
 function useLoadMore<T>(url: string, params?: object) {
@@ -40,8 +41,9 @@ function useLoadMore<T>(url: string, params?: object) {
     InfiniteData<ResponseData<CursorData<T>>>,
     QueryKey
   >({
+    retry: false,
     queryKey: [url, params],
-    queryFn: ({ pageParam, ...rest }) => fetcher({ pageParam, ...rest }),
+    queryFn: ({ pageParam, ...rest }) => queryFetcher({ pageParam, ...rest }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.data.nextCursor,
     getPreviousPageParam: (firstPage) => firstPage.data.prevCursor,

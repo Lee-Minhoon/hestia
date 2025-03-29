@@ -1,11 +1,12 @@
 import { Endpoints, toUrl } from "./routes";
+import { withBaseUrl } from "./utils";
 
 export type ResponseData<T> = {
   data: T;
   message: string;
 };
 
-async function fetcher<T>(
+export async function fetcher<T>(
   ...props: Parameters<typeof fetch>
 ): Promise<ResponseData<T>> {
   try {
@@ -25,7 +26,7 @@ async function fetcher<T>(
 export function upload(file: File) {
   const formData = new FormData();
   formData.append("file", file);
-  return fetcher<string>(toUrl(Endpoints.Upload), {
+  return fetcher<string>(withBaseUrl(toUrl(Endpoints.Upload)), {
     method: "POST",
     body: formData,
   });

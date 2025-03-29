@@ -10,11 +10,12 @@ import { ActionState, errorState, successState } from "@/lib/action";
 import db from "@/lib/db";
 import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
 import { redirect } from "@/lib/i18n/navigation";
+import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { Pages, toUrl } from "@/lib/routes";
 import { getBaseUrl } from "@/lib/utils";
 
-import { getCurrentUser } from "./auth";
+import { getCurrentUserOrThrow } from "./auth";
 
 export async function getPostById(id: number) {
   try {
@@ -41,7 +42,7 @@ export async function createPostAction(
   formData: FormData
 ) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const parsed = insertPostSchema.parse(Object.fromEntries(formData));
 
@@ -65,7 +66,10 @@ export async function createPostAction(
       href: {
         pathname: toUrl(Pages.Posts, { id: post.insertedId }),
         query: {
-          [QueryParamKeys.Notification]: "Successfully created post.",
+          [QueryParamKeys.Notification]: makeNotification({
+            type: "success",
+            description: "Successfully created post.",
+          }),
         },
       },
       locale,
@@ -91,7 +95,7 @@ export async function updatePostAction(
   formData: FormData
 ) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const post = await getPostByIdOrThrow(id);
 
@@ -122,7 +126,10 @@ export async function updatePostAction(
       href: {
         pathname: toUrl(Pages.Posts, { id: updatedPost.insertedId }),
         query: {
-          [QueryParamKeys.Notification]: "Successfully updated post.",
+          [QueryParamKeys.Notification]: makeNotification({
+            type: "success",
+            description: "Successfully updated post.",
+          }),
         },
       },
       locale,
@@ -144,7 +151,7 @@ export async function updatePostAction(
 
 export async function deletePostAction(id: number, next: string) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     const post = await getPostByIdOrThrow(id);
 
@@ -167,7 +174,10 @@ export async function deletePostAction(id: number, next: string) {
         pathname: nextUrl.pathname,
         query: {
           ...Object.fromEntries(nextUrl.searchParams),
-          [QueryParamKeys.Notification]: "Successfully deleted post.",
+          [QueryParamKeys.Notification]: makeNotification({
+            type: "success",
+            description: "Successfully deleted post.",
+          }),
         },
       },
       locale,
@@ -186,7 +196,7 @@ export async function deletePostAction(id: number, next: string) {
 
 export async function addTestPostsAction() {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUserOrThrow();
 
     await db
       .insert(posts)

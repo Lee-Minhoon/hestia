@@ -9,6 +9,10 @@ export function getBaseUrl() {
   return process.env.NEXT_PUBLIC_BASE_URL ?? "";
 }
 
+export function withBaseUrl(path: string) {
+  return `${getBaseUrl()}${path}`;
+}
+
 export function getRootFontSize() {
   if (typeof window === "undefined") {
     return 16;

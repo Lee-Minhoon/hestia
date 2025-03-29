@@ -2,26 +2,34 @@
 
 import { useEffect } from "react";
 
+import { capitalCase } from "change-case";
 import { toast } from "sonner";
 
 import { useSearchParams } from "@/hooks/use-search-params";
+import { parseNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 
 export default function Notifier() {
   const { searchParams, setSearchParams } = useSearchParams();
 
   useEffect(() => {
-    if (!searchParams.has(QueryParamKeys.Notification)) return;
-
     const notification = searchParams.get(QueryParamKeys.Notification);
 
-    toast.success("Success", {
-      description: notification,
-      cancel: {
-        label: "Dismiss",
-        onClick: () => toast.dismiss(),
-      },
-    });
+    if (!notification) return;
+
+    const parsedNotifcation = parseNotification(notification);
+
+    if (parsedNotifcation) {
+      const { type, description } = parsedNotifcation;
+
+      toast[type](capitalCase(type), {
+        description,
+        cancel: {
+          label: "Dismiss",
+          onClick: () => toast.dismiss(),
+        },
+      });
+    }
 
     setSearchParams(
       (searchParams) => {

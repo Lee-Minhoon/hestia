@@ -36,10 +36,10 @@ interface ImageUploaderProps {
   children?:
     | React.ReactNode
     | ((props: ImageUploaderContextValue) => React.ReactNode);
-  onFileChange?: (file: Nullable<File>) => void;
+  onChange?: (file: Nullable<File>) => void;
 }
 
-function ImageUploader({ children, onFileChange }: ImageUploaderProps) {
+function ImageUploader({ children, onChange }: ImageUploaderProps) {
   const ref = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<Nullable<string>>(null);
 
@@ -54,10 +54,10 @@ function ImageUploader({ children, onFileChange }: ImageUploaderProps) {
       const file = e.target.files?.[0];
       if (file) {
         setPreview(URL.createObjectURL(file));
-        onFileChange?.(file);
+        onChange?.(file);
       }
     },
-    [onFileChange]
+    [onChange]
   );
 
   const clear = useCallback(() => {
@@ -68,8 +68,8 @@ function ImageUploader({ children, onFileChange }: ImageUploaderProps) {
       URL.revokeObjectURL(prev ?? "");
       return null;
     });
-    onFileChange?.(null);
-  }, [onFileChange]);
+    onChange?.(null);
+  }, [onChange]);
 
   return (
     <ImageUploaderContext.Provider

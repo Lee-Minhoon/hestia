@@ -8,14 +8,17 @@ import { getLocale } from "next-intl/server";
 import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
-import { AvailableProviders, signIn } from "@/lib/auth";
-import { auth } from "@/lib/auth";
+import { upload } from "@/lib/api";
+import { auth, AvailableProviders, signIn } from "@/lib/auth";
 import db from "@/lib/db";
 import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
 import { redirect } from "@/lib/i18n/navigation";
+import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
+
+import { getUserById, getUserByIdOrThrow } from "./user";
 
 async function getRedirectUrl() {
   const url = new URL((await headers()).get("referer") ?? "");
@@ -25,29 +28,41 @@ async function getRedirectUrl() {
   return next || withLocale(toUrl(Pages.Home), locale);
 }
 
-export async function getCurrentUser() {
+async function getCurrentUserId() {
   try {
     const session = await auth();
 
     const userId = session?.user?.id;
 
-    if (!session || !userId) {
-      throw new Error("You must be logged in to add a post.");
+    if (!userId) {
+      return null;
     }
 
     if (isNaN(Number(userId))) {
       throw new Error("Invalid user ID.");
     }
 
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, Number(userId)),
-    });
+    return Number(userId);
+  } catch (err) {
+    throw err;
+  }
+}
 
-    if (!user) {
-      throw new Error("User not found.");
-    }
+export async function getCurrentUser() {
+  try {
+    const userId = await getCurrentUserId();
 
-    return user;
+    return getUserById(Number(userId));
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getCurrentUserOrThrow() {
+  try {
+    const userId = await getCurrentUserId();
+
+    return getUserByIdOrThrow(Number(userId));
   } catch (err) {
     throw err;
   }
@@ -63,7 +78,10 @@ export async function signinAction(
     await signIn("credentials", {
       ...parsed,
       redirectTo: buildUrl(await getRedirectUrl(), {
-        [QueryParamKeys.Notification]: "Successfully signed in.",
+        [QueryParamKeys.Notification]: makeNotification({
+          type: "success",
+          description: "Successfully signed in.",
+        }),
       }),
     });
 
@@ -88,7 +106,10 @@ export async function socialLoginAction(provider: AvailableProviders) {
   try {
     await signIn(provider, {
       redirectTo: buildUrl(await getRedirectUrl(), {
-        [QueryParamKeys.Notification]: "Successfully signed in.",
+        [QueryParamKeys.Notification]: makeNotification({
+          type: "success",
+          description: "Successfully signed in.",
+        }),
       }),
     });
 
@@ -109,10 +130,14 @@ export async function signupAction(
 ) {
   try {
     const parsed = signupSchema.parse(Object.fromEntries(formData));
+
+    const imageUrl = parsed.image ? (await upload(parsed.image)).data : null;
+
     const result = await db
       .insert(users)
       .values({
         ...parsed,
+        image: imageUrl,
         password: await hash(parsed.password, 10),
       })
       .returning({ insertedId: users.id });
@@ -129,7 +154,10 @@ export async function signupAction(
       href: {
         pathname: toUrl(Pages.Signin),
         query: {
-          [QueryParamKeys.Notification]: "User created successfully.",
+          [QueryParamKeys.Notification]: makeNotification({
+            type: "success",
+            description: "User created successfully.",
+          }),
         },
       },
       locale,
