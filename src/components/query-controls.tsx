@@ -78,7 +78,7 @@ function SearchForm({ onSubmit }: SearchFormProps) {
         {...form.register(QueryParamKeys.Search)}
         placeholder="Search..."
       />
-      <Button>
+      <Button type="submit">
         <SearchIcon />
         Search
       </Button>

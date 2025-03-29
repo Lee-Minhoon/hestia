@@ -58,7 +58,12 @@ function SocialLoginForm({
 
   return (
     <form action={dispatch} className="flex-1">
-      <Button variant="outline" className="w-full" disabled={isPending}>
+      <Button
+        type="submit"
+        variant="outline"
+        className="w-full"
+        disabled={isPending}
+      >
         {icon}
         {capitalize(provider)}
       </Button>

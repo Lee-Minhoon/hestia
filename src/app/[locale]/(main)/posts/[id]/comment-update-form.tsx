@@ -72,7 +72,12 @@ export default function CommentUpdateForm({
             )}
           />
           <div className="flex justify-end gap-2">
-            <Button variant="ghost" onClick={onCancel} disabled={isPending}>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={onCancel}
+              disabled={isPending}
+            >
               <XIcon />
               {t("Cancel")}
             </Button>

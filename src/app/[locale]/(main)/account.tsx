@@ -76,7 +76,7 @@ export default async function Account() {
                   });
                 }}
               >
-                <Button variant={"outline"}>
+                <Button type="submit" variant={"outline"}>
                   <LogOutIcon />
                   {t("Signout")}
                 </Button>

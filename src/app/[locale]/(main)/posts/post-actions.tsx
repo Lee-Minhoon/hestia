@@ -48,7 +48,7 @@ function CreateTestPostsForm() {
 
   return (
     <form action={dispatch}>
-      <Button variant="outline" disabled={isPending}>
+      <Button type="submit" variant="outline" disabled={isPending}>
         Add Test Posts
       </Button>
     </form>
@@ -72,7 +72,7 @@ function DeleteAllPostsForm() {
 
   return (
     <form action={dispatch}>
-      <Button variant="outline" disabled={isPending}>
+      <Button type="submit" variant="outline" disabled={isPending}>
         Delete All Posts
       </Button>
     </form>
