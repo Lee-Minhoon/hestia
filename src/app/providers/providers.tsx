@@ -8,6 +8,7 @@ import CookieDispatcher from "./cookie-dispatcher";
 import NavigationProgress from "./navigation-progress";
 import Notifier from "./notifier";
 import ReactQueryProvider from "./react-query-provider";
+import ScrollRestorerer from "./scroll-restorerer";
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ export default function Providers({ children }: ProvidersProps) {
           <Notifier />
           <NavigationProgress />
           <CookieDispatcher />
+          <ScrollRestorerer />
           <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
         </ReactQueryProvider>
       </ThemeProvider>
