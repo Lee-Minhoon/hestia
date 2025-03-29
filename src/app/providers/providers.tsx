@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
+import CookieDispatcher from "./cookie-dispatcher";
 import NavigationProgress from "./navigation-progress";
 import Notifier from "./notifier";
 import ReactQueryProvider from "./react-query-provider";
@@ -27,6 +28,7 @@ export default function Providers({ children }: ProvidersProps) {
           <Toaster />
           <Notifier />
           <NavigationProgress />
+          <CookieDispatcher />
           <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
         </ReactQueryProvider>
       </ThemeProvider>
