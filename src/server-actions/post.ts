@@ -12,7 +12,8 @@ import { insertPostSchema, posts, updatePostSchema } from "@/lib/db/schema";
 import { redirect } from "@/lib/i18n/navigation";
 import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
-import { Pages, toUrl } from "@/lib/routes";
+import { requestQueryInvalidation } from "@/lib/react-query/invalidation";
+import { Endpoints, Pages, toUrl } from "@/lib/routes";
 import { getBaseUrl } from "@/lib/utils";
 
 import { getCurrentUserOrThrow } from "./auth";
@@ -61,6 +62,8 @@ export async function createPostAction(
     }
 
     const locale = await getLocale();
+
+    await requestQueryInvalidation([toUrl(Endpoints.Posts)]);
 
     redirect({
       href: {
@@ -122,6 +125,8 @@ export async function updatePostAction(
 
     const locale = await getLocale();
 
+    await requestQueryInvalidation([toUrl(Endpoints.Posts)]);
+
     redirect({
       href: {
         pathname: toUrl(Pages.Posts, { id: updatedPost.insertedId }),
@@ -168,6 +173,8 @@ export async function deletePostAction(id: number, next: string) {
     const locale = await getLocale();
 
     const nextUrl = new URL(next, getBaseUrl());
+
+    await requestQueryInvalidation([toUrl(Endpoints.Posts)]);
 
     redirect({
       href: {
