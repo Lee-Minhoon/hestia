@@ -9,6 +9,7 @@ import {
   InfiniteLoaderLoadMore,
 } from "@/components/infinite-loader";
 import { ProgressLink } from "@/components/progress-link";
+import ScrollSaver from "@/components/scroll-saver";
 import {
   VirtualizedList,
   VirtualizedListContainer,
@@ -64,20 +65,21 @@ export default function PostList() {
             {rows.map((row, rowIndex) => (
               <li key={rowIndex}>
                 {row.map((col, i) => (
-                  <ProgressLink
-                    href={{
-                      pathname: toUrl(Pages.Posts, { id: col.post.id }),
-                      query: {
-                        [QueryParamKeys.Next]: buildUrl(
-                          toUrl(Pages.Posts),
-                          searchParams
-                        ),
-                      },
-                    }}
-                    key={i}
-                  >
-                    <PostCard data={col} className="hover:bg-accent" />
-                  </ProgressLink>
+                  <ScrollSaver key={i}>
+                    <ProgressLink
+                      href={{
+                        pathname: toUrl(Pages.Posts, { id: col.post.id }),
+                        query: {
+                          [QueryParamKeys.Next]: buildUrl(
+                            toUrl(Pages.Posts),
+                            searchParams
+                          ),
+                        },
+                      }}
+                    >
+                      <PostCard data={col} className="hover:bg-accent" />
+                    </ProgressLink>
+                  </ScrollSaver>
                 ))}
               </li>
             ))}
@@ -94,21 +96,22 @@ export default function PostList() {
                     }}
                   >
                     {rows[index].map((col, i) => (
-                      <ProgressLink
-                        className="overflow-hidden"
-                        href={{
-                          pathname: toUrl(Pages.Posts, { id: col.post.id }),
-                          query: {
-                            [QueryParamKeys.Next]: buildUrl(
-                              toUrl(Pages.Posts),
-                              searchParams
-                            ),
-                          },
-                        }}
-                        key={i}
-                      >
-                        <PostCard data={col} className="hover:bg-accent" />
-                      </ProgressLink>
+                      <ScrollSaver key={i}>
+                        <ProgressLink
+                          className="overflow-hidden"
+                          href={{
+                            pathname: toUrl(Pages.Posts, { id: col.post.id }),
+                            query: {
+                              [QueryParamKeys.Next]: buildUrl(
+                                toUrl(Pages.Posts),
+                                searchParams
+                              ),
+                            },
+                          }}
+                        >
+                          <PostCard data={col} className="hover:bg-accent" />
+                        </ProgressLink>
+                      </ScrollSaver>
                     ))}
                   </div>
                 )}

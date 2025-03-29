@@ -4,6 +4,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { format } from "date-fns";
 
 import { ProgressLink } from "@/components/progress-link";
+import ScrollSaver from "@/components/scroll-saver";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SortableHeader } from "@/components/ui/data-table";
 import { PostWithUser } from "@/lib/db/schema";
@@ -37,20 +38,22 @@ export const columns = [
       const { searchParams } = table.options.meta ?? {};
       return (
         <div className="max-w-sm truncate">
-          <ProgressLink
-            href={{
-              pathname: toUrl(Pages.Posts, { id: row.original.post.id }),
-              query: {
-                [QueryParamKeys.Next]: buildUrl(
-                  toUrl(Pages.Posts),
-                  searchParams
-                ),
-              },
-            }}
-            className="hover:underline"
-          >
-            {row.original.post.title}
-          </ProgressLink>
+          <ScrollSaver>
+            <ProgressLink
+              href={{
+                pathname: toUrl(Pages.Posts, { id: row.original.post.id }),
+                query: {
+                  [QueryParamKeys.Next]: buildUrl(
+                    toUrl(Pages.Posts),
+                    searchParams
+                  ),
+                },
+              }}
+              className="hover:underline"
+            >
+              {row.original.post.title}
+            </ProgressLink>
+          </ScrollSaver>
         </div>
       );
     },
