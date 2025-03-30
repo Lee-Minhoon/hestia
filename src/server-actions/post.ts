@@ -225,7 +225,7 @@ function getTestPostContent(locale: string) {
   return "This is a test post.";
 }
 
-export async function addTestPostsAction() {
+export async function createTestPostsAction() {
   const t = await getTranslations();
   const locale = await getLocale();
 

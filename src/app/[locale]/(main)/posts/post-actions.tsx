@@ -13,7 +13,7 @@ import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
 import { Endpoints, Pages, toUrl } from "@/lib/routes";
 import {
-  addTestPostsAction,
+  createTestPostsAction,
   deleteAllPostsAction,
 } from "@/server-actions/post";
 
@@ -39,7 +39,7 @@ function CreateTestPostsForm() {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
-    addTestPostsAction,
+    createTestPostsAction,
     initState()
   );
   useActionToast(state);
