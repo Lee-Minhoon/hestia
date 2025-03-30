@@ -2,7 +2,6 @@
 
 import { hash } from "bcrypt";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { headers } from "next/headers";
 import { AuthError } from "next-auth";
 import { getLocale, getTranslations } from "next-intl/server";
 import { z } from "zod";
@@ -17,15 +16,9 @@ import { getPathname, redirect } from "@/lib/i18n/navigation";
 import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { buildUrl, isPrivatePage, Pages, toUrl } from "@/lib/routes";
+import { getRequestUrl } from "@/lib/server";
 
 import { getUserById, getUserByIdOrThrow } from "./user";
-
-async function getRequestUrl() {
-  const headerList = await headers();
-  const url = new URL(headerList.get("referer") ?? "");
-
-  return url;
-}
 
 async function getRedirectUrl() {
   const url = await getRequestUrl();
