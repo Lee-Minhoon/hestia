@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import createMiddleware from "next-intl/middleware";
-import { getLocale } from "next-intl/server";
 
 import authConfig from "../auth.config";
 
@@ -15,8 +14,9 @@ const intlMiddleware = createMiddleware(routing);
 export const { auth } = NextAuth(authConfig);
 
 const middleware = auth(async (req) => {
+  const [, locale] = req.nextUrl.pathname.split("/");
+
   const { pathname } = req.nextUrl;
-  const locale = await getLocale();
 
   if (!req.auth && isPrivatePage(pathname)) {
     const redirectUrl = new URL(
