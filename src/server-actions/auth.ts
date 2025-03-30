@@ -9,21 +9,28 @@ import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
 import { upload } from "@/lib/api";
-import { auth, AvailableProviders, signIn } from "@/lib/auth";
+import { auth, AvailableProviders, signIn, signOut } from "@/lib/auth";
 import db from "@/lib/db";
 import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
 import { getPathname, redirect } from "@/lib/i18n/navigation";
 import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
-import { buildUrl, Pages, toUrl } from "@/lib/routes";
+import { buildUrl, isPrivatePage, Pages, toUrl } from "@/lib/routes";
 
 import { getUserById, getUserByIdOrThrow } from "./user";
 
+async function getRequestUrl() {
+  const headerList = await headers();
+  const url = new URL(headerList.get("referer") ?? "");
+
+  return url;
+}
+
 async function getRedirectUrl() {
-  const url = new URL((await headers()).get("referer") ?? "");
+  const url = await getRequestUrl();
   const next = url.searchParams.get("next");
-  const locale = (await getLocale()) as Locale;
+  const locale = await getLocale();
 
   return next || getPathname({ href: toUrl(Pages.Home), locale });
 }
@@ -178,6 +185,44 @@ export async function signupAction(
     }
     if (error instanceof z.ZodError) {
       return errorState(error.errors.map((e) => e.message).join("\n"));
+    }
+    return errorState(
+      error instanceof Error ? error.message : t("Common.unknownError")
+    );
+  }
+}
+
+export async function signoutAction() {
+  const t = await getTranslations();
+
+  try {
+    const url = await getRequestUrl();
+    const locale = await getLocale();
+
+    if (isPrivatePage(url.pathname)) {
+      url.searchParams.set(QueryParamKeys.Next, url.pathname);
+      url.pathname = getPathname({
+        href: toUrl(Pages.Signin),
+        locale,
+      });
+    }
+
+    url.searchParams.set(
+      QueryParamKeys.Notification,
+      makeNotification({
+        type: "success",
+        description: t("Auth.signoutSuccess"),
+      })
+    );
+
+    await signOut({
+      redirectTo: url.toString(),
+    });
+
+    return successState(null, t("Auth.signoutSuccess"));
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
     }
     return errorState(
       error instanceof Error ? error.message : t("Common.unknownError")
