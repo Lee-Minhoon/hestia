@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 
-import { usePathname, useSearchParams } from "next/navigation";
 import nProgress from "nprogress";
 
+import useLocation from "@/hooks/use-location";
+
 export default function NavigationProgress() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const location = useLocation();
 
   useEffect(() => {
     nProgress.configure({ showSpinner: false });
@@ -15,7 +15,7 @@ export default function NavigationProgress() {
 
   useEffect(() => {
     nProgress.done();
-  }, [pathname, searchParams]);
+  }, [location]);
 
   return (
     <style>
