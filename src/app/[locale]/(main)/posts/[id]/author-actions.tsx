@@ -3,6 +3,7 @@
 import { startTransition, useActionState, useCallback } from "react";
 
 import { DeleteIcon, EditIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 import { ProgressLink } from "@/components/progress-link";
@@ -32,6 +33,7 @@ interface AuthorActionsProps {
 
 export default function AuthorActions({ previous, post }: AuthorActionsProps) {
   const t = useTranslations("Common");
+  const searchParams = useSearchParams();
 
   const [state, dispatch, isPending] = useActionState(
     deletePostAction.bind(null, post.id, previous ?? toUrl(Pages.Posts)),
@@ -53,7 +55,12 @@ export default function AuthorActions({ previous, post }: AuthorActionsProps) {
   return (
     <div className="flex gap-2">
       <Button asChild variant="outline">
-        <ProgressLink href={toUrl(Pages.PostEdit, { id: post.id })}>
+        <ProgressLink
+          href={{
+            pathname: toUrl(Pages.PostEdit, { id: post.id }),
+            query: Object.fromEntries(searchParams.entries()),
+          }}
+        >
           <EditIcon />
           {t("edit")}
         </ProgressLink>

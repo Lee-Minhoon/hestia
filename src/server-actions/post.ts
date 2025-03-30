@@ -14,6 +14,7 @@ import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { requestQueryInvalidation } from "@/lib/react-query/invalidation";
 import { Endpoints, Pages, toUrl } from "@/lib/routes";
+import { getRequestUrl } from "@/lib/server";
 import { getBaseUrl } from "@/lib/utils";
 
 import { getCurrentUserOrThrow } from "./auth";
@@ -66,6 +67,7 @@ export async function createPostAction(
     }
 
     const locale = await getLocale();
+    const resultUrl = await getRequestUrl();
 
     await requestQueryInvalidation([toUrl(Endpoints.Posts)]);
 
@@ -73,6 +75,7 @@ export async function createPostAction(
       href: {
         pathname: toUrl(Pages.Posts, { id: post.insertedId }),
         query: {
+          ...Object.fromEntries(resultUrl.searchParams),
           [QueryParamKeys.Notification]: makeNotification({
             type: "success",
             description: t("Post.postSuccess", { action: "create" }),
@@ -130,6 +133,7 @@ export async function updatePostAction(
     }
 
     const locale = await getLocale();
+    const resultUrl = await getRequestUrl();
 
     await requestQueryInvalidation([toUrl(Endpoints.Posts)]);
 
@@ -137,6 +141,7 @@ export async function updatePostAction(
       href: {
         pathname: toUrl(Pages.Posts, { id: updatedPost.insertedId }),
         query: {
+          ...Object.fromEntries(resultUrl.searchParams),
           [QueryParamKeys.Notification]: makeNotification({
             type: "success",
             description: t("Post.postSuccess", { action: "update" }),

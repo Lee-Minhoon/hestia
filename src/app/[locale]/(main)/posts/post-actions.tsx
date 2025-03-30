@@ -7,10 +7,13 @@ import { PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { ProgressLink } from "@/components/progress-link";
+import ScrollSaver from "@/components/scroll-saver";
 import { Button } from "@/components/ui/button";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
+import useLocation from "@/hooks/use-location";
 import { initState } from "@/lib/action";
+import { QueryParamKeys } from "@/lib/queryParams";
 import { Endpoints, Pages, toUrl } from "@/lib/routes";
 import {
   createTestPostsAction,
@@ -19,15 +22,25 @@ import {
 
 export default function PostActions() {
   const t = useTranslations("Post");
+  const location = useLocation();
 
   return (
     <div className="flex gap-2">
-      <Button asChild>
-        <ProgressLink href={toUrl(Pages.PostAdd)}>
-          <PlusIcon />
-          {t("createPost")}
-        </ProgressLink>
-      </Button>
+      <ScrollSaver>
+        <Button asChild>
+          <ProgressLink
+            href={{
+              pathname: toUrl(Pages.PostAdd),
+              query: {
+                [QueryParamKeys.Next]: location,
+              },
+            }}
+          >
+            <PlusIcon />
+            {t("createPost")}
+          </ProgressLink>
+        </Button>
+      </ScrollSaver>
       <CreateTestPostsForm />
       <DeleteAllPostsForm />
     </div>
