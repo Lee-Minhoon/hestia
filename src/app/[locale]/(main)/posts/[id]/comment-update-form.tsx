@@ -34,9 +34,9 @@ export default function CommentUpdateForm({
 }: CommentUpdateFormProps) {
   const t = useTranslations("Common");
 
-  const bindedUpdateCommentAction = updateCommentAction.bind(null, comment.id);
+  const updateCommentWithCommentId = updateCommentAction.bind(null, comment.id);
   const [state, dispatch, isPending] = useActionState(
-    bindedUpdateCommentAction,
+    updateCommentWithCommentId,
     initState()
   );
   useActionToast(state);
