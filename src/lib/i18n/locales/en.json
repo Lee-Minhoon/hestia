@@ -11,6 +11,7 @@
     "success": "Success",
     "info": "Info",
     "warning": "Warning",
+    "dismiss": "Dismiss",
 
     "search": "Search",
     "searchPlaceholder": "Search...",

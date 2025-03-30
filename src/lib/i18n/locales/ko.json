@@ -11,6 +11,7 @@
     "success": "성공",
     "info": "정보",
     "warning": "경고",
+    "dismiss": "닫기",
 
     "search": "검색",
     "searchPlaceholder": "검색어를 입력하세요.",
