@@ -16,7 +16,7 @@ import {
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { useActiveId } from "@/hooks/use-active-id";
-import { initState, noop } from "@/lib/action";
+import { initState, noopAction } from "@/lib/action";
 import { CommentWithUser } from "@/lib/db/schema";
 import { deleteCommentAction } from "@/server-actions/comment";
 
@@ -30,7 +30,7 @@ export default function CommentList({ comments }: CommentListProps) {
   const deleting = useActiveId();
 
   const [state, dispatch, isPending] = useActionState(
-    deleting.id ? deleteCommentAction.bind(null, deleting.id) : noop,
+    deleting.id ? deleteCommentAction.bind(null, deleting.id) : noopAction,
     initState()
   );
   useActionToast(state);

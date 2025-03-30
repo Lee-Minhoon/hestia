@@ -48,7 +48,6 @@ export async function createTestUsersAction() {
     const password = await hash("q1w2e3r4", 10);
 
     const lastUser = await db.query.users.findFirst({
-      where: isNull(users.deletedAt),
       orderBy: desc(users.id),
     });
 

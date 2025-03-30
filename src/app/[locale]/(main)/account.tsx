@@ -1,6 +1,4 @@
-import { LogOutIcon } from "lucide-react";
-import { headers } from "next/headers";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 import { ProgressLink } from "@/components/progress-link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,10 +13,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { auth, signOut } from "@/lib/auth";
-import { Locale } from "@/lib/i18n/locale";
-import { QueryParamKeys } from "@/lib/queryParams";
-import { isPrivatePage, Pages, toUrl, withLocale } from "@/lib/routes";
+import { auth } from "@/lib/auth";
+import { Pages, toUrl } from "@/lib/routes";
+
+import SignoutForm from "./signout-form";
 
 export default async function Account() {
   const t = await getTranslations("Auth");
@@ -60,28 +58,7 @@ export default async function Account() {
               <Separator />
             </div>
             <SheetFooter>
-              <form
-                action={async () => {
-                  "use server";
-
-                  const url = new URL((await headers()).get("referer") ?? "");
-                  const locale = (await getLocale()) as Locale;
-
-                  if (isPrivatePage(url.pathname)) {
-                    url.searchParams.set(QueryParamKeys.Next, url.pathname);
-                    url.pathname = withLocale(toUrl(Pages.Signin), locale);
-                  }
-
-                  await signOut({
-                    redirectTo: url.toString(),
-                  });
-                }}
-              >
-                <Button type="submit" variant={"outline"}>
-                  <LogOutIcon />
-                  {t("signout")}
-                </Button>
-              </form>
+              <SignoutForm />
             </SheetFooter>
           </SheetContent>
         </Sheet>

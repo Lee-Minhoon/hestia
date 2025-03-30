@@ -1,6 +1,6 @@
 import { compile, match } from "path-to-regexp";
 
-import { isLocale, Locale } from "./i18n/locale";
+import { isLocale } from "./i18n/locale";
 
 export enum Pages {
   Home = "/",
@@ -44,24 +44,6 @@ export function toQueryString(search: Search) {
 export function buildUrl(pathname: string, search?: Search) {
   const queryString = search ? toQueryString(search) : "";
   return `${pathname}${queryString ? `?${queryString}` : ""}`;
-}
-
-/**
- * @param pathname pathname with locale
- * @returns locale extracted from pathname
- */
-export function getLocale(pathname: string) {
-  const [, locale] = pathname.split("/");
-  return isLocale(locale) ? locale : Locale.en;
-}
-
-/**
- * @param pathname pathname without locale
- * @param locale locale to add to pathname
- * @returns pathname with locale
- */
-export function withLocale(pathname: string, locale: Locale) {
-  return pathname.startsWith(`/${locale}`) ? pathname : `/${locale}${pathname}`;
 }
 
 /**

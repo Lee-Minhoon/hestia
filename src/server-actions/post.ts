@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -14,6 +14,7 @@ import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 import { requestQueryInvalidation } from "@/lib/react-query/invalidation";
 import { Endpoints, Pages, toUrl } from "@/lib/routes";
+import { getRequestUrl } from "@/lib/server";
 import { getBaseUrl } from "@/lib/utils";
 
 import { getCurrentUserOrThrow } from "./auth";
@@ -66,6 +67,7 @@ export async function createPostAction(
     }
 
     const locale = await getLocale();
+    const resultUrl = await getRequestUrl();
 
     await requestQueryInvalidation([toUrl(Endpoints.Posts)]);
 
@@ -73,6 +75,7 @@ export async function createPostAction(
       href: {
         pathname: toUrl(Pages.Posts, { id: post.insertedId }),
         query: {
+          ...Object.fromEntries(resultUrl.searchParams),
           [QueryParamKeys.Notification]: makeNotification({
             type: "success",
             description: t("Post.postSuccess", { action: "create" }),
@@ -130,6 +133,7 @@ export async function updatePostAction(
     }
 
     const locale = await getLocale();
+    const resultUrl = await getRequestUrl();
 
     await requestQueryInvalidation([toUrl(Endpoints.Posts)]);
 
@@ -137,6 +141,7 @@ export async function updatePostAction(
       href: {
         pathname: toUrl(Pages.Posts, { id: updatedPost.insertedId }),
         query: {
+          ...Object.fromEntries(resultUrl.searchParams),
           [QueryParamKeys.Notification]: makeNotification({
             type: "success",
             description: t("Post.postSuccess", { action: "update" }),
@@ -212,9 +217,9 @@ export async function deletePostAction(id: number, next: string) {
 function getTestPostTitle(locale: string, i: number) {
   switch (locale) {
     case "ko":
-      return `테스트 게시글 ${i + 1}`;
+      return `테스트 게시글 ${i}`;
   }
-  return `Test Post ${i + 1}`;
+  return `Test Post ${i}`;
 }
 
 function getTestPostContent(locale: string) {
@@ -225,19 +230,25 @@ function getTestPostContent(locale: string) {
   return "This is a test post.";
 }
 
-export async function addTestPostsAction() {
+export async function createTestPostsAction() {
   const t = await getTranslations();
   const locale = await getLocale();
 
   try {
     const user = await getCurrentUserOrThrow();
 
+    const lastPost = await db.query.posts.findFirst({
+      orderBy: desc(posts.id),
+    });
+
+    const lastPostId = lastPost?.id ?? 0;
+
     await db
       .insert(posts)
       .values(
         Array.from({ length: 1000 }).map((_, i) => {
           return {
-            title: getTestPostTitle(locale, i),
+            title: getTestPostTitle(locale, lastPostId + i + 1),
             content: getTestPostContent(locale),
             userId: user.id,
           };
