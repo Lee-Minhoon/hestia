@@ -40,7 +40,7 @@ function CreateTestUsersForm() {
 
   return (
     <form action={dispatch}>
-      <Button variant="outline" disabled={isPending}>
+      <Button type="submit" variant="outline" disabled={isPending}>
         Add Test Users
       </Button>
     </form>
@@ -64,7 +64,7 @@ function DeleteAllUsersForm() {
 
   return (
     <form action={dispatch}>
-      <Button variant="outline" disabled={isPending}>
+      <Button type="submit" variant="outline" disabled={isPending}>
         Delete All Users
       </Button>
     </form>
