@@ -31,7 +31,7 @@ function useScrollRestore() {
       }));
     });
     return unsubscribe;
-  });
+  }, []);
 
   useEffect(() => {
     const scrollPos = scrollPositions[location];
