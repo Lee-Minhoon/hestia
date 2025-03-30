@@ -28,6 +28,7 @@
 
     "noResults": "No results.",
     "actionSuccess": "Successfully completed.",
+    "signinRequired": "Signin required.",
     "permissionDenied": "Permission Denied.",
     "unknownError": "An unknown error occurred."
   },

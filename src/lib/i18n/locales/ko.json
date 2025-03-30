@@ -28,6 +28,7 @@
 
     "noResults": "결과가 없습니다.",
     "actionSuccess": "성공적으로 완료되었습니다.",
+    "signinRequired": "로그인이 필요합니다.",
     "permissionDenied": "권한이 없습니다.",
     "unknownError": "알 수 없는 오류가 발생했습니다."
   },

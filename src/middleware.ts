@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import createMiddleware from "next-intl/middleware";
+import { getTranslations } from "next-intl/server";
 
 import authConfig from "../auth.config";
 
 import { getPathname } from "./lib/i18n/navigation";
 import { routing } from "./lib/i18n/routing";
+import { makeNotification } from "./lib/notification";
 import { QueryParamKeys } from "./lib/queryParams";
 import { isAuthPage, isPrivatePage, Pages, toUrl } from "./lib/routes";
 
@@ -15,6 +17,7 @@ export const { auth } = NextAuth(authConfig);
 
 const middleware = auth(async (req) => {
   const [, locale] = req.nextUrl.pathname.split("/");
+  const t = await getTranslations({ locale, namespace: "Common" });
 
   const { pathname } = req.nextUrl;
 
@@ -24,6 +27,13 @@ const middleware = auth(async (req) => {
       req.nextUrl.origin
     );
     redirectUrl.searchParams.set(QueryParamKeys.Next, pathname);
+    redirectUrl.searchParams.set(
+      QueryParamKeys.Notification,
+      makeNotification({
+        type: "error",
+        description: t("signinRequired"),
+      })
+    );
     return NextResponse.redirect(redirectUrl);
   }
   if (req.auth && isAuthPage(pathname)) {
