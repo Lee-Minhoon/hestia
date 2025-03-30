@@ -4,6 +4,7 @@ import { useActionState, useEffect } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { PlusIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { ProgressLink } from "@/components/progress-link";
 import { Button } from "@/components/ui/button";
@@ -17,12 +18,14 @@ import {
 } from "@/server-actions/post";
 
 export default function PostActions() {
+  const t = useTranslations("Post");
+
   return (
     <div className="flex gap-2">
       <Button asChild>
         <ProgressLink href={toUrl(Pages.PostAdd)}>
           <PlusIcon />
-          Add Post
+          {t("createPost")}
         </ProgressLink>
       </Button>
       <CreateTestPostsForm />
@@ -32,6 +35,7 @@ export default function PostActions() {
 }
 
 function CreateTestPostsForm() {
+  const t = useTranslations("Post");
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -49,13 +53,14 @@ function CreateTestPostsForm() {
   return (
     <form action={dispatch}>
       <Button type="submit" variant="outline" disabled={isPending}>
-        Add Test Posts
+        {t("createTestPosts")}
       </Button>
     </form>
   );
 }
 
 function DeleteAllPostsForm() {
+  const t = useTranslations("Post");
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -73,7 +78,7 @@ function DeleteAllPostsForm() {
   return (
     <form action={dispatch}>
       <Button type="submit" variant="outline" disabled={isPending}>
-        Delete All Posts
+        {t("deleteAllPosts")}
       </Button>
     </form>
   );

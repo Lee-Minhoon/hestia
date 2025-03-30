@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { capitalCase } from "change-case";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { useSearchParams } from "@/hooks/use-search-params";
@@ -10,6 +10,8 @@ import { parseNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
 
 export default function Notifier() {
+  const t = useTranslations("Common");
+
   const { searchParams, setSearchParams } = useSearchParams();
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export default function Notifier() {
     if (parsedNotifcation) {
       const { type, description } = parsedNotifcation;
 
-      toast[type](capitalCase(type), {
+      toast[type](t(type), {
         description,
         cancel: {
           label: "Dismiss",
@@ -38,7 +40,7 @@ export default function Notifier() {
       },
       { replace: true }
     );
-  }, [searchParams, setSearchParams]);
+  }, [searchParams, setSearchParams, t]);
 
   return null;
 }

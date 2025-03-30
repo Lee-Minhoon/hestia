@@ -34,7 +34,8 @@ import { signinAction } from "@/server-actions/auth";
 import SocialLoginSection from "./social-login-section";
 
 export default function SigninForm() {
-  const t = useTranslations("Signin");
+  const t = useTranslations("Auth");
+
   const [state, dispatch, isPending] = useActionState(
     signinAction,
     initState()
@@ -53,8 +54,8 @@ export default function SigninForm() {
   return (
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
-        <CardTitle>{t("Signin")}</CardTitle>
-        <CardDescription>{t("Signin Description")}</CardDescription>
+        <CardTitle>{t("signin")}</CardTitle>
+        <CardDescription>{t("signinDescription")}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <Form {...form}>
@@ -68,12 +69,12 @@ export default function SigninForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("Email")}</FormLabel>
+                  <FormLabel>{t("email")}</FormLabel>
                   <FormControl>
                     <Input
                       required
                       autoComplete="email"
-                      placeholder={t("Email")}
+                      placeholder={t("email")}
                       {...field}
                     />
                   </FormControl>
@@ -86,13 +87,13 @@ export default function SigninForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("Password")}</FormLabel>
+                  <FormLabel>{t("password")}</FormLabel>
                   <FormControl>
                     <Input
                       required
                       type="password"
                       autoComplete="current-password"
-                      placeholder={t("Password")}
+                      placeholder={t("password")}
                       {...field}
                     />
                   </FormControl>
@@ -101,7 +102,7 @@ export default function SigninForm() {
               )}
             />
             <Button type="submit" disabled={isPending}>
-              {t("Signin")}
+              {t("signin")}
             </Button>
           </form>
         </Form>

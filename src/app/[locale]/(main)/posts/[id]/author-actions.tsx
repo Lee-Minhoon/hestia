@@ -3,6 +3,7 @@
 import { startTransition, useActionState, useCallback } from "react";
 
 import { DeleteIcon, EditIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { ProgressLink } from "@/components/progress-link";
 import {
@@ -30,6 +31,8 @@ interface AuthorActionsProps {
 }
 
 export default function AuthorActions({ previous, post }: AuthorActionsProps) {
+  const t = useTranslations("Common");
+
   const [state, dispatch, isPending] = useActionState(
     deletePostAction.bind(null, post.id, previous ?? toUrl(Pages.Posts)),
     initState()
@@ -52,29 +55,28 @@ export default function AuthorActions({ previous, post }: AuthorActionsProps) {
       <Button asChild variant="outline">
         <ProgressLink href={toUrl(Pages.PostEdit, { id: post.id })}>
           <EditIcon />
-          Edit
+          {t("edit")}
         </ProgressLink>
       </Button>
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant="outline">
             <DeleteIcon />
-            Delete
+            {t("delete")}
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t("deleteWarning")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              post.
+              {t("deleteDescription")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <form action={dispatch} onSubmit={handleSubmit}>
               <AlertDialogAction type="submit" disabled={isPending}>
-                Continue
+                {t("continue")}
               </AlertDialogAction>
             </form>
           </AlertDialogFooter>

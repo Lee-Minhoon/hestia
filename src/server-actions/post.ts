@@ -3,7 +3,7 @@
 import { and, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
@@ -29,10 +29,12 @@ export async function getPostById(id: number) {
 }
 
 export async function getPostByIdOrThrow(id: number) {
+  const t = await getTranslations("Post");
+
   const post = await getPostById(id);
 
   if (!post) {
-    throw new Error("Post not found.");
+    throw new Error(t("postNotFound"));
   }
 
   return post;
@@ -42,6 +44,8 @@ export async function createPostAction(
   previousState: ActionState<null>,
   formData: FormData
 ) {
+  const t = await getTranslations();
+
   try {
     const user = await getCurrentUserOrThrow();
 
@@ -58,7 +62,7 @@ export async function createPostAction(
     const post = result[0];
 
     if (!post) {
-      return errorState("Failed to create post.");
+      return errorState(t("Post.postFailed", { action: "create" }));
     }
 
     const locale = await getLocale();
@@ -71,14 +75,14 @@ export async function createPostAction(
         query: {
           [QueryParamKeys.Notification]: makeNotification({
             type: "success",
-            description: "Successfully created post.",
+            description: t("Post.postSuccess", { action: "create" }),
           }),
         },
       },
       locale,
     });
 
-    return successState(null, "Successfully created post.");
+    return successState(null, t("Post.postSuccess", { action: "create" }));
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -87,7 +91,7 @@ export async function createPostAction(
       return errorState(error.errors.map((e) => e.message).join("\n"));
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
@@ -97,13 +101,15 @@ export async function updatePostAction(
   previousState: ActionState<null>,
   formData: FormData
 ) {
+  const t = await getTranslations();
+
   try {
     const user = await getCurrentUserOrThrow();
 
     const post = await getPostByIdOrThrow(id);
 
     if (user.id !== post.userId) {
-      return errorState("You do not have permission to update this post.");
+      return errorState(t("Common.permissionDenied"));
     }
 
     const parsed = updatePostSchema.parse(Object.fromEntries(formData));
@@ -120,7 +126,7 @@ export async function updatePostAction(
     const updatedPost = result[0];
 
     if (!updatedPost) {
-      return errorState("Failed to update post.");
+      return errorState(t("Post.postFailed", { action: "update" }));
     }
 
     const locale = await getLocale();
@@ -133,14 +139,14 @@ export async function updatePostAction(
         query: {
           [QueryParamKeys.Notification]: makeNotification({
             type: "success",
-            description: "Successfully updated post.",
+            description: t("Post.postSuccess", { action: "update" }),
           }),
         },
       },
       locale,
     });
 
-    return successState(null, "Successfully updated post.");
+    return successState(null, t("Post.postSuccess", { action: "update" }));
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -149,19 +155,21 @@ export async function updatePostAction(
       return errorState(error.errors.map((e) => e.message).join("\n"));
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
 
 export async function deletePostAction(id: number, next: string) {
+  const t = await getTranslations();
+
   try {
     const user = await getCurrentUserOrThrow();
 
     const post = await getPostByIdOrThrow(id);
 
     if (user.id !== post.userId) {
-      return errorState("You do not have permission to delete this post.");
+      return errorState(t("Common.permissionDenied"));
     }
 
     await db
@@ -183,25 +191,44 @@ export async function deletePostAction(id: number, next: string) {
           ...Object.fromEntries(nextUrl.searchParams),
           [QueryParamKeys.Notification]: makeNotification({
             type: "success",
-            description: "Successfully deleted post.",
+            description: t("Post.postSuccess", { action: "delete" }),
           }),
         },
       },
       locale,
     });
 
-    return successState(null, "Successfully deleted post.");
+    return successState(null, t("Post.postSuccess", { action: "delete" }));
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
 
+function getTestPostTitle(locale: string, i: number) {
+  switch (locale) {
+    case "ko":
+      return `테스트 게시글 ${i + 1}`;
+  }
+  return `Test Post ${i + 1}`;
+}
+
+function getTestPostContent(locale: string) {
+  switch (locale) {
+    case "ko":
+      return "테스트 게시글입니다.";
+  }
+  return "This is a test post.";
+}
+
 export async function addTestPostsAction() {
+  const t = await getTranslations();
+  const locale = await getLocale();
+
   try {
     const user = await getCurrentUserOrThrow();
 
@@ -210,8 +237,8 @@ export async function addTestPostsAction() {
       .values(
         Array.from({ length: 1000 }).map((_, i) => {
           return {
-            title: `Test Post ${i + 1}`,
-            content: "This is a test post.",
+            title: getTestPostTitle(locale, i),
+            content: getTestPostContent(locale),
             userId: user.id,
           };
         })
@@ -220,24 +247,26 @@ export async function addTestPostsAction() {
 
     revalidatePath(toUrl(Pages.Posts));
 
-    return successState(null, "Successfully added test posts.");
+    return successState(null, t("Common.actionSuccess"));
   } catch (error) {
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
 
 export async function deleteAllPostsAction() {
+  const t = await getTranslations();
+
   try {
     await db.update(posts).set({ deletedAt: new Date() }).execute();
 
     revalidatePath(toUrl(Pages.Posts));
 
-    return successState(null, "Successfully deleted all posts.");
+    return successState(null, t("Common.actionSuccess"));
   } catch (error) {
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }

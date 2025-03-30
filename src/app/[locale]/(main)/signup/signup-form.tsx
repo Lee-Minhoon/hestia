@@ -40,7 +40,8 @@ import { signupSchema } from "@/lib/db/schema";
 import { signupAction } from "@/server-actions/auth";
 
 export default function SignupForm() {
-  const t = useTranslations("Signup");
+  const t = useTranslations("Auth");
+
   const [state, dispatch, isPending] = useActionState(
     signupAction,
     initState()
@@ -61,8 +62,8 @@ export default function SignupForm() {
   return (
     <Card className="w-[320px] md:w-[400px]">
       <CardHeader>
-        <CardTitle>{t("Signup")}</CardTitle>
-        <CardDescription>{t("Signup Description")}</CardDescription>
+        <CardTitle>{t("signup")}</CardTitle>
+        <CardDescription>{t("signupDescription")}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -114,16 +115,16 @@ export default function SignupForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("Email")}</FormLabel>
+                  <FormLabel>{t("email")}</FormLabel>
                   <FormControl>
                     <Input
                       required
                       autoComplete="email"
-                      placeholder={t("Email")}
+                      placeholder={t("email")}
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>{t("Email Description")}</FormDescription>
+                  <FormDescription>{t("emailDescription")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -133,13 +134,13 @@ export default function SignupForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("Password")}</FormLabel>
+                  <FormLabel>{t("password")}</FormLabel>
                   <FormControl>
                     <Input
                       required
                       type="password"
                       autoComplete="new-password"
-                      placeholder={t("Password")}
+                      placeholder={t("password")}
                       {...field}
                     />
                   </FormControl>
@@ -152,13 +153,13 @@ export default function SignupForm() {
               name="checkPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("Check Password")}</FormLabel>
+                  <FormLabel>{t("checkPassword")}</FormLabel>
                   <FormControl>
                     <Input
                       required
                       type="password"
                       autoComplete="new-password"
-                      placeholder={t("Check Password")}
+                      placeholder={t("checkPassword")}
                       {...field}
                     />
                   </FormControl>
@@ -171,22 +172,22 @@ export default function SignupForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("Username")}</FormLabel>
+                  <FormLabel>{t("username")}</FormLabel>
                   <FormControl>
                     <Input
                       required
                       autoComplete="name"
-                      placeholder={t("Username")}
+                      placeholder={t("username")}
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>{t("Username Description")}</FormDescription>
+                  <FormDescription>{t("usernameDescription")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type="submit" disabled={isPending}>
-              {t("Join")}
+              {t("join")}
             </Button>
           </form>
         </Form>

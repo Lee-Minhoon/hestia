@@ -4,7 +4,7 @@ import { hash } from "bcrypt";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { headers } from "next/headers";
 import { AuthError } from "next-auth";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
@@ -29,6 +29,8 @@ async function getRedirectUrl() {
 }
 
 async function getCurrentUserId() {
+  const t = await getTranslations();
+
   try {
     const session = await auth();
 
@@ -39,7 +41,7 @@ async function getCurrentUserId() {
     }
 
     if (isNaN(Number(userId))) {
-      throw new Error("Invalid user ID.");
+      throw new Error(t("Auth.invalidUserID"));
     }
 
     return Number(userId);
@@ -72,6 +74,8 @@ export async function signinAction(
   previousState: ActionState<null>,
   formData: FormData
 ) {
+  const t = await getTranslations();
+
   try {
     const parsed = signinSchema.parse(Object.fromEntries(formData));
 
@@ -80,12 +84,12 @@ export async function signinAction(
       redirectTo: buildUrl(await getRedirectUrl(), {
         [QueryParamKeys.Notification]: makeNotification({
           type: "success",
-          description: "Successfully signed in.",
+          description: t("Auth.signinSuccess"),
         }),
       }),
     });
 
-    return successState(null, "Successfully signed in.");
+    return successState(null, t("Auth.signinSuccess"));
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -94,32 +98,34 @@ export async function signinAction(
       return errorState(error.errors.map((e) => e.message).join("\n"));
     }
     if (error instanceof AuthError) {
-      return errorState("Invalid email or password.");
+      return errorState(t("Auth.InvalidAccount"));
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
 
 export async function socialLoginAction(provider: AvailableProviders) {
+  const t = await getTranslations();
+
   try {
     await signIn(provider, {
       redirectTo: buildUrl(await getRedirectUrl(), {
         [QueryParamKeys.Notification]: makeNotification({
           type: "success",
-          description: "Successfully signed in.",
+          description: t("Auth.signinSuccess"),
         }),
       }),
     });
 
-    return successState(null, "Successfully signed in.");
+    return successState(null, t("Auth.signinSuccess"));
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
@@ -128,6 +134,8 @@ export async function signupAction(
   previousState: ActionState<number>,
   formData: FormData
 ) {
+  const t = await getTranslations();
+
   try {
     const parsed = signupSchema.parse(Object.fromEntries(formData));
 
@@ -145,7 +153,7 @@ export async function signupAction(
     const user = result[0];
 
     if (!user) {
-      return errorState("Failed to create user.");
+      return errorState(t("Auth.signupFailed"));
     }
 
     const locale = (await getLocale()) as Locale;
@@ -156,14 +164,14 @@ export async function signupAction(
         query: {
           [QueryParamKeys.Notification]: makeNotification({
             type: "success",
-            description: "User created successfully.",
+            description: t("Auth.signupSuccess"),
           }),
         },
       },
       locale,
     });
 
-    return successState(user.insertedId, "User created successfully.");
+    return successState(user.insertedId, t("Auth.signupSuccess"));
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -172,7 +180,7 @@ export async function signupAction(
       return errorState(error.errors.map((e) => e.message).join("\n"));
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }

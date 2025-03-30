@@ -9,6 +9,7 @@ import {
   LinkIcon,
   MessageCircleIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { ScrollIntoViewTrigger } from "@/components/scroll-into-view";
@@ -36,6 +37,8 @@ export default function ArticleActions({
   likeCount,
   commentCount,
 }: ArticleActionsProps) {
+  const t = useTranslations("Post");
+
   return (
     <div className="flex justify-between">
       <div className="flex gap-2">
@@ -52,7 +55,7 @@ export default function ArticleActions({
           <DropdownMenuTrigger asChild>
             <Button size="sm" variant="outline">
               <ForwardIcon />
-              Share
+              {t("share")}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -66,7 +69,7 @@ export default function ArticleActions({
               }}
             >
               <LinkIcon />
-              Copy Link
+              {t("copyLink")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

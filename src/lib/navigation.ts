@@ -2,8 +2,14 @@ import { match } from "path-to-regexp";
 
 import { Pages } from "./routes";
 
+enum NavItemLabels {
+  Home = "home",
+  Users = "users",
+  Posts = "posts",
+}
+
 interface NavItem {
-  label: string;
+  label: NavItemLabels;
   pathname: Pages;
   search?: Record<string, string>;
   children?: NavItem[];
@@ -11,15 +17,15 @@ interface NavItem {
 
 export const navItems: NavItem[] = [
   {
-    label: "Home",
+    label: NavItemLabels.Home,
     pathname: Pages.Home,
   },
   {
-    label: "Users",
+    label: NavItemLabels.Users,
     pathname: Pages.Users,
   },
   {
-    label: "Posts",
+    label: NavItemLabels.Posts,
     pathname: Pages.Posts,
   },
 ];

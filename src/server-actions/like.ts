@@ -3,6 +3,7 @@
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 
 import { errorState, successState } from "@/lib/action";
@@ -14,6 +15,8 @@ import { getCurrentUserOrThrow } from "./auth";
 import { getPostByIdOrThrow } from "./post";
 
 export async function createLikeAction(postId: number) {
+  const t = await getTranslations();
+
   try {
     const user = await getCurrentUserOrThrow();
 
@@ -30,12 +33,12 @@ export async function createLikeAction(postId: number) {
     const like = result[0];
 
     if (!like) {
-      return errorState("Failed to create like.");
+      return errorState(t("Like.likeFailed"));
     }
 
     revalidatePath(toUrl(Pages.Posts, { id: postId }));
 
-    return successState(null, "Successfully created like.");
+    return successState(null, t("Like.likeSuccess"));
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -44,12 +47,14 @@ export async function createLikeAction(postId: number) {
       return errorState(error.errors.map((e) => e.message).join("\n"));
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
 
 export async function deleteLikeAction(postId: number) {
+  const t = await getTranslations();
+
   try {
     const user = await getCurrentUserOrThrow();
 
@@ -58,7 +63,7 @@ export async function deleteLikeAction(postId: number) {
     });
 
     if (!like) {
-      return errorState("Like not found.");
+      return errorState(t("Like.likeNotFound"));
     }
 
     await db
@@ -68,13 +73,13 @@ export async function deleteLikeAction(postId: number) {
 
     revalidatePath(toUrl(Pages.Posts, { id: like.postId }));
 
-    return successState(null, "Successfully deleted like.");
+    return successState(null, t("Like.unlikeSuccess"));
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }

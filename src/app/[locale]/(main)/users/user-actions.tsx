@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { useActionProgress } from "@/hooks/use-action-progress";
@@ -24,6 +25,8 @@ export default function UserActions() {
 }
 
 function CreateTestUsersForm() {
+  const t = useTranslations("User");
+
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -41,13 +44,15 @@ function CreateTestUsersForm() {
   return (
     <form action={dispatch}>
       <Button type="submit" variant="outline" disabled={isPending}>
-        Add Test Users
+        {t("createTestUsers")}
       </Button>
     </form>
   );
 }
 
 function DeleteAllUsersForm() {
+  const t = useTranslations("User");
+
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -65,7 +70,7 @@ function DeleteAllUsersForm() {
   return (
     <form action={dispatch}>
       <Button type="submit" variant="outline" disabled={isPending}>
-        Delete All Users
+        {t("deleteAllUsers")}
       </Button>
     </form>
   );

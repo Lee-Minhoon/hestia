@@ -4,7 +4,7 @@ import { and, count, eq, isNull, lte } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { headers } from "next/headers";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { z } from "zod";
 
 import { ActionState, errorState, successState } from "@/lib/action";
@@ -33,10 +33,12 @@ export async function getCommentById(id: number) {
 }
 
 export async function getCommentByIdOrThrow(id: number) {
+  const t = await getTranslations("Comment");
+
   const comment = await getCommentById(id);
 
   if (!comment) {
-    throw new Error("Comment not found.");
+    throw new Error(t("commentNotFound"));
   }
 
   return comment;
@@ -47,6 +49,8 @@ export async function createCommentAction(
   previousState: ActionState<null>,
   formData: FormData
 ) {
+  const t = await getTranslations();
+
   try {
     const user = await getCurrentUserOrThrow();
 
@@ -66,7 +70,7 @@ export async function createCommentAction(
     const comment = result[0];
 
     if (!comment) {
-      return errorState("Failed to create comment.");
+      return errorState(t("Comment.commentFailed", { action: "create" }));
     }
 
     const commentCount = (
@@ -105,7 +109,10 @@ export async function createCommentAction(
       });
     }
 
-    return successState(null, "Successfully created comment.");
+    return successState(
+      null,
+      t("Comment.commentSuccess", { action: "create" })
+    );
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -114,7 +121,7 @@ export async function createCommentAction(
       return errorState(error.errors.map((e) => e.message).join("\n"));
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
@@ -124,13 +131,15 @@ export async function updateCommentAction(
   previousState: ActionState<null>,
   formData: FormData
 ) {
+  const t = await getTranslations();
+
   try {
     const user = await getCurrentUserOrThrow();
 
     const comment = await getCommentByIdOrThrow(id);
 
     if (user.id !== comment.userId) {
-      return errorState("You do not have permission to update this comment.");
+      return errorState(t("Common.permissionDenied"));
     }
 
     const parsed = updateCommentSchema.parse(Object.fromEntries(formData));
@@ -146,12 +155,15 @@ export async function updateCommentAction(
     const updatedComment = result[0];
 
     if (!updatedComment) {
-      return errorState("Failed to update comment.");
+      return errorState(t("Comment.commentFailed", { action: "update" }));
     }
 
     revalidatePath(toUrl(Pages.Posts, { id: comment.postId }));
 
-    return successState(null, "Successfully updated comment.");
+    return successState(
+      null,
+      t("Comment.commentSuccess", { action: "update" })
+    );
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -160,19 +172,21 @@ export async function updateCommentAction(
       return errorState(error.errors.map((e) => e.message).join("\n"));
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }
 
 export async function deleteCommentAction(id: number) {
+  const t = await getTranslations();
+
   try {
     const user = await getCurrentUserOrThrow();
 
     const comment = await getCommentByIdOrThrow(id);
 
     if (user.id !== comment.userId) {
-      return errorState("You do not have permission to delete this comment.");
+      return errorState(t("Common.permissionDenied"));
     }
 
     await db
@@ -183,13 +197,16 @@ export async function deleteCommentAction(id: number) {
 
     revalidatePath(toUrl(Pages.Posts, { id: comment.postId }));
 
-    return successState(null, "Successfully deleted comment.");
+    return successState(
+      null,
+      t("Comment.commentSuccess", { action: "delete" })
+    );
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
     }
     return errorState(
-      error instanceof Error ? error.message : "An unknown error occurred."
+      error instanceof Error ? error.message : t("Common.unknownError")
     );
   }
 }

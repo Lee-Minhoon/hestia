@@ -11,10 +11,10 @@ export default function NotFound() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-4 pb-16">
-      <h2>{t("NotFound")}</h2>
-      <p>{t("NotFound Description")}</p>
+      <h2>{t("notFound")}</h2>
+      <p>{t("notFoundDescription")}</p>
       <Button asChild>
-        <ProgressLink href={toUrl(Pages.Home)}>{t("Go Home")}</ProgressLink>
+        <ProgressLink href={toUrl(Pages.Home)}>{t("goHome")}</ProgressLink>
       </Button>
     </div>
   );

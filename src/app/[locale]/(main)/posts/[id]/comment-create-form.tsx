@@ -28,9 +28,9 @@ interface CommentCreateFormProps {
 }
 
 export default function CommentCreateForm({ postId }: CommentCreateFormProps) {
-  const createCommentWithPostId = createCommentAction.bind(null, postId);
-
   const t = useTranslations("Post");
+
+  const createCommentWithPostId = createCommentAction.bind(null, postId);
   const [state, dispatch, isPending] = useActionState(
     createCommentWithPostId,
     initState()
@@ -70,7 +70,7 @@ export default function CommentCreateForm({ postId }: CommentCreateFormProps) {
           <div className="flex justify-end">
             <Button type="submit" disabled={isPending}>
               <PencilIcon />
-              {t("Post")}
+              {t("post")}
             </Button>
           </div>
         </div>
