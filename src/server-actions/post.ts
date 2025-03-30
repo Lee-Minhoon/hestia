@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -212,9 +212,9 @@ export async function deletePostAction(id: number, next: string) {
 function getTestPostTitle(locale: string, i: number) {
   switch (locale) {
     case "ko":
-      return `테스트 게시글 ${i + 1}`;
+      return `테스트 게시글 ${i}`;
   }
-  return `Test Post ${i + 1}`;
+  return `Test Post ${i}`;
 }
 
 function getTestPostContent(locale: string) {
@@ -232,12 +232,18 @@ export async function addTestPostsAction() {
   try {
     const user = await getCurrentUserOrThrow();
 
+    const lastPost = await db.query.posts.findFirst({
+      orderBy: desc(posts.id),
+    });
+
+    const lastPostId = lastPost?.id ?? 0;
+
     await db
       .insert(posts)
       .values(
         Array.from({ length: 1000 }).map((_, i) => {
           return {
-            title: getTestPostTitle(locale, i),
+            title: getTestPostTitle(locale, lastPostId + i + 1),
             content: getTestPostContent(locale),
             userId: user.id,
           };
