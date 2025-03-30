@@ -14,6 +14,7 @@ import {
   ChevronsUpDownIcon,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import {
   Table,
@@ -44,7 +45,7 @@ function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     state: { sorting: sortBy },
     manualSorting: true,
     onSortingChange,
-    meta: { searchParams: useSearchParams() },
+    meta: { searchParams: useSearchParams(), t: useTranslations() },
   });
 
   return (
