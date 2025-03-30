@@ -48,6 +48,6 @@ export function handleSubmit<T extends FieldValues>(
   };
 }
 
-export function noop() {
+export function noopAction() {
   return Promise.resolve(initState());
 }
