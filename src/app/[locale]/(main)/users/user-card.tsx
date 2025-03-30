@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { useTranslations } from "next-intl";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -16,6 +17,8 @@ interface UserCardProps {
 }
 
 export default function UserCard({ data: user }: UserCardProps) {
+  const t = useTranslations("User");
+
   return (
     <Card>
       <CardHeader>
@@ -35,7 +38,7 @@ export default function UserCard({ data: user }: UserCardProps) {
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-xs text-muted-foreground">
-          {`Joined on ${format(user.createdAt, "yyyy-MM-dd HH:mm")}`}
+          {t("joinedOn", { date: format(user.createdAt, "yyyy-MM-dd HH:mm") })}
         </p>
       </CardFooter>
     </Card>

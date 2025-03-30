@@ -14,6 +14,7 @@ import {
   ChevronsUpDownIcon,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import {
   Table,
@@ -35,6 +36,8 @@ interface DataTableProps<TData> {
 
 // https://ui.shadcn.com/docs/components/data-table
 function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
+  const t = useTranslations();
+
   const { sortBy, onSortingChange } = useSorting();
 
   const table = useReactTable({
@@ -44,7 +47,7 @@ function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
     state: { sorting: sortBy },
     manualSorting: true,
     onSortingChange,
-    meta: { searchParams: useSearchParams() },
+    meta: { searchParams: useSearchParams(), t },
   });
 
   return (
@@ -85,7 +88,7 @@ function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                {t("Common.noResults")}
               </TableCell>
             </TableRow>
           )}

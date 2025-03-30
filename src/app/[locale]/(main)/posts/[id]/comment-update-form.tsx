@@ -32,9 +32,9 @@ export default function CommentUpdateForm({
   comment,
   onCancel,
 }: CommentUpdateFormProps) {
-  const bindedUpdateCommentAction = updateCommentAction.bind(null, comment.id);
+  const t = useTranslations("Common");
 
-  const t = useTranslations("Post");
+  const bindedUpdateCommentAction = updateCommentAction.bind(null, comment.id);
   const [state, dispatch, isPending] = useActionState(
     bindedUpdateCommentAction,
     initState()
@@ -79,11 +79,11 @@ export default function CommentUpdateForm({
               disabled={isPending}
             >
               <XIcon />
-              {t("Cancel")}
+              {t("cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
               <CheckIcon />
-              {t("Edit")}
+              {t("edit")}
             </Button>
           </div>
         </div>

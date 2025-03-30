@@ -1,7 +1,7 @@
 "use client";
 
-import { capitalize } from "lodash-es";
 import { MoonIcon, SunIcon, SunMoonIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 
 import { Button } from "./ui/button";
@@ -25,10 +25,12 @@ const themeOptions = [
     icon: <SunMoonIcon className="size-4" />,
     value: "system",
   },
-];
+] as const;
 
 // https://ui.shadcn.com/docs/dark-mode/next
 function ThemeSwitcher() {
+  const t = useTranslations("Common");
+
   const { setTheme } = useTheme();
 
   return (
@@ -44,7 +46,7 @@ function ThemeSwitcher() {
         {themeOptions.map(({ icon, value }) => (
           <DropdownMenuItem key={value} onClick={() => setTheme(value)}>
             {icon}
-            {capitalize(value)}
+            {t(value)}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

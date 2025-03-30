@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 
 import { LayoutGridIcon, SearchIcon, TableIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 
 import { useSearchParams } from "@/hooks/use-search-params";
@@ -67,6 +68,8 @@ interface SearchFormProps {
 }
 
 function SearchForm({ onSubmit }: SearchFormProps) {
+  const t = useTranslations("Common");
+
   const form = useForm<{ [QueryParamKeys.Search]: string }>();
 
   return (
@@ -76,11 +79,11 @@ function SearchForm({ onSubmit }: SearchFormProps) {
     >
       <Input
         {...form.register(QueryParamKeys.Search)}
-        placeholder="Search..."
+        placeholder={t("searchPlaceholder")}
       />
       <Button type="submit">
         <SearchIcon />
-        Search
+        {t("search")}
       </Button>
     </form>
   );
@@ -88,18 +91,20 @@ function SearchForm({ onSubmit }: SearchFormProps) {
 
 const viewTypes = [
   {
-    label: "Table View",
+    label: "tableView",
     icon: <TableIcon className="size-4" />,
     value: "table",
   },
   {
-    label: "Grid View",
+    label: "gridView",
     icon: <LayoutGridIcon className="size-4" />,
     value: "grid",
   },
-];
+] as const;
 
 function ViewTypeSelector() {
+  const t = useTranslations("Common");
+
   const { searchParams, setSearchParams } = useSearchParams();
 
   return (
@@ -123,7 +128,7 @@ function ViewTypeSelector() {
             }}
           >
             {icon}
-            {label}
+            {t(label)}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -134,6 +139,8 @@ function ViewTypeSelector() {
 const rowsPerPage = [10, 20, 50, 100];
 
 function PageSizeSelector() {
+  const t = useTranslations("Common");
+
   const { searchParams, setSearchParams } = useSearchParams();
 
   return (
@@ -147,7 +154,7 @@ function PageSizeSelector() {
       }
     >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Rows per page" />
+        <SelectValue placeholder={t("rowsPerPage")} />
       </SelectTrigger>
       <SelectContent>
         {rowsPerPage.map((value) => (
@@ -162,16 +169,18 @@ function PageSizeSelector() {
 
 const orders = [
   {
-    label: "Descending",
+    label: "descending",
     value: "desc",
   },
   {
-    label: "Ascending",
+    label: "ascending",
     value: "asc",
   },
-];
+] as const;
 
 function OrderSelector() {
+  const t = useTranslations("Common");
+
   const { searchParams, setSearchParams } = useSearchParams();
 
   return (
@@ -185,12 +194,12 @@ function OrderSelector() {
       }
     >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Order" />
+        <SelectValue placeholder={t("orderBy")} />
       </SelectTrigger>
       <SelectContent>
         {orders.map(({ label, value }) => (
           <SelectItem key={value} value={value.toString()}>
-            {label}
+            {t(label)}
           </SelectItem>
         ))}
       </SelectContent>

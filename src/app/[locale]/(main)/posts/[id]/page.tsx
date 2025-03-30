@@ -3,6 +3,7 @@ import DOMPurify from "isomorphic-dompurify";
 import { clamp } from "lodash-es";
 import { ArrowLeftIcon } from "lucide-react";
 import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { BlogPosting } from "schema-dts";
 
 import { ProgressLink } from "@/components/progress-link";
@@ -54,6 +55,8 @@ export default async function PostDetail({
     [QueryParamKeys.Next]?: string;
   }>;
 }) {
+  const t = await getTranslations("Common");
+
   const { id } = await params;
 
   const { next, ...rest } = await searchParams;
@@ -132,7 +135,7 @@ export default async function PostDetail({
         <Button asChild variant="outline">
           <ProgressLink href={next ?? toUrl(Pages.Posts)}>
             <ArrowLeftIcon />
-            Back
+            {t("back")}
           </ProgressLink>
         </Button>
         {isAuthor && <AuthorActions previous={next} post={post} />}

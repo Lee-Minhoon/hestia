@@ -14,9 +14,12 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "image",
-    header: ({ column }) => (
-      <DataTableHeader column={column}>Profile</DataTableHeader>
-    ),
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <DataTableHeader column={column}>{t?.("User.profile")}</DataTableHeader>
+      );
+    },
     cell: ({ row }) => (
       <Avatar>
         <AvatarImage src={row.original.image || undefined} alt="profile" />
@@ -26,20 +29,44 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "email",
-    header: SortableHeader,
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <SortableHeader column={column}>{t?.("User.email")}</SortableHeader>
+      );
+    },
   },
   {
     accessorKey: "name",
-    header: SortableHeader,
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <SortableHeader column={column}>{t?.("User.name")}</SortableHeader>
+      );
+    },
   },
   {
     accessorKey: "createdAt",
-    header: SortableHeader,
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <SortableHeader column={column}>
+          {t?.("Schema.createdAt")}
+        </SortableHeader>
+      );
+    },
     cell: (props) => format(props.row.original.createdAt, "yyyy-MM-dd"),
   },
   {
     accessorKey: "updatedAt",
-    header: SortableHeader,
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <SortableHeader column={column}>
+          {t?.("Schema.updatedAt")}
+        </SortableHeader>
+      );
+    },
     cell: (props) => format(props.row.original.updatedAt, "yyyy-MM-dd"),
   },
 ];

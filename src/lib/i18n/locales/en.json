@@ -1,40 +1,113 @@
 {
-  "Error": {
-    "Message": "Something went wrong.",
-    "Try again": "Try again"
+  "Common": {
+    "back": "Back",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteWarning": "Are you sure you want to delete?",
+    "deleteDescription": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "error": "Error",
+    "success": "Success",
+    "info": "Info",
+    "warning": "Warning",
+
+    "search": "Search",
+    "searchPlaceholder": "Search...",
+    "orderBy": "Order by",
+    "descending": "Descending",
+    "ascending": "Ascending",
+    "previous": "Prev",
+    "next": "Next",
+    "rowsPerPage": "Rows per page",
+    "tableView": "Table View",
+    "gridView": "Grid View",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+
+    "noResults": "No results.",
+    "actionSuccess": "Successfully completed.",
+    "permissionDenied": "Permission Denied.",
+    "unknownError": "An unknown error occurred."
   },
-  "NotFound": {
-    "NotFound": "Not Found",
-    "NotFound Description": "Could not find requested resource.",
-    "Go Home": "Go Home"
+  "Schema": {
+    "ID": "ID",
+    "createdAt": "Created at",
+    "updatedAt": "Updated at",
+    "deletedAt": "Deleted at"
   },
-  "MainLayout": {
-    "Signin": "Sign in",
-    "Signup": "Sign up",
-    "Signout": "Sign out"
+  "Navigation": {
+    "home": "Home",
+    "users": "Users",
+    "posts": "Posts"
   },
-  "Signup": {
-    "Signup": "Signup",
-    "Signup Description": "Signup to create an account.",
-    "Email": "Email",
-    "Email Description": "This is your email address for signin.",
-    "Password": "Password",
-    "Check Password": "Check Password",
-    "Username": "Username",
-    "Username Description": "This is your public display name.",
-    "Join": "Join"
+  "Auth": {
+    "signin": "Signin",
+    "signinDescription": "Signin to your account",
+    "signup": "Signup",
+    "signupDescription": "Signup to create an account.",
+    "signout": "Sign out",
+    "email": "Email",
+    "emailDescription": "This is your email address for signin.",
+    "password": "Password",
+    "checkPassword": "Check Password",
+    "username": "Username",
+    "usernameDescription": "This is your public display name.",
+    "join": "Join",
+
+    "invalidUserID": "Invalid user ID",
+    "InvalidAccount": "Invalid email or password",
+    "signinSuccess": "Successfully signed in",
+    "signupSuccess": "Successfully signed up",
+    "signupFailed": "Failed to sign up",
+    "signoutSuccess": "Successfully signed out"
   },
-  "Signin": {
-    "Signin": "Signin",
-    "Signin Description": "Signin to your account",
-    "Email": "Email",
-    "Password": "Password"
+  "User": {
+    "profile": "Profile",
+    "email": "Email",
+    "name": "Name",
+    "joinedOn": "Joined on {date}",
+    "createTestUsers": "Create test users",
+    "deleteAllUsers": "Delete all users",
+
+    "userNotFound": "User not found"
   },
   "Post": {
-    "Title": "Title",
-    "Content": "Content",
-    "Post": "Post",
-    "Edit": "Edit",
-    "Cancel": "Cancel"
+    "title": "Title",
+    "author": "Author",
+    "content": "Content",
+    "post": "Post",
+    "share": "Share",
+    "copyLink": "Copy link",
+
+    "createPost": "Write a post",
+    "createTestPosts": "Create test posts",
+    "deleteAllPosts": "Delete all posts",
+
+    "postNotFound": "Post not found",
+    "postFailed": "Failed to {action, select, create {create} update {update} delete {delete} other {}} post",
+    "postSuccess": "Successfully {action, select, create {created} update {updated} delete {deleted} other {}} post"
+  },
+  "Comment": {
+    "commentNotFound": "Comment not found",
+    "commentFailed": "Failed to {action, select, create {create} update {update} delete {delete} other {}} comment",
+    "commentSuccess": "Successfully {action, select, create {created} update {updated} delete {deleted} other {}} comment"
+  },
+  "Like": {
+    "likeNotFound": "Like not found",
+    "likeSuccess": "Successfully liked",
+    "likeFailed": "Failed to like",
+    "unlikeSuccess": "Successfully unliked",
+    "unlikeFailed": "Failed to unlike"
+  },
+  "Error": {
+    "message": "Something went wrong.",
+    "tryAgain": "Try again"
+  },
+  "NotFound": {
+    "notFound": "Not Found",
+    "notFoundDescription": "Could not find requested resource.",
+    "goHome": "Go Home"
   }
 }

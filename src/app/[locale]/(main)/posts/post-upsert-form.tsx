@@ -31,6 +31,7 @@ interface PostUpsertFormProps {
 
 export default function PostUpsertForm({ post }: PostUpsertFormProps) {
   const t = useTranslations("Post");
+
   const [state, dispatch, isPending] = useActionState(
     post ? updatePostAction.bind(null, post.id) : createPostAction,
     initState()
@@ -60,7 +61,7 @@ export default function PostUpsertForm({ post }: PostUpsertFormProps) {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("Title")}</FormLabel>
+              <FormLabel>{t("title")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -73,7 +74,7 @@ export default function PostUpsertForm({ post }: PostUpsertFormProps) {
           name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t("Content")}</FormLabel>
+              <FormLabel>{t("content")}</FormLabel>
               <FormControl>
                 <Editor {...field} />
               </FormControl>
@@ -84,7 +85,7 @@ export default function PostUpsertForm({ post }: PostUpsertFormProps) {
         <div className="flex justify-end">
           <Button type="submit" disabled={isPending}>
             <PencilIcon />
-            {t("Post")}
+            {t("post")}
           </Button>
         </div>
       </form>

@@ -18,7 +18,12 @@ export const columns = [
     header: ({ column }) => <SortableHeader column={column}>ID</SortableHeader>,
   }),
   columnHelper.accessor("user.id", {
-    header: SortableHeader,
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <SortableHeader column={column}>{t?.("Post.author")}</SortableHeader>
+      );
+    },
     cell: ({ row }) => (
       <div className="flex items-center gap-2 max-w-28 overflow-hidden">
         <Avatar>
@@ -33,7 +38,12 @@ export const columns = [
     ),
   }),
   columnHelper.accessor("post.title", {
-    header: SortableHeader,
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <SortableHeader column={column}>{t?.("Post.title")}</SortableHeader>
+      );
+    },
     cell: ({ row, table }) => {
       const { searchParams } = table.options.meta ?? {};
       return (
@@ -59,11 +69,25 @@ export const columns = [
     },
   }),
   columnHelper.accessor("post.createdAt", {
-    header: SortableHeader,
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <SortableHeader column={column}>
+          {t?.("Schema.createdAt")}
+        </SortableHeader>
+      );
+    },
     cell: ({ row }) => format(row.original.post.updatedAt, "yyyy-MM-dd"),
   }),
   columnHelper.accessor("post.updatedAt", {
-    header: SortableHeader,
+    header: ({ table, column }) => {
+      const t = table.options.meta?.t;
+      return (
+        <SortableHeader column={column}>
+          {t?.("Schema.updatedAt")}
+        </SortableHeader>
+      );
+    },
     cell: ({ row }) => format(row.original.post.updatedAt, "yyyy-MM-dd"),
   }),
 ];

@@ -21,7 +21,8 @@ import { QueryParamKeys } from "@/lib/queryParams";
 import { isPrivatePage, Pages, toUrl, withLocale } from "@/lib/routes";
 
 export default async function Account() {
-  const t = await getTranslations("MainLayout");
+  const t = await getTranslations("Auth");
+
   const session = await auth();
 
   return (
@@ -78,7 +79,7 @@ export default async function Account() {
               >
                 <Button type="submit" variant={"outline"}>
                   <LogOutIcon />
-                  {t("Signout")}
+                  {t("signout")}
                 </Button>
               </form>
             </SheetFooter>
@@ -89,14 +90,14 @@ export default async function Account() {
           <li>
             <Button asChild variant={"outline"}>
               <ProgressLink href={toUrl(Pages.Signin)}>
-                {t("Signin")}
+                {t("signin")}
               </ProgressLink>
             </Button>
           </li>
           <li>
             <Button asChild>
               <ProgressLink href={toUrl(Pages.Signup)}>
-                {t("Signup")}
+                {t("signup")}
               </ProgressLink>
             </Button>
           </li>
