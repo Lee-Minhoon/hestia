@@ -17,8 +17,9 @@ import {
 } from "@/components/ui/sheet";
 import { auth, signOut } from "@/lib/auth";
 import { Locale } from "@/lib/i18n/locale";
+import { getPathname } from "@/lib/i18n/navigation";
 import { QueryParamKeys } from "@/lib/queryParams";
-import { isPrivatePage, Pages, toUrl, withLocale } from "@/lib/routes";
+import { isPrivatePage, Pages, toUrl } from "@/lib/routes";
 
 export default async function Account() {
   const t = await getTranslations("Auth");
@@ -69,7 +70,10 @@ export default async function Account() {
 
                   if (isPrivatePage(url.pathname)) {
                     url.searchParams.set(QueryParamKeys.Next, url.pathname);
-                    url.pathname = withLocale(toUrl(Pages.Signin), locale);
+                    url.pathname = getPathname({
+                      href: toUrl(Pages.Signin),
+                      locale,
+                    });
                   }
 
                   await signOut({

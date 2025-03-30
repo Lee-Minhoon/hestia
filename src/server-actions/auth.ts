@@ -13,10 +13,10 @@ import { auth, AvailableProviders, signIn } from "@/lib/auth";
 import db from "@/lib/db";
 import { signinSchema, signupSchema, users } from "@/lib/db/schema";
 import { Locale } from "@/lib/i18n/locale";
-import { redirect } from "@/lib/i18n/navigation";
+import { getPathname, redirect } from "@/lib/i18n/navigation";
 import { makeNotification } from "@/lib/notification";
 import { QueryParamKeys } from "@/lib/queryParams";
-import { buildUrl, Pages, toUrl, withLocale } from "@/lib/routes";
+import { buildUrl, Pages, toUrl } from "@/lib/routes";
 
 import { getUserById, getUserByIdOrThrow } from "./user";
 
@@ -25,7 +25,7 @@ async function getRedirectUrl() {
   const next = url.searchParams.get("next");
   const locale = (await getLocale()) as Locale;
 
-  return next || withLocale(toUrl(Pages.Home), locale);
+  return next || getPathname({ href: toUrl(Pages.Home), locale });
 }
 
 async function getCurrentUserId() {
