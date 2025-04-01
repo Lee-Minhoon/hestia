@@ -11,6 +11,7 @@
     "success": "Success",
     "info": "Info",
     "warning": "Warning",
+    "dismiss": "Dismiss",
 
     "search": "Search",
     "searchPlaceholder": "Search...",
@@ -44,10 +45,10 @@
     "posts": "Posts"
   },
   "Auth": {
-    "signin": "Signin",
-    "signinDescription": "Signin to your account",
-    "signup": "Signup",
-    "signupDescription": "Signup to create an account.",
+    "signin": "Sign in",
+    "signinDescription": "Sign in to your account.",
+    "signup": "Sign up",
+    "signupDescription": "Sign up to create an account.",
     "signout": "Sign out",
     "email": "Email",
     "emailDescription": "This is your email address for signin.",
@@ -57,12 +58,12 @@
     "usernameDescription": "This is your public display name.",
     "join": "Join",
 
-    "invalidUserID": "Invalid user ID",
-    "InvalidAccount": "Invalid email or password",
-    "signinSuccess": "Successfully signed in",
-    "signupSuccess": "Successfully signed up",
-    "signupFailed": "Failed to sign up",
-    "signoutSuccess": "Successfully signed out"
+    "invalidUserID": "Invalid user ID.",
+    "InvalidAccount": "Invalid email or password.",
+    "signinSuccess": "Successfully signed in.",
+    "signupSuccess": "Successfully signed up.",
+    "signupFailed": "Failed to sign up.",
+    "signoutSuccess": "Successfully signed out."
   },
   "User": {
     "profile": "Profile",
@@ -72,7 +73,7 @@
     "createTestUsers": "Create test users",
     "deleteAllUsers": "Delete all users",
 
-    "userNotFound": "User not found"
+    "userNotFound": "User not found."
   },
   "Post": {
     "title": "Title",
@@ -86,28 +87,28 @@
     "createTestPosts": "Create test posts",
     "deleteAllPosts": "Delete all posts",
 
-    "postNotFound": "Post not found",
-    "postFailed": "Failed to {action, select, create {create} update {update} delete {delete} other {}} post",
-    "postSuccess": "Successfully {action, select, create {created} update {updated} delete {deleted} other {}} post"
+    "postNotFound": "Post not found.",
+    "postFailed": "Failed to {action, select, create {create} update {update} delete {delete} other {}} post.",
+    "postSuccess": "Successfully {action, select, create {created} update {updated} delete {deleted} other {}} post."
   },
   "Comment": {
-    "commentNotFound": "Comment not found",
-    "commentFailed": "Failed to {action, select, create {create} update {update} delete {delete} other {}} comment",
-    "commentSuccess": "Successfully {action, select, create {created} update {updated} delete {deleted} other {}} comment"
+    "commentNotFound": "Comment not found.",
+    "commentFailed": "Failed to {action, select, create {create} update {update} delete {delete} other {}} comment.",
+    "commentSuccess": "Successfully {action, select, create {created} update {updated} delete {deleted} other {}} comment."
   },
   "Like": {
-    "likeNotFound": "Like not found",
-    "likeSuccess": "Successfully liked",
-    "likeFailed": "Failed to like",
-    "unlikeSuccess": "Successfully unliked",
-    "unlikeFailed": "Failed to unlike"
+    "likeNotFound": "Like not found.",
+    "likeSuccess": "Successfully liked.",
+    "likeFailed": "Failed to like.",
+    "unlikeSuccess": "Successfully unliked.",
+    "unlikeFailed": "Failed to unlike."
   },
   "Error": {
     "message": "Something went wrong.",
     "tryAgain": "Try again"
   },
   "NotFound": {
-    "notFound": "Not Found",
+    "notFound": "Not Found.",
     "notFoundDescription": "Could not find requested resource.",
     "goHome": "Go Home"
   }

@@ -17,7 +17,7 @@ function useActionToast(state: ActionState<unknown>) {
     toast[state.status](t(state.status), {
       description: state.message,
       cancel: {
-        label: "Dismiss",
+        label: t("dismiss"),
         onClick: handleDissmiss,
       },
     });

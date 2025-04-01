@@ -27,7 +27,7 @@ export default function Notifier() {
       toast[type](t(type), {
         description,
         cancel: {
-          label: "Dismiss",
+          label: t("dismiss"),
           onClick: () => toast.dismiss(),
         },
       });
