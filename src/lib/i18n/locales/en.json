@@ -45,10 +45,10 @@
     "posts": "Posts"
   },
   "Auth": {
-    "signin": "Signin",
-    "signinDescription": "Signin to your account.",
-    "signup": "Signup",
-    "signupDescription": "Signup to create an account.",
+    "signin": "Sign in",
+    "signinDescription": "Sign in to your account.",
+    "signup": "Sign up",
+    "signupDescription": "Sign up to create an account.",
     "signout": "Sign out",
     "email": "Email",
     "emailDescription": "This is your email address for signin.",
