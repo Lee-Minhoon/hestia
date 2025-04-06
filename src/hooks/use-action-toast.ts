@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -12,16 +12,23 @@ function useActionToast(state: ActionState<unknown>) {
     toast.dismiss();
   }, []);
 
+  const title = useMemo(() => {
+    if (state.status === "idle") return "";
+    return t(state.status);
+  }, [state.status, t]);
+
+  const dismissLabel = useMemo(() => t("dismiss"), [t]);
+
   useEffect(() => {
     if (state.status === "idle") return;
-    toast[state.status](t(state.status), {
+    toast[state.status](title, {
       description: state.message,
       cancel: {
-        label: t("dismiss"),
+        label: dismissLabel,
         onClick: handleDissmiss,
       },
     });
-  }, [handleDissmiss, state, t]);
+  }, [dismissLabel, handleDissmiss, state, title]);
 }
 
 export { useActionToast };
