@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useActionState, useCallback } from "react";
+import { useActionState, useEffect } from "react";
 
 import { ScrollIntoViewContent } from "@/components/scroll-into-view";
 import {
@@ -36,16 +36,10 @@ export default function CommentList({ comments }: CommentListProps) {
   useActionToast(state);
   useActionProgress(state, isPending);
 
-  const handleSubmit = useCallback<React.FormEventHandler>(
-    (e) => {
-      e.preventDefault();
-      deleting.deactive();
-      startTransition(() => {
-        dispatch();
-      });
-    },
-    [deleting, dispatch]
-  );
+  useEffect(() => {
+    if (!isPending) return;
+    deleting.deactive();
+  }, [isPending, deleting]);
 
   return (
     <ScrollIntoViewContent>
@@ -73,7 +67,7 @@ export default function CommentList({ comments }: CommentListProps) {
               >
                 Cancel
               </AlertDialogCancel>
-              <form action={dispatch} onSubmit={handleSubmit}>
+              <form action={dispatch}>
                 <AlertDialogAction type="submit" disabled={isPending}>
                   Continue
                 </AlertDialogAction>

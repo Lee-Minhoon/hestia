@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useActionState, useCallback } from "react";
+import { useActionState } from "react";
 
 import { LogOutIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -21,19 +21,9 @@ export default function SignoutForm() {
   useActionToast(state);
   useActionProgress(state, isPending);
 
-  const handleSubmit = useCallback<React.FormEventHandler>(
-    (e) => {
-      e.preventDefault();
-      startTransition(() => {
-        dispatch();
-      });
-    },
-    [dispatch]
-  );
-
   return (
-    <form action={dispatch} onSubmit={handleSubmit}>
-      <Button type="submit" variant={"outline"}>
+    <form action={dispatch}>
+      <Button type="submit" variant={"outline"} disabled={isPending}>
         <LogOutIcon />
         {t("signout")}
       </Button>
