@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useActionState, useCallback } from "react";
+import { useActionState } from "react";
 
 import { DeleteIcon, EditIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -42,16 +42,6 @@ export default function AuthorActions({ previous, post }: AuthorActionsProps) {
   useActionToast(state);
   useActionProgress(state, isPending);
 
-  const handleSubmit = useCallback<React.FormEventHandler>(
-    (e) => {
-      e.preventDefault();
-      startTransition(() => {
-        dispatch();
-      });
-    },
-    [dispatch]
-  );
-
   return (
     <div className="flex gap-2">
       <Button asChild variant="outline">
@@ -81,7 +71,7 @@ export default function AuthorActions({ previous, post }: AuthorActionsProps) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-            <form action={dispatch} onSubmit={handleSubmit}>
+            <form action={dispatch}>
               <AlertDialogAction type="submit" disabled={isPending}>
                 {t("continue")}
               </AlertDialogAction>
