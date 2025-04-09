@@ -1,11 +1,18 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useMemo } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { MenuIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useActionProgress } from "@/hooks/use-action-progress";
 import { useActionToast } from "@/hooks/use-action-toast";
 import { initState } from "@/lib/action";
@@ -16,17 +23,54 @@ import {
 } from "@/server-actions/user";
 
 export default function UserActions() {
+  const t = useTranslations("User");
+
+  const createTestUsers = useCreateTestUsers();
+  const deleteAllUsers = useDeleteAllUsers();
+
+  const actions = useMemo(() => {
+    return [
+      { id: "create", label: t("createTestUsers"), ...createTestUsers },
+      { id: "delete", label: t("deleteAllUsers"), ...deleteAllUsers },
+    ];
+  }, [createTestUsers, deleteAllUsers, t]);
+
   return (
-    <div className="flex gap-2">
-      <CreateTestUsersForm />
-      <DeleteAllUsersForm />
-    </div>
+    <>
+      <div className="hidden md:flex gap-2">
+        {actions.map(({ id, label, dispatch, isPending }) => (
+          <form key={id} action={dispatch}>
+            <Button type="submit" variant="outline" disabled={isPending}>
+              {label}
+            </Button>
+          </form>
+        ))}
+      </div>
+      <div className="md:hidden">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <MenuIcon />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {actions.map(({ id, label, dispatch, isPending }) => (
+              <form key={id} action={dispatch}>
+                <DropdownMenuItem asChild disabled={isPending}>
+                  <button className="w-full" type="submit">
+                    {label}
+                  </button>
+                </DropdownMenuItem>
+              </form>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </>
   );
 }
 
-function CreateTestUsersForm() {
-  const t = useTranslations("User");
-
+function useCreateTestUsers() {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -41,18 +85,10 @@ function CreateTestUsersForm() {
     queryClient.invalidateQueries({ queryKey: [toUrl(Endpoints.Users)] });
   }, [queryClient, state]);
 
-  return (
-    <form action={dispatch}>
-      <Button type="submit" variant="outline" disabled={isPending}>
-        {t("createTestUsers")}
-      </Button>
-    </form>
-  );
+  return { state, dispatch, isPending };
 }
 
-function DeleteAllUsersForm() {
-  const t = useTranslations("User");
-
+function useDeleteAllUsers() {
   const queryClient = useQueryClient();
 
   const [state, dispatch, isPending] = useActionState(
@@ -67,11 +103,5 @@ function DeleteAllUsersForm() {
     queryClient.invalidateQueries({ queryKey: [toUrl(Endpoints.Users)] });
   }, [queryClient, state]);
 
-  return (
-    <form action={dispatch}>
-      <Button type="submit" variant="outline" disabled={isPending}>
-        {t("deleteAllUsers")}
-      </Button>
-    </form>
-  );
+  return { state, dispatch, isPending };
 }
