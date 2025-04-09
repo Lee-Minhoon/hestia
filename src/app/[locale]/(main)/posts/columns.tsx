@@ -78,6 +78,9 @@ export const columns = [
       );
     },
     cell: ({ row }) => format(row.original.post.updatedAt, "yyyy-MM-dd"),
+    meta: {
+      className: "hidden md:table-cell",
+    },
   }),
   columnHelper.accessor("post.updatedAt", {
     header: ({ table, column }) => {
@@ -89,5 +92,8 @@ export const columns = [
       );
     },
     cell: ({ row }) => format(row.original.post.updatedAt, "yyyy-MM-dd"),
+    meta: {
+      className: "hidden md:table-cell",
+    },
   }),
 ];

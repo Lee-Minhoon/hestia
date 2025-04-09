@@ -35,6 +35,9 @@ export const columns: ColumnDef<User>[] = [
         <SortableHeader column={column}>{t?.("User.email")}</SortableHeader>
       );
     },
+    meta: {
+      className: "hidden sm:table-cell",
+    },
   },
   {
     accessorKey: "name",
@@ -56,6 +59,9 @@ export const columns: ColumnDef<User>[] = [
       );
     },
     cell: (props) => format(props.row.original.createdAt, "yyyy-MM-dd"),
+    meta: {
+      className: "hidden md:table-cell",
+    },
   },
   {
     accessorKey: "updatedAt",
@@ -68,5 +74,8 @@ export const columns: ColumnDef<User>[] = [
       );
     },
     cell: (props) => format(props.row.original.updatedAt, "yyyy-MM-dd"),
+    meta: {
+      className: "hidden md:table-cell",
+    },
   },
 ];
