@@ -23,7 +23,7 @@ export default async function Posts({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-4">
         <PostActions />
         <div className="flex gap-4">
           <SearchForm />
