@@ -127,7 +127,7 @@ function PageSizeSelector() {
       <SelectContent>
         {rowsPerPage.map((value) => (
           <SelectItem key={value} value={value.toString()}>
-            {value}
+            {t("rows", { count: value })}
           </SelectItem>
         ))}
       </SelectContent>

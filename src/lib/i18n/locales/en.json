@@ -20,6 +20,7 @@
     "ascending": "Ascending",
     "previous": "Prev",
     "next": "Next",
+    "rows": "{count} rows",
     "rowsPerPage": "Rows per page",
     "tableView": "Table View",
     "gridView": "Grid View",
