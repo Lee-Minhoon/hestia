@@ -2,14 +2,8 @@
 
 import { useCallback, useMemo } from "react";
 
-import {
-  LayoutGridIcon,
-  SearchIcon,
-  SlidersHorizontalIcon,
-  TableIcon,
-} from "lucide-react";
+import { LayoutGridIcon, SlidersHorizontalIcon, TableIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
 
 import { useSearchParams } from "@/hooks/use-search-params";
 import { QueryParamKeys } from "@/lib/queryParams";
@@ -24,8 +18,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Form, FormControl, FormField, FormItem } from "./ui/form";
-import { Input } from "./ui/input";
 import {
   Select,
   SelectContent,
@@ -36,8 +28,7 @@ import {
 
 function TableControls() {
   return (
-    <div className="flex gap-4">
-      <SearchForm />
+    <>
       <div className="hidden sm:flex gap-4">
         <PageSizeSelector />
         <ViewTypeSelector />
@@ -45,14 +36,13 @@ function TableControls() {
       <div className="sm:hidden">
         <TableControlMenu />
       </div>
-    </div>
+    </>
   );
 }
 
 function GridControls() {
   return (
-    <div className="flex gap-4">
-      <SearchForm />
+    <>
       <div className="hidden sm:flex gap-4">
         <OrderSelector />
         <ViewTypeSelector />
@@ -60,51 +50,7 @@ function GridControls() {
       <div className="sm:hidden">
         <GridControlMenu />
       </div>
-    </div>
-  );
-}
-
-function SearchForm() {
-  const t = useTranslations("Common");
-
-  const { setSearchParams } = useSearchParams();
-
-  const form = useForm<{ [QueryParamKeys.Search]: string }>({
-    defaultValues: {
-      [QueryParamKeys.Search]: "",
-    },
-  });
-
-  const handleSubmit = useCallback(
-    (data: { [QueryParamKeys.Search]: string }) => {
-      setSearchParams((searchParams) => {
-        searchParams.set(QueryParamKeys.Search, data.search);
-        return searchParams;
-      });
-    },
-    [setSearchParams]
-  );
-
-  return (
-    <Form {...form}>
-      <form className="flex gap-2" onSubmit={form.handleSubmit(handleSubmit)}>
-        <FormField
-          control={form.control}
-          name={QueryParamKeys.Search}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input {...field} placeholder={t("searchPlaceholder")} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <Button type="submit">
-          <SearchIcon />
-          {t("search")}
-        </Button>
-      </form>
-    </Form>
+    </>
   );
 }
 

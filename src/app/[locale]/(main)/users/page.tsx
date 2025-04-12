@@ -1,4 +1,5 @@
 import { GridControls, TableControls } from "@/components/query-controls";
+import { SearchForm } from "@/components/search-form";
 import { QueryParamKeys } from "@/lib/queryParams";
 
 import UserActions from "./user-actions";
@@ -24,7 +25,10 @@ export default async function Users({
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <UserActions />
-        {isTableView ? <TableControls /> : <GridControls />}
+        <div className="flex gap-4">
+          <SearchForm />
+          {isTableView ? <TableControls /> : <GridControls />}
+        </div>
       </div>
       {isTableView ? <UserTable {...rest} /> : <UserList />}
     </div>
