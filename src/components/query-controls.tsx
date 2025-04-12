@@ -2,7 +2,12 @@
 
 import { useCallback, useMemo } from "react";
 
-import { LayoutGridIcon, SearchIcon, TableIcon } from "lucide-react";
+import {
+  LayoutGridIcon,
+  SearchIcon,
+  SlidersHorizontalIcon,
+  TableIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 
@@ -14,6 +19,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Form, FormControl, FormField, FormItem } from "./ui/form";
@@ -30,8 +38,13 @@ function TableControls() {
   return (
     <div className="flex gap-4">
       <SearchForm />
-      <PageSizeSelector />
-      <ViewTypeSelector />
+      <div className="hidden sm:flex gap-4">
+        <PageSizeSelector />
+        <ViewTypeSelector />
+      </div>
+      <div className="sm:hidden">
+        <TableControlMenu />
+      </div>
     </div>
   );
 }
@@ -40,8 +53,13 @@ function GridControls() {
   return (
     <div className="flex gap-4">
       <SearchForm />
-      <OrderSelector />
-      <ViewTypeSelector />
+      <div className="hidden sm:flex gap-4">
+        <OrderSelector />
+        <ViewTypeSelector />
+      </div>
+      <div className="sm:hidden">
+        <GridControlMenu />
+      </div>
     </div>
   );
 }
@@ -153,6 +171,86 @@ function OrderSelector() {
         ))}
       </SelectContent>
     </Select>
+  );
+}
+
+function TableControlMenu() {
+  const t = useTranslations("Common");
+
+  const { viewType, onViewTypeChange } = useViewType();
+  const { pageSize, onPageSizeChange } = usePageSize();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <SlidersHorizontalIcon />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuRadioGroup
+          value={viewType.value}
+          onValueChange={onViewTypeChange}
+        >
+          {viewTypes.map(({ label, value }) => (
+            <DropdownMenuRadioItem key={value} value={value}>
+              {t(label)}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup
+          value={pageSize.toString()}
+          onValueChange={onPageSizeChange}
+        >
+          {rowsPerPage.map((value) => (
+            <DropdownMenuRadioItem key={value} value={value.toString()}>
+              {t("rows", { count: value })}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function GridControlMenu() {
+  const t = useTranslations("Common");
+
+  const { viewType, onViewTypeChange } = useViewType();
+  const { order, onOrderChange } = useOrder();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <SlidersHorizontalIcon />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuRadioGroup
+          value={viewType.value}
+          onValueChange={onViewTypeChange}
+        >
+          {viewTypes.map(({ label, value }) => (
+            <DropdownMenuRadioItem key={value} value={value}>
+              {t(label)}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup
+          value={order.value}
+          onValueChange={onOrderChange}
+        >
+          {orders.map(({ label, value }) => (
+            <DropdownMenuRadioItem key={value} value={value}>
+              {t(label)}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
