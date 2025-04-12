@@ -44,7 +44,7 @@ export default function PostActions() {
 
   return (
     <>
-      <div className="hidden md:flex gap-2">
+      <div className="hidden lg:flex gap-2">
         <ScrollSaver>
           <Button asChild>
             <ProgressLink
@@ -68,7 +68,7 @@ export default function PostActions() {
           </form>
         ))}
       </div>
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">

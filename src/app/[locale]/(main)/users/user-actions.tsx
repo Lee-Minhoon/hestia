@@ -37,7 +37,7 @@ export default function UserActions() {
 
   return (
     <>
-      <div className="hidden md:flex gap-2">
+      <div className="hidden lg:flex gap-2">
         {actions.map(({ id, label, dispatch, isPending }) => (
           <form key={id} action={dispatch}>
             <Button type="submit" variant="outline" disabled={isPending}>
@@ -46,7 +46,7 @@ export default function UserActions() {
           </form>
         ))}
       </div>
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
