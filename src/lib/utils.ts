@@ -5,6 +5,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function distance(a: number, b: number) {
+  return Math.abs(a - b);
+}
+
+export function quotient(a: number, b: number) {
+  return Math.floor(a / b);
+}
+
 export function getBaseUrl() {
   return process.env.NEXT_PUBLIC_BASE_URL ?? "";
 }
