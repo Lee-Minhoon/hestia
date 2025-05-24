@@ -83,11 +83,7 @@ const testCases = [
       { page: 10, total: 10, expected: [1, "left", 5, 6, 7, 8, 9, 10] },
 
       { page: 1, total: 100, expected: [1, 2, 3, 4, 5, 6, "right", 100] },
-      {
-        page: 50,
-        total: 100,
-        expected: [1, "left", 49, 50, 51, 52, "right", 100],
-      },
+      { page: 50, total: 100, expected: [1, "left", 49, 50, 51, 52, "right", 100] },
       { page: 100, total: 100, expected: [1, "left", 95, 96, 97, 98, 99, 100] },
     ],
   },
@@ -117,11 +113,7 @@ const testCases = [
       { page: 10, total: 10, expected: [1, "left", 5, 6, 7, 8, 9, 10] },
 
       { page: 1, total: 100, expected: [1, 2, 3, 4, 5, 6, "right", 100] },
-      {
-        page: 50,
-        total: 100,
-        expected: [1, "left", 48, 49, 50, 51, "right", 100],
-      },
+      { page: 50, total: 100, expected: [1, "left", 48, 49, 50, 51, "right", 100] },
       { page: 100, total: 100, expected: [1, "left", 95, 96, 97, 98, 99, 100] },
     ],
   },
