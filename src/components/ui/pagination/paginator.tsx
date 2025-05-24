@@ -60,7 +60,7 @@ function Paginator({ pageIndex, pageSize, rowCount }: PaginatorProps) {
             isDisabled={rowCount === 0 || safePageIndex === 1}
           />
         </PaginationItem>
-        {generatePages(safePageIndex, totalPages, { range: 1 }).map((page) => (
+        {generatePages(safePageIndex, totalPages, { count: 5 }).map((page) => (
           <PaginationItem key={page} className="list-item sm:hidden">
             {typeof page === "number" ? (
               <PaginationLink
