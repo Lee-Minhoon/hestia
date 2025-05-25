@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useMemo } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { MenuIcon, PlusIcon } from "lucide-react";
+import { EllipsisIcon, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { ProgressLink } from "@/components/progress-link";
@@ -72,7 +72,7 @@ export default function PostActions() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
-              <MenuIcon />
+              <EllipsisIcon />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useMemo } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { MenuIcon } from "lucide-react";
+import { EllipsisIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -50,7 +50,7 @@ export default function UserActions() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
-              <MenuIcon />
+              <EllipsisIcon />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
