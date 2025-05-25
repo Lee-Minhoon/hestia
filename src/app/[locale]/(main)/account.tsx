@@ -71,7 +71,7 @@ export default async function Account() {
               </ProgressLink>
             </Button>
           </li>
-          <li>
+          <li className="hidden md:list-item">
             <Button asChild>
               <ProgressLink href={toUrl(Pages.Signup)}>
                 {t("signup")}

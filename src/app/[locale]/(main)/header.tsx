@@ -12,13 +12,13 @@ export default function MainLayoutHeader() {
         <nav className="flex items-center gap-10">
           <ProgressLink
             href={toUrl(Pages.Home)}
-            className="text-xl font-bold text-muted-foreground transition-colors hover:text-primary"
+            className="hidden md:block text-xl font-bold text-muted-foreground transition-colors hover:text-primary"
           >
             HESTIA
           </ProgressLink>
           <Navigations />
         </nav>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-4 md:gap-10">
           <Settings />
           <Account />
         </div>
