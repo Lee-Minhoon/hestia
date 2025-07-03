@@ -1,4 +1,5 @@
 import { GridControls, TableControls } from "@/components/query-controls";
+import { SearchForm } from "@/components/search-form";
 import { QueryParamKeys } from "@/lib/queryParams";
 
 import PostActions from "./post-actions";
@@ -22,9 +23,12 @@ export default async function Posts({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center gap-4">
         <PostActions />
-        {isTableView ? <TableControls /> : <GridControls />}
+        <div className="flex gap-4">
+          <SearchForm />
+          {isTableView ? <TableControls /> : <GridControls />}
+        </div>
       </div>
       {isTableView ? <PostTable {...rest} /> : <PostList />}
     </div>

@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useMemo } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { MenuIcon, PlusIcon } from "lucide-react";
+import { EllipsisIcon, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { ProgressLink } from "@/components/progress-link";
@@ -44,7 +44,7 @@ export default function PostActions() {
 
   return (
     <>
-      <div className="hidden md:flex gap-2">
+      <div className="hidden lg:flex gap-2">
         <ScrollSaver>
           <Button asChild>
             <ProgressLink
@@ -68,11 +68,11 @@ export default function PostActions() {
           </form>
         ))}
       </div>
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
-              <MenuIcon />
+              <EllipsisIcon />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

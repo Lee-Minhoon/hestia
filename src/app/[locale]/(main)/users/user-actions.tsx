@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useMemo } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { MenuIcon } from "lucide-react";
+import { EllipsisIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ export default function UserActions() {
 
   return (
     <>
-      <div className="hidden md:flex gap-2">
+      <div className="hidden lg:flex gap-2">
         {actions.map(({ id, label, dispatch, isPending }) => (
           <form key={id} action={dispatch}>
             <Button type="submit" variant="outline" disabled={isPending}>
@@ -46,11 +46,11 @@ export default function UserActions() {
           </form>
         ))}
       </div>
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
-              <MenuIcon />
+              <EllipsisIcon />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

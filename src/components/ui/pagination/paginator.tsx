@@ -14,33 +14,27 @@ import { toQueryString } from "@/lib/routes";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "../pagination";
 
+import { generatePages } from "./helpers";
+
 interface PaginatorProps {
   pageIndex: number;
   pageSize: number;
   rowCount: number;
-  pageCount?: number;
 }
 
-function Paginator({
-  pageIndex,
-  pageSize,
-  rowCount,
-  pageCount = 10,
-}: PaginatorProps) {
+function Paginator({ pageIndex, pageSize, rowCount }: PaginatorProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const totalPages = Math.ceil(rowCount / pageSize);
   const safePageIndex = clamp(pageIndex, 1, totalPages);
-
-  const startPage = Math.floor((safePageIndex - 1) / pageCount) * pageCount + 1;
-  const endPage = Math.min(startPage + pageCount - 1, totalPages);
 
   const getHref = useCallback(
     (page: number): UrlObject => {
@@ -66,17 +60,32 @@ function Paginator({
             isDisabled={rowCount === 0 || safePageIndex === 1}
           />
         </PaginationItem>
-        {Array.from(
-          { length: endPage - startPage + 1 },
-          (_, i) => startPage + i
-        ).map((page) => (
-          <PaginationItem key={page}>
-            <PaginationLink
-              href={getHref(page)}
-              isActive={safePageIndex === page}
-            >
-              {page}
-            </PaginationLink>
+        {generatePages(safePageIndex, totalPages, { count: 5 }).map((page) => (
+          <PaginationItem key={page} className="list-item sm:hidden">
+            {typeof page === "number" ? (
+              <PaginationLink
+                href={getHref(page)}
+                isActive={safePageIndex === page}
+              >
+                {page}
+              </PaginationLink>
+            ) : (
+              <PaginationEllipsis />
+            )}
+          </PaginationItem>
+        ))}
+        {generatePages(safePageIndex, totalPages).map((page) => (
+          <PaginationItem key={page} className="hidden sm:list-item ">
+            {typeof page === "number" ? (
+              <PaginationLink
+                href={getHref(page)}
+                isActive={safePageIndex === page}
+              >
+                {page}
+              </PaginationLink>
+            ) : (
+              <PaginationEllipsis />
+            )}
           </PaginationItem>
         ))}
         <PaginationItem>

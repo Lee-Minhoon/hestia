@@ -65,7 +65,7 @@ function SocialLoginForm({
         disabled={isPending}
       >
         {icon}
-        {capitalize(provider)}
+        <span className="hidden md:inline">{capitalize(provider)}</span>
       </Button>
     </form>
   );
