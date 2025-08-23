@@ -244,7 +244,7 @@ function MenuBar() {
   }, [editor]);
 
   return (
-    <div className="flex border-b p-1">
+    <div className="flex flex-wrap border-b p-1">
       {menuBarItems.map((block, blockIndex) => {
         return (
           <div key={blockIndex} className="flex">
