@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { useLocale } from "next-intl";
+import { Locale, useLocale } from "next-intl";
 import nProgress from "nprogress";
 
 import { getPathname, useRouter } from "@/lib/i18n/navigation";
@@ -11,7 +11,7 @@ export function useProgressRouter() {
 
   return useMemo<typeof router>(() => {
     function createHandler<
-      Fn extends (href: string, options?: { locale?: string }) => void,
+      Fn extends (href: string, options?: { locale?: Locale }) => void,
     >(handler: Fn) {
       return (...args: Parameters<Fn>) => {
         const [href, options] = args;

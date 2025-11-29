@@ -2,12 +2,12 @@
 
 import { format, UrlObject } from "url";
 
-import { useLocale } from "next-intl";
+import { Locale, useLocale } from "next-intl";
 import nProgress from "nprogress";
 
 import { getPathname, Link } from "@/lib/i18n/navigation";
 
-function getDestination(href: string | UrlObject, locale: string) {
+function getDestination(href: string | UrlObject, locale: Locale) {
   const formatedHref = typeof href === "string" ? href : format(href);
   return getPathname({ href: formatedHref, locale });
 }
