@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hestia
 
-## Getting Started
+A comprehensive full-stack application built with the Next.js App Router, serving as both a learning example and a practical reference.
 
-First, run the development server:
+This project demonstrates effective integration between Next.js and various libraries, showcasing common frontend patterns frequently used in real-world applications.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+While it can be used as a template, it is primarily designed as an example project that illustrates one approach to building modern web applications.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Foundation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework** - Next.js 15 App Router
+- **Language** - TypeScript
 
-## Learn More
+### 2. Frontend & UI
 
-To learn more about Next.js, take a look at the following resources:
+- **Styling** - Tailwind CSS + shadcn/ui + Radix UI
+- **State Management** - TanStack Query (React Query)
+- **Forms** - React Hook Form + Zod validation
+- **Data Tables** - TanStack Table
+- **Virtualization** - TanStack Virtual
+- **Rich Text Editor** - TipTap
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Backend & Data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Authentication** - NextAuth.js v5
+- **Database & ORM** - Drizzle ORM + PostgreSQL
 
-## Deploy on Vercel
+### 4. Misc
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Utilities** - date-fns, lodash-es, clsx, tailwind-merge
+- **Custom Hooks** - Scroll restoration, Breakpoint detection, Action progress
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 5. Quality Assurance & Tooling
+
+- **Code Quality** - ESLint + Prettier + lint-staged + Husky
+- **Testing** - Vitest + Playwright + Storybook
+
+## ✨ Key Features
+
+- **Authentication System** - User login, registration, and session management
+- **User Management** - User profiles and administration
+- **Content Management** - Posts and articles with rich text editing
+- **Infinite Scroll** - Automatic content loading with intersection observer
+- **Virtual Scrolling** - High-performance rendering for large datasets
+- **Responsive Design** - Mobile-first, accessible UI components
+- **Light/Dark Mode** - Theme switching with system preference detection
+- **Internationalization** - English/Korean language support
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18 or higher
+
+### Installation & Setup
+
+1. **Clone the project**
+
+   ```bash
+   git clone <repository-url>
+   cd hestia
+   ```
+
+2. **Environment variables setup**
+
+   Edit `.env` file to configure necessary environment variables:
+
+   ```env
+   # Run `npx auth secret` to generate a new secret Read more: https://cli.authjs.dev
+   AUTH_SECRET=""
+
+   # If you want to use OAuth providers, you need to add their keys here
+   AUTH_GITHUB_ID=""
+   AUTH_GITHUB_SECRET=""
+   AUTH_GOOGLE_ID=""
+   AUTH_GOOGLE_SECRET=""
+   AUTH_FACEBOOK_ID=""
+   AUTH_FACEBOOK_SECRET=""
+   ```
+
+3. **Install dependencies**
+
+   ```bash
+   yarn install
+   # or
+   npm install
+   # or
+   pnpm install
+   ```
+
+4. **Start development server**
+
+   ```bash
+   yarn dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
